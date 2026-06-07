@@ -42,7 +42,7 @@ class AuthController extends Controller
 
     public function showRegister(): View
     {
-        return view('auth.register', ['categories' => MemberCategory::cases()]);
+        return view('auth.register', ['categories' => MemberCategory::publicCases()]);
     }
 
     public function register(Request $request): RedirectResponse
@@ -51,7 +51,7 @@ class AuthController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email'],
             'phone' => ['nullable', 'string', 'max:20'],
-            'category' => ['required', 'in:'.implode(',', array_column(MemberCategory::cases(), 'value'))],
+            'category' => ['required', 'in:'.implode(',', array_map(fn ($c) => $c->value, MemberCategory::publicCases()))],
             'password' => ['required', 'confirmed', Password::defaults()],
             'kvkk_consent' => ['accepted'],
             'commercial_consent' => ['nullable', 'boolean'],

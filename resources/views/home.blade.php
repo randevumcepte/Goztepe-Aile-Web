@@ -158,8 +158,8 @@
          'ozellikler' => ['Tüm öğrenci hakları', 'Etkinlik & bilet önceliği', 'Mağaza indirimi']],
         ['ad' => 'Destekçi', 'fiyat' => '1.000', 'aciklama' => 'Daha çok destek ol', 'pop' => false,
          'ozellikler' => ['Tüm standart hakları', 'Özel destekçi rozeti', 'Öncelikli destek']],
-        ['ad' => 'Asıl Üye', 'fiyat' => '1.500', 'aciklama' => 'Söz sahibi ol', 'pop' => false,
-         'ozellikler' => ['Genel kurulda oy hakkı', 'Yönetime katılım', 'Tam ayrıcalık']],
+        ['ad' => 'VIP Üye', 'fiyat' => '2.500', 'aciklama' => 'En üst destek', 'pop' => false,
+         'ozellikler' => ['Tüm destekçi hakları', 'Özel VIP rozeti', 'Etkinliklerde özel alan']],
     ];
 @endphp
 <section class="relative overflow-hidden border-y-2 border-gold/40 bg-gradient-to-br from-brand-700 via-brand-800 to-ink py-16">

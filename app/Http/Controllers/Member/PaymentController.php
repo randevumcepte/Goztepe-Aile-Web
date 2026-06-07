@@ -59,6 +59,7 @@ class PaymentController extends Controller
         return match ($request->user()->member?->category?->value) {
             'ogrenci' => 250.0,
             'destekci' => 1000.0,
+            'vip' => 2500.0,
             'asil' => 1500.0,
             default => 500.0, // standart
         };
