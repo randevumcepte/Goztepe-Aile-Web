@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Göztepe Tribünleri">
+  <defs>
+    <clipPath id="gt-disc"><circle cx="100" cy="100" r="80"/></clipPath>
+    <linearGradient id="gt-ring" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFD24A"/>
+      <stop offset="1" stop-color="#F7B500"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Dış altın halka -->
+  <circle cx="100" cy="100" r="96" fill="url(#gt-ring)"/>
+  <circle cx="100" cy="100" r="88" fill="#7d0a1c"/>
+  <circle cx="100" cy="100" r="80" fill="#D5102E"/>
+
+  <!-- İç diyagonal sarı şeritler -->
+  <g clip-path="url(#gt-disc)">
+    <g fill="#F7B500" opacity="0.92">
+      <rect x="-80" y="118" width="380" height="14" transform="rotate(-28 100 100)"/>
+      <rect x="-80" y="146" width="380" height="14" transform="rotate(-28 100 100)"/>
+      <rect x="-80" y="174" width="380" height="14" transform="rotate(-28 100 100)"/>
+    </g>
+  </g>
+
+  <!-- Üst yıldız (1925) -->
+  <path d="M100 26 l5.6 12.8 13.9 1.2 -10.6 9.2 3.3 13.6 -12.2 -7.3 -12.2 7.3 3.3 -13.6 -10.6 -9.2 13.9 -1.2z" fill="#F7B500"/>
+
+  <!-- Monogram G -->
+  <text x="100" y="128" text-anchor="middle" font-family="Oswald, Arial Black, Arial, sans-serif" font-weight="700" font-size="86" fill="#F7B500" stroke="#7d0a1c" stroke-width="1.5">G</text>
+
+  <!-- Kuruluş -->
+  <text x="100" y="162" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="15" letter-spacing="3" fill="#ffffff">1925</text>
+</svg>

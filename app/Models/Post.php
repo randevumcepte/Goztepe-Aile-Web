@@ -51,6 +51,13 @@ class Post extends Model
 
     public function coverUrl(): ?string
     {
-        return $this->cover_path ? asset('storage/'.$this->cover_path) : null;
+        if (! $this->cover_path) {
+            return null;
+        }
+
+        // Dış URL (örn. demo görseller) doğrudan; yerel yüklemeler storage'dan
+        return str_starts_with($this->cover_path, 'http')
+            ? $this->cover_path
+            : asset('storage/'.$this->cover_path);
     }
 }

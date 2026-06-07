@@ -51,7 +51,7 @@
                     @if ($p->coverUrl())
                         <img src="{{ $p->coverUrl() }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
                     @else
-                        <div class="h-full w-full bg-gradient-to-br from-brand-600 to-brand-900"></div>
+                        @include('partials.cover-fallback')
                     @endif
                 </div>
                 <div class="absolute inset-0 bg-gradient-to-t from-ink/90 to-transparent"></div>
@@ -105,7 +105,7 @@
                     @if ($p->coverUrl())
                         <img src="{{ $p->coverUrl() }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
                     @else
-                        <div class="grid h-full w-full place-items-center bg-gradient-to-br from-brand-600 to-brand-900 font-display text-2xl font-bold uppercase text-white/30">GÖZTEPE</div>
+                        @include('partials.cover-fallback')
                     @endif
                 </div>
                 <div class="p-4">

@@ -36,7 +36,7 @@
                     @if ($p->coverUrl())
                         <img src="{{ $p->coverUrl() }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
                     @else
-                        <div class="grid h-full w-full place-items-center bg-gradient-to-br from-brand-600 to-brand-900 font-display text-xl font-bold uppercase text-white/30">GÖZTEPE</div>
+                        @include('partials.cover-fallback')
                     @endif
                 </div>
                 <div class="p-4">

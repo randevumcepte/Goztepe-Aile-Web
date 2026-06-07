@@ -10,8 +10,8 @@
 <body class="bg-neutral-50 text-neutral-900 min-h-screen flex flex-col">
     <header class="bg-gradient-to-r from-[#D5102E] to-[#9B0B22] text-white">
         <div class="max-w-5xl mx-auto px-5 py-4 flex items-center justify-between">
-            <a href="{{ route('seffaf-kasa') }}" class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-[#F7B500] text-[#9B0B22] font-black text-xl grid place-items-center">G</div>
+            <a href="{{ route('home') }}" class="flex items-center gap-3">
+                <img src="{{ asset('img/logo.svg') }}" alt="Göztepe Tribünleri" class="h-10 w-10">
                 <span class="font-extrabold">Göztepe Tribünleri</span>
             </a>
             <nav class="flex items-center gap-4 text-sm">
