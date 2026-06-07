@@ -3,11 +3,9 @@
 
 @section('content')
 <div class="relative bg-ink">
-    {{-- Arka plan resmi (kucuk/dusuk cozunurluk -> blur ile yumusatildi) --}}
-    <div class="pointer-events-none absolute inset-0 overflow-hidden">
-        <div class="absolute inset-0 scale-110 bg-cover bg-center blur-md"
-             style="background-image:url('{{ asset('uploads/hakkimizda.jpg') }}')"></div>
-    </div>
+    {{-- Arka plan resmi --}}
+    <div class="pointer-events-none absolute inset-0 bg-cover bg-center"
+         style="background-image:url('{{ asset('uploads/hakkimizda.webp') }}')"></div>
     {{-- Siyah perde (karartma) --}}
     <div class="pointer-events-none absolute inset-0 bg-ink/85"></div>
 
