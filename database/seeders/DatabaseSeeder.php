@@ -62,7 +62,7 @@ class DatabaseSeeder extends Seeder
         $hareketler = [
             ['direction' => TransactionDirection::Gelir, 'category' => 'aidat', 'amount' => 25000, 'gun' => 30, 'aciklama' => 'Aylık üye aidatları'],
             ['direction' => TransactionDirection::Gelir, 'category' => 'bagis', 'amount' => 8000, 'gun' => 20, 'aciklama' => 'Tribün Fonu bağışları'],
-            ['direction' => TransactionDirection::Gider, 'category' => 'tifo', 'amount' => 12500, 'gun' => 10, 'aciklama' => 'Deplasman tifosu malzemesi', 'invoice' => $fatura->id],
+            ['direction' => TransactionDirection::Gider, 'category' => 'koreografi', 'amount' => 12500, 'gun' => 10, 'aciklama' => 'Deplasman koreografisi malzemesi', 'invoice' => $fatura->id],
             ['direction' => TransactionDirection::Gelir, 'category' => 'bagis', 'amount' => 5000, 'gun' => 5, 'aciklama' => 'Genel bağış'],
             ['direction' => TransactionDirection::Gider, 'category' => 'deplasman', 'amount' => 6000, 'gun' => 2, 'aciklama' => 'Deplasman otobüs desteği'],
         ];

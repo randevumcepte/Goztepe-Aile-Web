@@ -35,10 +35,10 @@
                 <div>
                     <label class="{{ $label }}">Kategori</label>
                     <input name="category" list="kategoriler" value="{{ old('category') }}" required
-                           class="{{ $input }}" placeholder="aidat, bagis, tifo, deplasman…">
+                           class="{{ $input }}" placeholder="aidat, bağış, koreografi, deplasman…">
                     <datalist id="kategoriler">
-                        <option value="aidat"><option value="bagis"><option value="sponsor">
-                        <option value="satis"><option value="tifo"><option value="deplasman"><option value="idari">
+                        <option value="aidat"><option value="bağış"><option value="sponsor">
+                        <option value="satış"><option value="koreografi"><option value="deplasman"><option value="idari">
                     </datalist>
                 </div>
                 <div>

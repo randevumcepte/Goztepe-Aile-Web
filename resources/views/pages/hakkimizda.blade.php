@@ -13,7 +13,7 @@
 
 <section class="mx-auto max-w-3xl px-4 py-14 text-white/80 leading-relaxed">
     <h2 class="text-2xl font-bold uppercase text-white">Biz Kimiz?</h2>
-    <p class="mt-4">Göztepe'nin en büyük gücü tribünleridir. Bu enerjiyi düzenli, şeffaf ve sürdürülebilir bir yapıya dönüştürmek için kurulduk. Amacımız; tifolardan deplasman organizasyonlarına, sosyal yardımlardan camia dayanışmasına kadar tribünün ihtiyaçlarını taraftarın kendi gücüyle karşılamak.</p>
+    <p class="mt-4">Göztepe'nin en büyük gücü tribünleridir. Bu enerjiyi düzenli, şeffaf ve sürdürülebilir bir yapıya dönüştürmek için kurulduk. Amacımız; tribün koreografilerinden deplasman organizasyonlarına, sosyal yardımlardan camia dayanışmasına kadar tribünün ihtiyaçlarını taraftarın kendi gücüyle karşılamak.</p>
 
     <h2 class="mt-10 text-2xl font-bold uppercase text-white">Değerlerimiz</h2>
     <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -27,7 +27,7 @@
 
     <h2 class="mt-10 text-2xl font-bold uppercase text-white">Ne Yapıyoruz?</h2>
     <ul class="mt-4 space-y-2">
-        <li>• Tifo ve koreografi üretimi</li>
+        <li>• Tribün koreografisi üretimi</li>
         <li>• Deplasman organizasyonu ve desteği</li>
         <li>• Sosyal yardım ve dayanışma projeleri</li>
         <li>• Şeffaf kasa ile tam hesap verebilirlik</li>

@@ -18,7 +18,7 @@ class DemoContentSeeder extends Seeder
         $haberler = [
             ['Tribünden gür bir başlangıç', 'tribun', 'Yeni sezona taraftarımızın coşkusuyla giriyoruz. Tribünler bu hafta yine tıklım tıklım.', 'stadium,crowd'],
             ['Deplasman organizasyonu açıklandı', 'duyuru', 'Bu haftaki deplasman maçı için otobüs ve bilet organizasyonu başladı. Üyelerimize öncelik tanınacak.', 'football,fans'],
-            ['Büyük tifo için hazırlıklar sürüyor', 'tribun', 'Derbi haftasına özel hazırladığımız koreografi için çalışmalar tüm hızıyla devam ediyor.', 'football,supporters'],
+            ['Büyük koreografi için hazırlıklar sürüyor', 'tribun', 'Derbi haftasına özel hazırladığımız tribün koreografisi için çalışmalar tüm hızıyla devam ediyor.', 'football,supporters'],
             ['Şeffaf kasa yayında', 'duyuru', 'Artık her kuruşun nereye gittiğini faturasına kadar görebilirsin. Güven, camianın temelidir.', 'stadium'],
             ['Sosyal yardım kampanyamıza destek', 'haber', 'Camiamızın dayanışma ruhuyla başlattığımız yardım kampanyasına katılım rekor seviyede.', 'football,team'],
             ['Genel kurul tarihi belli oldu', 'basin', 'Olağan genel kurul toplantımızın tarihi ve gündemi üyelerimizle paylaşıldı.', 'soccer,stadium'],

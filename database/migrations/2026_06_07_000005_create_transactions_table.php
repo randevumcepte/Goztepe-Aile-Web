@@ -13,7 +13,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('fund_id')->constrained()->cascadeOnDelete();
             $table->string('direction'); // gelir | gider
-            $table->string('category');  // aidat | bagis | sponsor | satis | tifo | deplasman | idari ...
+            $table->string('category');  // aidat | bağış | sponsor | satış | koreografi | deplasman | idari ...
             $table->decimal('amount', 14, 2);
             $table->date('occurred_at');
             $table->string('description')->nullable();
