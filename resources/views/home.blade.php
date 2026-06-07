@@ -8,38 +8,68 @@
 @section('content')
 
 {{-- HERO --}}
-<section class="relative">
-    @php $cover = $featured?->coverUrl(); @endphp
-    <div class="relative min-h-[62vh] overflow-hidden">
-        @if ($cover)
-            <img src="{{ $cover }}" alt="" class="absolute inset-0 h-full w-full object-cover">
-        @else
-            <div class="absolute inset-0 bg-gradient-to-br from-brand-700 via-brand-800 to-ink"></div>
-        @endif
-        <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/20"></div>
-
-        <div class="relative mx-auto flex min-h-[62vh] max-w-7xl flex-col justify-end px-4 pb-12 pt-24">
-            @if ($featured)
-                <span class="mb-3 inline-flex w-fit items-center rounded-full bg-gold px-3 py-1 text-xs font-bold uppercase tracking-wide text-brand-800">{{ $featured->categoryLabel() }}</span>
-                <h1 class="max-w-3xl text-4xl font-bold uppercase leading-tight text-white sm:text-5xl">{{ $featured->title }}</h1>
-                @if ($featured->excerpt)
-                    <p class="mt-4 max-w-2xl text-lg text-white/80">{{ \Illuminate\Support\Str::limit($featured->excerpt, 160) }}</p>
+@if ($sliders->isNotEmpty())
+    {{-- Yönetilebilir slider --}}
+    <section class="relative min-h-[64vh]" x-data="{ i:0, n:{{ $sliders->count() }} }" x-init="if(n>1) setInterval(()=>{ i=(i+1)%n }, 6000)">
+        @foreach ($sliders as $idx => $sl)
+            <div x-show="i==={{ $idx }}" x-transition:enter="transition ease-out duration-700" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="absolute inset-0">
+                @if ($sl->imageUrl())
+                    <img src="{{ $sl->imageUrl() }}" alt="" class="absolute inset-0 h-full w-full object-cover">
+                @else
+                    <div class="absolute inset-0 bg-gradient-to-br from-brand-700 via-brand-800 to-ink"></div>
                 @endif
-                <div class="mt-6 flex items-center gap-4">
-                    <a href="{{ route('haberler.show', $featured) }}" class="rounded-lg bg-gold px-6 py-3 text-sm font-bold uppercase text-brand-800 hover:bg-gold-400">Devamını Oku</a>
-                    <span class="text-sm text-white/60">{{ $featured->published_at?->locale('tr')->translatedFormat('d F Y') }}</span>
+                <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/20"></div>
+                <div class="relative mx-auto flex min-h-[64vh] max-w-7xl flex-col justify-end px-4 pb-16 pt-24">
+                    <h1 class="max-w-3xl text-4xl font-bold uppercase leading-tight text-white sm:text-6xl">{{ $sl->title }}</h1>
+                    @if ($sl->subtitle)<p class="mt-4 max-w-2xl text-lg text-white/80">{{ $sl->subtitle }}</p>@endif
+                    @if ($sl->cta_label && $sl->cta_url)
+                        <div class="mt-6"><a href="{{ $sl->cta_url }}" class="rounded-lg bg-gold px-6 py-3 text-sm font-bold uppercase text-brand-800 hover:bg-gold-400">{{ $sl->cta_label }}</a></div>
+                    @endif
                 </div>
+            </div>
+        @endforeach
+        @if ($sliders->count() > 1)
+            <div class="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 gap-2">
+                @foreach ($sliders as $idx => $sl)
+                    <button @click="i={{ $idx }}" :class="i==={{ $idx }} ? 'bg-gold w-6' : 'bg-white/50 w-2.5'" class="h-2.5 rounded-full transition-all"></button>
+                @endforeach
+            </div>
+        @endif
+    </section>
+@else
+    {{-- Slider yoksa: öne çıkan haber veya varsayılan --}}
+    <section class="relative">
+        @php $cover = $featured?->coverUrl(); @endphp
+        <div class="relative min-h-[62vh] overflow-hidden">
+            @if ($cover)
+                <img src="{{ $cover }}" alt="" class="absolute inset-0 h-full w-full object-cover">
             @else
-                <h1 class="max-w-3xl text-5xl font-bold uppercase leading-tight text-white sm:text-6xl">İzmir'in<br><span class="text-gold">Gür Sesi</span></h1>
-                <p class="mt-4 max-w-2xl text-lg text-white/80">Taraftarın gücüyle; şeffaf, dayanışmacı ve gururlu bir camia. Sen de tribünün bir parçası ol.</p>
-                <div class="mt-6 flex gap-4">
-                    <a href="{{ route('register') }}" class="rounded-lg bg-gold px-6 py-3 text-sm font-bold uppercase text-brand-800 hover:bg-gold-400">Üye Ol</a>
-                    <a href="{{ route('seffaf-kasa') }}" class="rounded-lg border border-white/30 px-6 py-3 text-sm font-bold uppercase text-white hover:bg-white/10">Şeffaf Kasa</a>
-                </div>
+                <div class="absolute inset-0 bg-gradient-to-br from-brand-700 via-brand-800 to-ink"></div>
             @endif
+            <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/20"></div>
+            <div class="relative mx-auto flex min-h-[62vh] max-w-7xl flex-col justify-end px-4 pb-12 pt-24">
+                @if ($featured)
+                    <span class="mb-3 inline-flex w-fit items-center rounded-full bg-gold px-3 py-1 text-xs font-bold uppercase tracking-wide text-brand-800">{{ $featured->categoryLabel() }}</span>
+                    <h1 class="max-w-3xl text-4xl font-bold uppercase leading-tight text-white sm:text-5xl">{{ $featured->title }}</h1>
+                    @if ($featured->excerpt)
+                        <p class="mt-4 max-w-2xl text-lg text-white/80">{{ \Illuminate\Support\Str::limit($featured->excerpt, 160) }}</p>
+                    @endif
+                    <div class="mt-6 flex items-center gap-4">
+                        <a href="{{ route('haberler.show', $featured) }}" class="rounded-lg bg-gold px-6 py-3 text-sm font-bold uppercase text-brand-800 hover:bg-gold-400">Devamını Oku</a>
+                        <span class="text-sm text-white/60">{{ $featured->published_at?->locale('tr')->translatedFormat('d F Y') }}</span>
+                    </div>
+                @else
+                    <h1 class="max-w-3xl text-5xl font-bold uppercase leading-tight text-white sm:text-6xl">İzmir'in<br><span class="text-gold">Gür Sesi</span></h1>
+                    <p class="mt-4 max-w-2xl text-lg text-white/80">Taraftarın gücüyle; şeffaf, dayanışmacı ve gururlu bir camia. Sen de tribünün bir parçası ol.</p>
+                    <div class="mt-6 flex gap-4">
+                        <a href="{{ route('register') }}" class="rounded-lg bg-gold px-6 py-3 text-sm font-bold uppercase text-brand-800 hover:bg-gold-400">Üye Ol</a>
+                        <a href="{{ route('seffaf-kasa') }}" class="rounded-lg border border-white/30 px-6 py-3 text-sm font-bold uppercase text-white hover:bg-white/10">Şeffaf Kasa</a>
+                    </div>
+                @endif
+            </div>
         </div>
-    </div>
-</section>
+    </section>
+@endif
 
 {{-- İKİNCİL HABERLER --}}
 @if ($secondary->isNotEmpty())
@@ -146,9 +176,19 @@
         <span class="text-sm font-bold uppercase tracking-widest text-gold">Birlikte Güçlüyüz</span>
         <h2 class="mt-2 text-2xl font-bold uppercase text-white">Sponsorlarımız</h2>
         <div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-            @for ($i=0; $i<5; $i++)
-                <div class="grid h-20 place-items-center rounded-xl bg-white/5 text-sm font-semibold text-white/30 ring-1 ring-white/10">Logo</div>
-            @endfor
+            @forelse ($sponsors as $sp)
+                <a @if($sp->url) href="{{ $sp->url }}" target="_blank" @endif class="grid h-20 place-items-center rounded-xl bg-white/95 px-4 ring-1 ring-white/10 transition hover:scale-105">
+                    @if ($sp->logoUrl())
+                        <img src="{{ $sp->logoUrl() }}" alt="{{ $sp->name }}" class="max-h-12 max-w-full object-contain">
+                    @else
+                        <span class="text-sm font-bold text-brand-700">{{ $sp->name }}</span>
+                    @endif
+                </a>
+            @empty
+                @for ($i=0; $i<5; $i++)
+                    <div class="grid h-20 place-items-center rounded-xl bg-white/5 text-sm font-semibold text-white/30 ring-1 ring-white/10">Logo</div>
+                @endfor
+            @endforelse
         </div>
         <a href="{{ route('iletisim') }}" class="mt-8 inline-block rounded-lg border border-gold/50 px-6 py-2.5 text-sm font-bold uppercase text-gold hover:bg-gold/10">Sponsor Ol</a>
     </div>

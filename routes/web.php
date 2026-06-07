@@ -5,6 +5,9 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\MemberController as AdminMemberController;
 use App\Http\Controllers\Admin\NotificationController as AdminNotificationController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
+use App\Http\Controllers\Admin\SettingController as AdminSettingController;
+use App\Http\Controllers\Admin\SliderController as AdminSliderController;
+use App\Http\Controllers\Admin\SponsorController as AdminSponsorController;
 use App\Http\Controllers\Admin\TransactionController as AdminTransactionController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\HomeController;
@@ -64,6 +67,24 @@ Route::middleware(['auth', 'staff'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/haberler/{post}/duzenle', [AdminPostController::class, 'edit'])->name('posts.edit');
     Route::put('/haberler/{post}', [AdminPostController::class, 'update'])->name('posts.update');
     Route::delete('/haberler/{post}', [AdminPostController::class, 'destroy'])->name('posts.destroy');
+
+    // Web Yönetimi
+    Route::get('/slider', [AdminSliderController::class, 'index'])->name('sliders.index');
+    Route::get('/slider/yeni', [AdminSliderController::class, 'create'])->name('sliders.create');
+    Route::post('/slider', [AdminSliderController::class, 'store'])->name('sliders.store');
+    Route::get('/slider/{slider}/duzenle', [AdminSliderController::class, 'edit'])->name('sliders.edit');
+    Route::put('/slider/{slider}', [AdminSliderController::class, 'update'])->name('sliders.update');
+    Route::delete('/slider/{slider}', [AdminSliderController::class, 'destroy'])->name('sliders.destroy');
+
+    Route::get('/sponsorlar', [AdminSponsorController::class, 'index'])->name('sponsors.index');
+    Route::get('/sponsorlar/yeni', [AdminSponsorController::class, 'create'])->name('sponsors.create');
+    Route::post('/sponsorlar', [AdminSponsorController::class, 'store'])->name('sponsors.store');
+    Route::get('/sponsorlar/{sponsor}/duzenle', [AdminSponsorController::class, 'edit'])->name('sponsors.edit');
+    Route::put('/sponsorlar/{sponsor}', [AdminSponsorController::class, 'update'])->name('sponsors.update');
+    Route::delete('/sponsorlar/{sponsor}', [AdminSponsorController::class, 'destroy'])->name('sponsors.destroy');
+
+    Route::get('/site-ayarlari', [AdminSettingController::class, 'edit'])->name('settings.edit');
+    Route::put('/site-ayarlari', [AdminSettingController::class, 'update'])->name('settings.update');
 
     Route::get('/uyeler', [AdminMemberController::class, 'index'])->name('members.index');
     Route::patch('/uyeler/{member}', [AdminMemberController::class, 'update'])->name('members.update');

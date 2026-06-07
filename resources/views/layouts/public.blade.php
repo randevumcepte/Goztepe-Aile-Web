@@ -47,6 +47,8 @@
         ['seffaf-kasa', 'Şeffaf Kasa'],
         ['iletisim', 'İletişim'],
     ];
+    $cfg = \App\Models\Setting::map();
+    $siteName = $cfg['site_name'] ?? 'Göztepe Tribünleri';
 @endphp
 
 {{-- Üst bar --}}
@@ -54,12 +56,13 @@
     <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-1.5 text-xs font-semibold">
         <div class="flex items-center gap-4">
             <span>{{ \Carbon\Carbon::now()->locale('tr')->translatedFormat('l, d F Y') }}</span>
-            <span class="hidden md:inline">İzmir'in Gür Sesi · 1925</span>
+            <span class="hidden md:inline">{{ $cfg['topbar_text'] ?? 'İzmir\'in Gür Sesi · 1925' }}</span>
+            @if (!empty($cfg['phone']))<span class="hidden md:inline">{{ $cfg['phone'] }}</span>@endif
         </div>
         <div class="flex items-center gap-3">
-            <a href="#" class="hover:opacity-70">Instagram</a>
-            <a href="#" class="hover:opacity-70">X</a>
-            <a href="#" class="hover:opacity-70">YouTube</a>
+            @if (!empty($cfg['instagram_url']))<a href="{{ $cfg['instagram_url'] }}" target="_blank" class="hover:opacity-70">Instagram</a>@endif
+            @if (!empty($cfg['x_url']))<a href="{{ $cfg['x_url'] }}" target="_blank" class="hover:opacity-70">X</a>@endif
+            @if (!empty($cfg['youtube_url']))<a href="{{ $cfg['youtube_url'] }}" target="_blank" class="hover:opacity-70">YouTube</a>@endif
         </div>
     </div>
 </div>
@@ -141,8 +144,9 @@
         <div>
             <h4 class="font-display text-sm font-bold uppercase text-gold">İletişim</h4>
             <ul class="mt-3 space-y-2 text-sm text-white/70">
-                <li>İzmir, Türkiye</li>
-                <li>info@goztepetribunleri.com</li>
+                <li>{{ $cfg['address'] ?? 'İzmir, Türkiye' }}</li>
+                <li>{{ $cfg['email'] ?? 'info@goztepetribunleri.com' }}</li>
+                @if (!empty($cfg['phone']))<li>{{ $cfg['phone'] }}</li>@endif
             </ul>
         </div>
     </div>
