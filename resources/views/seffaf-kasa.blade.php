@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Şeffaf Kasa — Göztepe Tribünleri</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    {{-- Build gerektirmez (sunucu uyumu). Üretimde CI ile derlenmiş CSS'e geçilebilir. --}}
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-neutral-50 text-neutral-900">
     @php
