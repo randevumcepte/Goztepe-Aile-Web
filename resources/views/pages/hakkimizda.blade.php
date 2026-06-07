@@ -2,8 +2,17 @@
 @section('title', 'Hakkımızda — Göztepe Tribünleri')
 
 @section('content')
+<div class="relative bg-ink">
+    {{-- Arka plan resmi --}}
+    <div class="pointer-events-none absolute inset-0 bg-cover bg-center"
+         style="background-image:url('{{ asset('uploads/hakkimizda.jpg') }}')"></div>
+    {{-- Siyah perde (karartma) --}}
+    <div class="pointer-events-none absolute inset-0 bg-ink/80"></div>
+
+    {{-- İçerik --}}
+    <div class="relative">
 {{-- Başlık şeridi --}}
-<section class="relative overflow-hidden border-b border-white/10 bg-gradient-to-br from-brand-700 to-ink">
+<section class="relative overflow-hidden border-b border-white/10 bg-gradient-to-br from-brand-700/90 to-ink/80">
     <div class="mx-auto max-w-7xl px-4 py-16">
         <span class="text-sm font-bold uppercase tracking-widest text-gold">1925'ten Bugüne</span>
         <h1 class="mt-2 text-4xl font-bold uppercase text-white sm:text-5xl">Hakkımızda</h1>
@@ -38,4 +47,6 @@
         <a href="{{ route('register') }}" class="mt-5 inline-block rounded-lg bg-gold px-8 py-3 text-sm font-bold uppercase text-brand-800 hover:bg-gold-400">Üye Ol</a>
     </div>
 </section>
+    </div>{{-- /İçerik --}}
+</div>{{-- /Arka plan sarıcı --}}
 @endsection
