@@ -46,7 +46,8 @@
             Sarı-kırmızının her perdesi, tribünlerin haykırışıyla yazıldı.
         </p>
         <div class="mt-10 flex flex-wrap gap-3">
-            <a href="#zaman-tuneli" class="rounded-lg bg-gold px-7 py-3 text-sm font-bold uppercase tracking-wide text-brand-800 transition hover:bg-gold-400">Zaman Tünelini Keşfet</a>
+            <a href="#kurulus" class="rounded-lg bg-gold px-7 py-3 text-sm font-bold uppercase tracking-wide text-brand-800 transition hover:bg-gold-400">Kuruluş Hikayesi</a>
+            <a href="#zaman-tuneli" class="rounded-lg border border-white/20 px-7 py-3 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-white/10">Zaman Tüneli</a>
             <a href="#galeri" class="rounded-lg border border-white/20 px-7 py-3 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-white/10">Eski Fotoğraflar</a>
         </div>
     </div>
@@ -60,6 +61,112 @@
                     <p class="mt-1 text-xs font-semibold uppercase tracking-wider text-white/60 sm:text-sm">{{ $small }}</p>
                 </div>
             @endforeach
+        </div>
+    </div>
+</section>
+
+{{-- ============ KURULUŞ HİKAYESİ ============ --}}
+<section id="kurulus" class="relative overflow-hidden bg-gradient-to-b from-brand-900/40 to-ink py-20">
+    <div class="pointer-events-none absolute -left-10 top-10 select-none font-display text-[20vw] font-bold leading-none text-white/[0.03] sm:text-[12vw]">1925</div>
+
+    <div class="relative mx-auto max-w-6xl px-4">
+        <div class="mb-14 text-center">
+            <span class="text-sm font-bold uppercase tracking-widest text-gold">Bir Trende Doğan Sevda</span>
+            <h2 class="mt-2 font-display text-4xl font-bold uppercase text-white sm:text-5xl">Kuruluş Hikayesi</h2>
+            <p class="mx-auto mt-4 max-w-2xl text-lg text-white/70">Göztepe; bir öfkeyle başlayan, bir kararla filizlenen ve bir zaferle taçlanan hikâyenin adıdır. İşte sarı-kırmızının ilk perdesi…</p>
+        </div>
+
+        {{-- Üç perde --}}
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+            {{-- Perde 1: Tren --}}
+            <article class="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-brand-800/50 to-ink p-7 ring-1 ring-white/5 transition hover:border-gold/40">
+                <div class="flex items-center justify-between">
+                    <span class="font-display text-6xl font-bold text-white/10">I</span>
+                    <span class="rounded-full bg-gold/15 px-3 py-1 text-xs font-bold uppercase tracking-wide text-gold">1925 · Aydın Dönüşü</span>
+                </div>
+                <h3 class="mt-4 font-display text-2xl font-bold uppercase text-gold">Tren Vagonunda Bir Karar</h3>
+                <p class="mt-3 text-sm leading-relaxed text-white/75">
+                    Altay, Aydın'da bir spor müsabakasındadır. Yönetimdeki <strong class="text-white">Ferit Bey</strong>'e söz hakkı verilmez.
+                    İzmir'e dönüş yolunda, tekerleklerin ritmiyle çınlayan vagonlarda tartışma büyür de büyür.
+                    O raylar boyunca bir fikir olgunlaşır: <em class="text-gold">Artık kendi kulüpleri olacaktır.</em>
+                </p>
+            </article>
+
+            {{-- Perde 2: Mez Gazinosu --}}
+            <article class="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-brand-700/50 to-ink p-7 ring-1 ring-white/5 transition hover:border-gold/40">
+                <div class="flex items-center justify-between">
+                    <span class="font-display text-6xl font-bold text-white/10">II</span>
+                    <span class="rounded-full bg-gold/15 px-3 py-1 text-xs font-bold uppercase tracking-wide text-gold">14 Haziran 1925</span>
+                </div>
+                <h3 class="mt-4 font-display text-2xl font-bold uppercase text-gold">Mez Gazinosu'nda Doğuş</h3>
+                <p class="mt-3 text-sm leading-relaxed text-white/75">
+                    Vapur iskelesinin hemen yanındaki <strong class="text-white">Mez Gazinosu</strong>'nda, semtin kıdemli futbolcuları ve gençleri toplanır.
+                    <strong class="text-white">Nebil</strong> ve <strong class="text-white">Vedat</strong> kardeşler, <strong class="text-white">Muzaffer Koral</strong>,
+                    <strong class="text-white">Ferit Simsaroğlu</strong>, <strong class="text-white">Necati</strong> ve <strong class="text-white">Nusret</strong> Bey öncülüğünde
+                    Göztepe Spor Kulübü resmen kurulur. İlk başkan <strong class="text-white">Fehmi Simsaroğlu</strong>; fahri başkanlığa dönemin İzmir Valisi <strong class="text-white">Kazım Dirik</strong> seçilir.
+                </p>
+            </article>
+
+            {{-- Perde 3: İlk Zafer --}}
+            <article class="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-brand-800/50 to-ink p-7 ring-1 ring-white/5 transition hover:border-gold/40">
+                <div class="flex items-center justify-between">
+                    <span class="font-display text-6xl font-bold text-white/10">III</span>
+                    <span class="rounded-full bg-gold/15 px-3 py-1 text-xs font-bold uppercase tracking-wide text-gold">28 Ağustos 1925</span>
+                </div>
+                <h3 class="mt-4 font-display text-2xl font-bold uppercase text-gold">İlk Maç, İlk Zafer</h3>
+                <p class="mt-3 text-sm leading-relaxed text-white/75">
+                    Kuruluştan yalnızca iki ay sonra ilk resmî sınav: karşıda yine <strong class="text-white">Altay</strong>.
+                    Genç Göztepe sahaya korkusuzca çıkar ve <strong class="text-gold">1-0</strong>'lık galibiyetle ayrılır.
+                    Bu zafer, daha doğarken kazanmayı bilen bir camianın özgüvenini perçinler. Çınar, ilk meyvesini vermiştir.
+                </p>
+            </article>
+        </div>
+
+        {{-- Renklerin hikayesi --}}
+        <div class="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-3">
+            <div class="lg:col-span-2 rounded-3xl border border-gold/20 bg-gradient-to-br from-brand-700/40 to-ink p-8">
+                <h3 class="font-display text-2xl font-bold uppercase text-white">Sarı ile Kırmızının Anlamı</h3>
+                <p class="mt-3 leading-relaxed text-white/75">
+                    Renkleri <strong class="text-white">Nebil (Çobanoğlu)</strong> önerir; ilhamını İzmir'in üstünde her gün doğan o kavurucu güneşten alır.
+                    <span class="text-gold font-semibold">Sarı</span> isyanı, <span class="text-brand-500 font-semibold">kırmızı</span> ise geleceği ve sevdayı simgeler.
+                    O günden bugüne bu iki renk, Alsancak'ın tribünlerinde dalgalanan bir bayrak, bir kimlik, bir aidiyet oldu.
+                </p>
+                <blockquote class="mt-6 border-l-4 border-gold pl-4">
+                    <p class="font-display text-xl font-bold uppercase text-gold">"Sarı isyanı, kırmızı sevdayı simgeliyordu."</p>
+                </blockquote>
+            </div>
+
+            {{-- Künye --}}
+            <div class="rounded-3xl border border-white/10 bg-ink/60 p-8">
+                <h3 class="font-display text-lg font-bold uppercase text-gold">Kuruluş Künyesi</h3>
+                <dl class="mt-4 space-y-3 text-sm">
+                    @foreach ([
+                        ['Kuruluş', '14 Haziran 1925'],
+                        ['Yer', 'Mez Gazinosu, Göztepe'],
+                        ['Şehir', 'İzmir'],
+                        ['İlk Başkan', 'Fehmi Simsaroğlu'],
+                        ['Fahri Başkan', 'Vali Kazım Dirik'],
+                        ['İlk Maç', '28 Ağustos 1925 · Altay 0-1'],
+                        ['Renkler', 'Sarı - Kırmızı'],
+                    ] as [$k, $v])
+                        <div class="flex items-center justify-between gap-3 border-b border-white/5 pb-2">
+                            <dt class="text-white/55">{{ $k }}</dt>
+                            <dd class="text-right font-semibold text-white">{{ $v }}</dd>
+                        </div>
+                    @endforeach
+                </dl>
+            </div>
+        </div>
+
+        {{-- Kurucular şeridi --}}
+        <div class="mt-10 rounded-3xl border border-white/10 bg-gradient-to-r from-brand-800/40 via-ink to-brand-800/40 p-8 text-center">
+            <p class="text-sm font-bold uppercase tracking-widest text-gold">Kurucu İrade</p>
+            <div class="mt-4 flex flex-wrap justify-center gap-2.5">
+                @foreach (['Nebil Çobanoğlu','Vedat Çobanoğlu','Muzaffer Koral','Ferit Simsaroğlu','Necati Bey','Nusret Bey','Fehmi Simsaroğlu','Kazım Dirik'] as $name)
+                    <span class="rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-sm font-semibold text-white">{{ $name }}</span>
+                @endforeach
+            </div>
+            <p class="mx-auto mt-5 max-w-2xl text-sm text-white/60">Bir avuç sevdalının trende başlattığı bu yolculuk, bugün milyonların kalbinde atan bir camiaya dönüştü.</p>
         </div>
     </div>
 </section>
