@@ -60,10 +60,6 @@
             </table>
         </div>
     </div>
-
-    <div class="mt-8 rounded-2xl bg-brand-800/60 p-5 text-sm text-white/70 ring-1 ring-white/10">
-        <p><b class="text-gold">Not:</b> Genel kurulda oy hakkı ve yönetime katılım, yalnız yönetimin atadığı <b>Asıl Üye</b> kademesine özeldir; halka açık üyelikte yer almaz.</p>
-    </div>
     @endif
 </div>
 @endsection
