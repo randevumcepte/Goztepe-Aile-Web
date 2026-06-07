@@ -153,13 +153,13 @@
 @php
     $plans = [
         ['ad' => 'Öğrenci', 'fiyat' => '250', 'aciklama' => 'Genç taraftar', 'pop' => false,
-         'ozellikler' => ['Dijital üye kartı', 'Şeffaf kasa erişimi', 'Etkinlik duyuruları']],
+         'ozellikler' => ['Dijital üye kartı', 'Şeffaf kasa erişimi', 'Kombine bekleme listesinde sıra', 'Mağaza %5 indirim']],
         ['ad' => 'Standart', 'fiyat' => '500', 'aciklama' => 'En çok tercih edilen', 'pop' => true,
-         'ozellikler' => ['Tüm öğrenci hakları', 'Etkinlik & bilet önceliği', 'Mağaza indirimi']],
+         'ozellikler' => ['Öğrencinin tüm hakları', 'Maç biletinde öncelikli satış', 'Deplasman otobüsünde öncelik', 'Mağaza %10 indirim']],
         ['ad' => 'Destekçi', 'fiyat' => '1.000', 'aciklama' => 'Daha çok destek ol', 'pop' => false,
-         'ozellikler' => ['Tüm standart hakları', 'Özel destekçi rozeti', 'Öncelikli destek']],
+         'ozellikler' => ['Standardın tüm hakları', 'Deplasman biletinde öncelik', 'Koreografi ekibine katılım', 'Sınırlı ürünlere erken erişim', 'Hoş geldin paketi + doğum günü', 'Mağaza %15 indirim']],
         ['ad' => 'VIP Üye', 'fiyat' => '2.500', 'aciklama' => 'En üst destek', 'pop' => false,
-         'ozellikler' => ['Tüm destekçi hakları', 'Özel VIP rozeti', 'Etkinliklerde özel alan']],
+         'ozellikler' => ['Destekçinin tüm hakları', 'Oyuncu buluşması / imza günü', 'Etkinliklerde özel VIP alan', 'İsim plaketi / onur duvarı', 'Mağaza %20 indirim']],
     ];
 @endphp
 <section class="relative overflow-hidden border-y-2 border-gold/40 bg-gradient-to-br from-brand-700 via-brand-800 to-ink py-16">
@@ -200,7 +200,10 @@
             @endforeach
         </div>
 
-        <p class="mt-8 text-center text-sm text-white/60">Tüm üyelikler yıllıktır · Ödemen şeffaf kasada görünür · İstediğin zaman yükseltebilirsin</p>
+        <div class="mt-8 text-center">
+            <a href="{{ route('uyelik.avantajlar') }}" class="inline-flex items-center gap-2 rounded-lg border border-gold/60 px-6 py-2.5 text-sm font-bold uppercase text-gold hover:bg-gold/10">Tüm Avantajları Karşılaştır →</a>
+        </div>
+        <p class="mt-6 text-center text-sm text-white/60">Tüm üyelikler yıllıktır · Ödemen şeffaf kasada görünür · İstediğin zaman yükseltebilirsin</p>
     </div>
 </section>
 

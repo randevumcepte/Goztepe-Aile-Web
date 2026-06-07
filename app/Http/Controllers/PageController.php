@@ -15,4 +15,9 @@ class PageController extends Controller
     {
         return view('pages.iletisim');
     }
+
+    public function uyelikAvantajlari(): View
+    {
+        return view('pages.uyelik-avantajlari');
+    }
 }

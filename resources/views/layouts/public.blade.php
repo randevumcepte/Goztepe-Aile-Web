@@ -43,6 +43,7 @@
     $nav = [
         ['home', 'Ana Sayfa'],
         ['haberler.index', 'Haberler'],
+        ['uyelik.avantajlar', 'Üyelik'],
         ['hakkimizda', 'Hakkımızda'],
         ['seffaf-kasa', 'Şeffaf Kasa'],
         ['iletisim', 'İletişim'],
