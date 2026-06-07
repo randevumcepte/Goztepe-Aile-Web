@@ -150,23 +150,60 @@
 @endif
 
 {{-- ÜYELİK CTA --}}
-<section class="mx-auto max-w-7xl px-4 py-14">
-    <div class="rounded-3xl bg-gradient-to-br from-brand-600 to-brand-800 p-8 sm:p-12">
+@php
+    $plans = [
+        ['ad' => 'Öğrenci', 'fiyat' => '250', 'aciklama' => 'Genç taraftar', 'pop' => false,
+         'ozellikler' => ['Dijital üye kartı', 'Şeffaf kasa erişimi', 'Etkinlik duyuruları']],
+        ['ad' => 'Standart', 'fiyat' => '500', 'aciklama' => 'En çok tercih edilen', 'pop' => true,
+         'ozellikler' => ['Tüm öğrenci hakları', 'Etkinlik & bilet önceliği', 'Mağaza indirimi']],
+        ['ad' => 'Destekçi', 'fiyat' => '1.000', 'aciklama' => 'Daha çok destek ol', 'pop' => false,
+         'ozellikler' => ['Tüm standart hakları', 'Özel destekçi rozeti', 'Öncelikli destek']],
+        ['ad' => 'Asıl Üye', 'fiyat' => '1.500', 'aciklama' => 'Söz sahibi ol', 'pop' => false,
+         'ozellikler' => ['Genel kurulda oy hakkı', 'Yönetime katılım', 'Tam ayrıcalık']],
+    ];
+@endphp
+<section class="relative overflow-hidden border-y-2 border-gold/40 bg-gradient-to-br from-brand-700 via-brand-800 to-ink py-16">
+    <div class="absolute inset-0 opacity-[0.06]" style="background-image:repeating-linear-gradient(45deg,#F7B500 0 3px,transparent 3px 18px)"></div>
+    <div class="relative mx-auto max-w-7xl px-4">
         <div class="text-center">
-            <h2 class="text-3xl font-bold uppercase text-white">Sen de Tribünün Parçası Ol</h2>
-            <p class="mx-auto mt-3 max-w-2xl text-white/80">Üye ol; aidatın ve bağışın tribünün gücüne dönüşsün. Kategoriler:</p>
+            <span class="inline-block rounded-full bg-gold px-4 py-1 text-xs font-extrabold uppercase tracking-widest text-brand-800">Üyelik</span>
+            <h2 class="mt-4 text-4xl font-bold uppercase text-white sm:text-5xl">Sen de Tribünün Parçası Ol</h2>
+            <p class="mx-auto mt-3 max-w-2xl text-lg text-white/80">Aidatın ve bağışın doğrudan tribünün gücüne dönüşür. Sana uygun üyeliği seç:</p>
         </div>
-        <div class="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
-            @foreach (['Öğrenci'=>'Genç taraftar', 'Standart'=>'Ana üyelik', 'Destekçi'=>'Daha çok destek', 'Asıl Üye'=>'Oy hakkı'] as $cat=>$desc)
-                <div class="rounded-2xl bg-white/10 p-5 text-center ring-1 ring-white/15">
-                    <p class="font-display text-lg font-bold uppercase text-gold">{{ $cat }}</p>
-                    <p class="mt-1 text-sm text-white/70">{{ $desc }}</p>
+
+        <div class="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            @foreach ($plans as $p)
+                <div class="relative flex flex-col rounded-2xl p-6 transition
+                            {{ $p['pop']
+                                ? 'bg-white text-brand-900 ring-4 ring-gold shadow-2xl lg:-translate-y-3'
+                                : 'bg-white/10 text-white ring-1 ring-white/20 hover:bg-white/15' }}">
+                    @if ($p['pop'])
+                        <span class="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-gold px-3 py-1 text-[11px] font-extrabold uppercase tracking-wide text-brand-800 shadow">★ En Popüler</span>
+                    @endif
+                    <p class="font-display text-xl font-bold uppercase {{ $p['pop'] ? 'text-brand-700' : 'text-gold' }}">{{ $p['ad'] }}</p>
+                    <p class="mt-1 text-sm {{ $p['pop'] ? 'text-brand-900/60' : 'text-white/60' }}">{{ $p['aciklama'] }}</p>
+                    <div class="mt-4 flex items-end gap-1">
+                        <span class="text-4xl font-extrabold">{{ $p['fiyat'] }}₺</span>
+                        <span class="mb-1 text-sm {{ $p['pop'] ? 'text-brand-900/60' : 'text-white/60' }}">/ yıl</span>
+                    </div>
+                    <ul class="mt-5 flex-1 space-y-2 text-sm">
+                        @foreach ($p['ozellikler'] as $oz)
+                            <li class="flex items-start gap-2">
+                                <svg class="mt-0.5 h-4 w-4 flex-shrink-0 {{ $p['pop'] ? 'text-emerald-600' : 'text-gold' }}" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                                <span class="{{ $p['pop'] ? 'text-brand-900/80' : 'text-white/80' }}">{{ $oz }}</span>
+                            </li>
+                        @endforeach
+                    </ul>
+                    <a href="{{ route('register') }}"
+                       class="mt-6 block rounded-lg px-4 py-2.5 text-center text-sm font-bold uppercase transition
+                              {{ $p['pop'] ? 'bg-brand-600 text-white hover:bg-brand-700' : 'bg-gold text-brand-800 hover:bg-gold-400' }}">
+                        Üye Ol
+                    </a>
                 </div>
             @endforeach
         </div>
-        <div class="mt-8 text-center">
-            <a href="{{ route('register') }}" class="inline-block rounded-lg bg-gold px-8 py-3 text-sm font-bold uppercase text-brand-800 hover:bg-gold-400">Hemen Üye Ol</a>
-        </div>
+
+        <p class="mt-8 text-center text-sm text-white/60">Tüm üyelikler yıllıktır · Ödemen şeffaf kasada görünür · İstediğin zaman yükseltebilirsin</p>
     </div>
 </section>
 
