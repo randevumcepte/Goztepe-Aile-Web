@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HistoryEvent;
 use App\Models\MembershipFeature;
 use App\Models\MembershipPlan;
+use Database\Seeders\HistorySeeder;
 use Database\Seeders\MembershipSeeder;
 use Illuminate\View\View;
 
@@ -12,6 +14,29 @@ class PageController extends Controller
     public function hakkimizda(): View
     {
         return view('pages.hakkimizda');
+    }
+
+    public function sanliTarihimiz(): View
+    {
+        try {
+            if (HistoryEvent::query()->doesntExist()) {
+                app(HistorySeeder::class)->run();
+            }
+        } catch (\Throwable $e) {
+            // tablo henüz yoksa sessiz geç
+        }
+
+        $events = collect();
+        try {
+            $events = HistoryEvent::active()->get();
+        } catch (\Throwable $e) {
+            // migrate edilmemişse sayfa yine açılsın
+        }
+
+        return view('pages.sanli-tarihimiz', [
+            'timeline' => $events->where('in_timeline', true)->values(),
+            'gallery' => $events->where('in_gallery', true)->values(),
+        ]);
     }
 
     public function iletisim(): View

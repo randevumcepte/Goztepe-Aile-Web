@@ -39,6 +39,39 @@
     </div>
 </div>
 
+{{-- Öğrenci doğrulama durumu --}}
+@php $sv = $member?->studentVerification; @endphp
+@if ($member && ($member->isStudent() || $sv))
+    @if ($member->isStudentVerified())
+        <div class="rounded-xl border border-emerald-200 bg-emerald-50 px-5 py-4 mb-6 flex items-center gap-3">
+            <span class="text-2xl">🎓</span>
+            <div class="text-sm text-emerald-800">
+                <p class="font-bold">Öğrenciliğin onaylı</p>
+                <p>Öğrenci avantajların aktif@if ($sv?->valid_until) — {{ $sv->valid_until->format('d.m.Y') }} tarihine kadar geçerli@endif.</p>
+            </div>
+        </div>
+    @else
+        <a href="{{ route('uye.ogrenci-dogrulama') }}"
+           class="block rounded-xl border border-amber-300 bg-amber-50 px-5 py-4 mb-6 hover:bg-amber-100 transition">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl">🎓</span>
+                <div class="text-sm text-amber-900 flex-1">
+                    <p class="font-bold">
+                        @if ($sv && $sv->isPending()) Öğrenci belgen inceleniyor
+                        @elseif ($sv && $sv->isExpired()) Öğrenci belgenin süresi doldu
+                        @elseif ($sv) Öğrenci belgen reddedildi
+                        @else Öğrenci avantajları için belgeni doğrula @endif
+                    </p>
+                    <p>
+                        @if ($sv && $sv->isPending()) Yönetim onayından sonra avantajların aktifleşecek.
+                        @else e-Devlet öğrenci belgeni yükle, yönetim onaylasın. →@endif
+                    </p>
+                </div>
+            </div>
+        </a>
+    @endif
+@endif
+
 {{-- Hızlı işlemler --}}
 <div class="grid grid-cols-2 gap-4 mb-6">
     <a href="{{ route('uye.aidat') }}" class="rounded-xl border border-neutral-200 bg-white p-5 hover:shadow">

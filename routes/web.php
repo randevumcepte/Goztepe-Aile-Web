@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CampaignController as AdminCampaignController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\HistoryEventController as AdminHistoryEventController;
 use App\Http\Controllers\Admin\MemberController as AdminMemberController;
 use App\Http\Controllers\Admin\MembershipFeatureController as AdminMembershipFeatureController;
 use App\Http\Controllers\Admin\MembershipPlanController as AdminMembershipPlanController;
@@ -10,12 +11,14 @@ use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\SettingController as AdminSettingController;
 use App\Http\Controllers\Admin\SliderController as AdminSliderController;
 use App\Http\Controllers\Admin\SponsorController as AdminSponsorController;
+use App\Http\Controllers\Admin\StudentVerificationController as AdminStudentVerificationController;
 use App\Http\Controllers\Admin\TransactionController as AdminTransactionController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Member\DashboardController as MemberDashboardController;
 use App\Http\Controllers\Member\NotificationController as MemberNotificationController;
 use App\Http\Controllers\Member\PaymentController as MemberPaymentController;
+use App\Http\Controllers\Member\StudentVerificationController as MemberStudentVerificationController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SeffafKasaController;
@@ -26,6 +29,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/haberler', [NewsController::class, 'index'])->name('haberler.index');
 Route::get('/haberler/{post}', [NewsController::class, 'show'])->name('haberler.show');
 Route::get('/hakkimizda', [PageController::class, 'hakkimizda'])->name('hakkimizda');
+Route::get('/sanli-tarihimiz', [PageController::class, 'sanliTarihimiz'])->name('sanli-tarihimiz');
 Route::get('/uyelik-avantajlari', [PageController::class, 'uyelikAvantajlari'])->name('uyelik.avantajlar');
 Route::get('/iletisim', [PageController::class, 'iletisim'])->name('iletisim');
 
@@ -50,6 +54,10 @@ Route::middleware('auth')->prefix('panel')->name('uye.')->group(function () {
     Route::get('/aidat', [MemberPaymentController::class, 'showAidat'])->name('aidat');
     Route::get('/bagis', [MemberPaymentController::class, 'showBagis'])->name('bagis');
     Route::post('/odeme', [MemberPaymentController::class, 'start'])->name('odeme.start');
+
+    // Öğrenci doğrulama (belge yükleme + durum)
+    Route::get('/ogrenci-dogrulama', [MemberStudentVerificationController::class, 'show'])->name('ogrenci-dogrulama');
+    Route::post('/ogrenci-dogrulama', [MemberStudentVerificationController::class, 'store'])->name('ogrenci-dogrulama.store');
 });
 
 // Ödeme geri dönüşü (sağlayıcıdan döner; auth zorunlu değil)
@@ -86,6 +94,14 @@ Route::middleware(['auth', 'staff'])->prefix('admin')->name('admin.')->group(fun
     Route::put('/sponsorlar/{sponsor}', [AdminSponsorController::class, 'update'])->name('sponsors.update');
     Route::delete('/sponsorlar/{sponsor}', [AdminSponsorController::class, 'destroy'])->name('sponsors.destroy');
 
+    // Şanlı Tarihimiz (zaman tüneli + foto galeri)
+    Route::get('/sanli-tarihimiz', [AdminHistoryEventController::class, 'index'])->name('history.index');
+    Route::get('/sanli-tarihimiz/yeni', [AdminHistoryEventController::class, 'create'])->name('history.create');
+    Route::post('/sanli-tarihimiz', [AdminHistoryEventController::class, 'store'])->name('history.store');
+    Route::get('/sanli-tarihimiz/{history}/duzenle', [AdminHistoryEventController::class, 'edit'])->name('history.edit');
+    Route::put('/sanli-tarihimiz/{history}', [AdminHistoryEventController::class, 'update'])->name('history.update');
+    Route::delete('/sanli-tarihimiz/{history}', [AdminHistoryEventController::class, 'destroy'])->name('history.destroy');
+
     Route::get('/site-ayarlari', [AdminSettingController::class, 'edit'])->name('settings.edit');
     Route::put('/site-ayarlari', [AdminSettingController::class, 'update'])->name('settings.update');
 
@@ -103,6 +119,11 @@ Route::middleware(['auth', 'staff'])->prefix('admin')->name('admin.')->group(fun
 
     Route::get('/uyeler', [AdminMemberController::class, 'index'])->name('members.index');
     Route::patch('/uyeler/{member}', [AdminMemberController::class, 'update'])->name('members.update');
+
+    // Öğrenci doğrulama talepleri (onay / red)
+    Route::get('/ogrenci-dogrulama', [AdminStudentVerificationController::class, 'index'])->name('student-verifications.index');
+    Route::get('/ogrenci-dogrulama/{verification}/belge', [AdminStudentVerificationController::class, 'document'])->name('student-verifications.document');
+    Route::patch('/ogrenci-dogrulama/{verification}', [AdminStudentVerificationController::class, 'update'])->name('student-verifications.update');
 
     Route::get('/bildirim-gonder', [AdminNotificationController::class, 'create'])->name('notifications.create');
     Route::post('/bildirim-gonder', [AdminNotificationController::class, 'send'])->name('notifications.send');

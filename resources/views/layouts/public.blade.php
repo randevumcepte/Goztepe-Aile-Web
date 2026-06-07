@@ -43,6 +43,7 @@
     $nav = [
         ['home', 'Ana Sayfa'],
         ['haberler.index', 'Haberler'],
+        ['sanli-tarihimiz', 'Şanlı Tarihimiz'],
         ['uyelik.avantajlar', 'Üyelik'],
         ['hakkimizda', 'Hakkımızda'],
         ['seffaf-kasa', 'Şeffaf Kasa'],
@@ -130,6 +131,7 @@
             <h4 class="font-display text-sm font-bold uppercase text-gold">Keşfet</h4>
             <ul class="mt-3 space-y-2 text-sm text-white/70">
                 <li><a href="{{ route('haberler.index') }}" class="hover:text-gold">Haberler</a></li>
+                <li><a href="{{ route('sanli-tarihimiz') }}" class="hover:text-gold">Şanlı Tarihimiz</a></li>
                 <li><a href="{{ route('hakkimizda') }}" class="hover:text-gold">Hakkımızda</a></li>
                 <li><a href="{{ route('seffaf-kasa') }}" class="hover:text-gold">Şeffaf Kasa</a></li>
                 <li><a href="{{ route('iletisim') }}" class="hover:text-gold">İletişim</a></li>

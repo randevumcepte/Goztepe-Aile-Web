@@ -1,0 +1,13 @@
+ŞANLI TARİHİMİZ — FOTOĞRAFLAR
+==============================
+
+Bu sayfanın TÜM içeriği (zaman tüneli + foto galeri) artık YÖNETİM PANELİNDEN düzenlenir:
+
+  Panel → Web Yönetimi → "Şanlı Tarihimiz"
+
+Oradan kayıt ekleyip her birine fotoğraf yükleyebilir, başlık/yıl/açıklama
+değiştirebilir, sırasını ve "zaman tünelinde / galeride göster" seçeneklerini
+ayarlayabilirsin. Yüklenen fotoğraflar otomatik olarak public/uploads/history/ altına kaydedilir.
+
+NOT: Bu klasör (public/img/tarih/) yalnızca eski/geriye dönük uyumluluk içindir.
+Varsayılan kayıtlar buradaki dosya adlarına işaret eder; ama asıl yöntem paneldir.

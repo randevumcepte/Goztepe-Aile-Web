@@ -37,6 +37,9 @@
                     <option value="{{ $cat->value }}" @selected(old('category') === $cat->value)>{{ $cat->label() }}</option>
                 @endforeach
             </select>
+            <p class="text-xs text-neutral-500 mt-1">
+                🎓 Öğrenci üyeliğinde, kayıttan sonra panelinden öğrenci belgeni yükleyip doğrulatman gerekir.
+            </p>
         </div>
         <div>
             <label class="block text-sm font-medium mb-1">Şifre</label>
