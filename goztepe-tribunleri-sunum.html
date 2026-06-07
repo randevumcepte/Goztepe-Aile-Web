@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Göztepe Tribünleri — Sadeleştirilmiş Yapı (Kâr Amacı Yok)</title>
+<style>
+  @page { size: A4 landscape; margin: 0; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root{
+    --red:#D5102E; --red-dark:#9B0B22; --gold:#F7B500; --gold-soft:#FFE49A;
+    --ink:#1c1c22; --muted:#5b5b66; --line:#e3e3ea; --bg-soft:#faf7f0; --green:#1f9d57;
+  }
+  html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body{ font-family:"Segoe UI",system-ui,Arial,sans-serif; color:var(--ink); }
+
+  .slide{ position:relative; width:297mm; height:210mm; page-break-after:always;
+    overflow:hidden; padding:17mm 18mm 14mm; display:flex; flex-direction:column; background:#fff; }
+  .slide:last-child{ page-break-after:auto; }
+  .slide::before{ content:""; position:absolute; top:0; left:0; right:0; height:9mm;
+    background:linear-gradient(90deg,var(--red) 0 55%,var(--gold) 55% 100%); }
+  .pagenum{ position:absolute; bottom:6mm; right:14mm; font-size:10pt; color:var(--muted); font-weight:600; }
+  .foot{ position:absolute; bottom:6mm; left:18mm; font-size:9pt; color:var(--muted); letter-spacing:.3px; }
+
+  .kicker{ color:var(--red); font-weight:800; letter-spacing:2px; font-size:10.5pt; text-transform:uppercase; }
+  h1.title{ font-size:25pt; line-height:1.12; margin:5pt 0 5mm; }
+
+  .card{ border:1.5px solid var(--line); border-radius:10px; padding:5mm 6mm; background:#fff; }
+  .card h3{ font-size:13.5pt; margin-bottom:3mm; }
+  .card.tip{ background:var(--bg-soft); border-color:var(--gold); }
+  .card.red{ background:#fff5f6; border-color:var(--red); }
+  .card.green{ background:#f1faf4; border-color:var(--green); }
+  .card p, .card li{ font-size:11.5pt; color:#33333b; line-height:1.5; }
+  .lead{ font-size:12.5pt; color:#33333b; line-height:1.55; }
+  .hl{ background:var(--gold-soft); padding:0 4px; border-radius:4px; font-weight:700; }
+  .small{ font-size:9.5pt; color:var(--muted); }
+  ul{ margin-left:5mm; } li{ margin-bottom:2mm; }
+
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:7mm; }
+  .grid3{ display:grid; grid-template-columns:repeat(3,1fr); gap:6mm; }
+
+  .box{ border:2px solid var(--ink); border-radius:10px; padding:4mm 5mm; background:#fff; }
+  .box .bt{ font-weight:800; font-size:12pt; margin-bottom:1.5mm; }
+  .box.you{ border-color:var(--ink); background:var(--ink); color:#fff; text-align:center; }
+  .box.dernek{ border-color:var(--gold); background:#fffdf4; }
+  .box.ik{ border-color:var(--red); background:#fff6f7; }
+  .box.fund{ border-color:var(--green); background:#f1faf4; }
+  .box li{ font-size:10.5pt; margin-bottom:1mm; line-height:1.35; }
+  .arrow{ text-align:center; color:var(--muted); font-weight:800; font-size:13pt; }
+
+  .chip{ display:inline-block; padding:2px 9px; border-radius:20px; font-size:9pt; font-weight:700; }
+  .chip.ok{ background:#e6f6ee; color:var(--green); } .chip.no{ background:#fdeaec; color:var(--red); }
+  .dot{ display:inline-block; width:12px; height:12px; border-radius:50%; vertical-align:middle; margin-right:6px; border:1px solid rgba(0,0,0,.15); }
+  .dot.gold{ background:var(--gold);} .dot.red{ background:var(--red);} .dot.green{ background:var(--green);} .dot.blue{ background:#2456c8;} .dot.ink{ background:var(--ink);}
+  .note{ display:inline-block; background:var(--red); color:#fff; font-weight:800; font-size:9pt; padding:1px 7px; border-radius:5px; margin-right:6px; }
+
+  table{ width:100%; border-collapse:collapse; font-size:11pt; }
+  th,td{ border:1px solid var(--line); padding:3mm 4mm; text-align:left; vertical-align:top; }
+  th{ background:var(--red); color:#fff; } tr:nth-child(even) td{ background:var(--bg-soft); }
+
+  ol{ margin-left:7mm; } ol li{ margin-bottom:2.4mm; font-size:11pt; line-height:1.42; }
+  .twocol{ columns:2; column-gap:9mm; } .twocol li{ break-inside:avoid; }
+  .sec{ font-weight:800; color:var(--red-dark); font-size:11pt; margin:1mm 0; }
+
+  .cover{ justify-content:center; }
+  .crest{ width:30mm; height:30mm; border-radius:50%;
+     background:radial-gradient(circle at 35% 30%, var(--gold), var(--red) 70%);
+     display:flex; align-items:center; justify-content:center; color:#fff; font-weight:900; font-size:20pt;
+     border:4px solid #fff; box-shadow:0 0 0 4px var(--red); margin-bottom:7mm; }
+  .cover h1{ font-size:33pt; line-height:1.08; }
+  .cover .tag{ margin-top:5mm; font-size:14pt; color:var(--muted); max-width:215mm; }
+  .meta{ margin-top:12mm; font-size:11pt; color:var(--muted); }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<section class="slide cover">
+  <div class="crest">G</div>
+  <div class="kicker">Sadeleştirilmiş Yapı</div>
+  <h1>GÖZTEPE TRİBÜNLERİ</h1>
+  <div class="tag">Tüm gelir derneğe · <b>Yazılım telifi kurucuya aittir</b> · Şeffaf kasa</div>
+  <div class="meta">Haziran 2026 · İç Çalışma Notu</div>
+  <div class="foot">GÖZTEPE TRİBÜNLERİ</div>
+</section>
+
+<!-- 1 TEMEL YAKLASIM -->
+<section class="slide">
+  <div class="kicker">Temel Yaklaşım</div>
+  <h1 class="title">Gelir derneğe, yazılım telifi kurucuda</h1>
+  <div class="grid3" style="flex:1; align-content:center;">
+    <div class="card green">
+      <h3><span class="dot green"></span>Tüm gelir derneğe</h3>
+      <p>Aidat, bağış, sponsorluk, satış — <b>hepsi derneğin kasasına</b> akar.</p>
+      <p class="small" style="margin-top:2mm;">→ Para taraftarın/derneğin malıdır.</p>
+    </div>
+    <div class="card red">
+      <h3><span class="dot red"></span>Yazılım telifi korunur</h3>
+      <p>Tek hassas nokta <b>yazılım ve marka</b>. Telif <b>kurucuda</b> kalır, derneğe lisanslanır.</p>
+      <p class="small" style="margin-top:2mm;">→ Dernek el değiştirse bile yazılım alınamaz.</p>
+    </div>
+    <div class="card tip">
+      <h3><span class="dot gold"></span>Şeffaf &amp; biriktirebilir</h3>
+      <p>Para üyeye açık şekilde durur; <b>yıldan yıla birikebilir</b>, harcama zorunluluğu yok.</p>
+      <p class="small" style="margin-top:2mm;">→ Amaçlı fon (tifo/tesis) kurulabilir.</p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:5mm;background:var(--ink);color:#fff;border:none;">
+    <p style="color:#fff;font-size:13pt;">Kısaca: <span class="hl" style="color:#1c1c22;">Tüm gelir derneğin kasasına akar; yalnızca yazılım telifi kurucuda kalır.</span></p>
+  </div>
+  <div class="pagenum">02</div>
+  <div class="foot">GÖZTEPE TRİBÜNLERİ</div>
+</section>
+
+<!-- 2 SADELESMIS YAPI -->
+<section class="slide">
+  <div class="kicker">Yapı</div>
+  <h1 class="title">Sadeleştirilmiş Yapı — Kim ne yapar?</h1>
+  <div style="flex:1; display:flex; flex-direction:column; gap:4mm; justify-content:center;">
+    <div class="box you" style="width:115mm; margin:0 auto;">
+      <div class="bt" style="color:#fff;">KURUCU</div>
+      <span class="small" style="color:#ddd;">Yazılım telifi + marka mülkiyeti kurucuda</span>
+    </div>
+    <div class="arrow">│ &nbsp; ücretsiz + geri alınabilir LİSANS &nbsp; ▼</div>
+    <div class="box dernek" style="width:150mm; margin:0 auto;">
+      <div class="bt" style="color:#8a6500;">DERNEK — her şey burada döner</div>
+      <ul>
+        <li>• Üyelik / aidat · <b>gerçek bağışlar</b> doğrudan buraya</li>
+        <li>• Şeffaf KASA: tüm para burada, üye görür (KVKK maskelemesiyle)</li>
+        <li>• Genel kurul: oy hakkı = sadece “asıl üye” (kontrollü çekirdek)</li>
+      </ul>
+    </div>
+    <div class="arrow">│ &nbsp; ticari işler için alt kol &nbsp; ▼</div>
+    <div class="box ik" style="width:150mm; margin:0 auto;">
+      <div class="bt" style="color:var(--red-dark);">İKTİSADİ İŞLETME (derneğe bağlı)</div>
+      <ul>
+        <li>• <b>Sponsorluk</b> (reklam karşılığı) · <b>Ürün satışı</b> (atkı/tişört)</li>
+        <li>• Kazanç <b>tamamen derneğe</b> kalır</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card tip" style="margin-top:3mm;">
+    <p class="lead"><b>Not:</b> Ayrı bir “kâr amaçlı şirket” yok. Yapı: <span class="hl">dernek + onun ticari kolu (iktisadi işletme)</span>; yazılım/marka telifi kurucuda, derneğe lisanslı.</p>
+  </div>
+  <div class="pagenum">03</div>
+  <div class="foot">GÖZTEPE TRİBÜNLERİ</div>
+</section>
+
+<!-- 3 GELIR DOGRU KANAL -->
+<section class="slide">
+  <div class="kicker">Dikkat</div>
+  <h1 class="title">Her geliri “bağış” yapma — doğru kanaldan geçir</h1>
+  <table>
+    <tr><th style="width:24%">Gelir türü</th><th>Niteliği</th><th style="width:30%">Doğru kanal</th></tr>
+    <tr><td><b>Gerçek bağış</b></td><td>Karşılıksız verilen para</td><td><span class="chip ok">Doğrudan DERNEK (makbuzla)</span></td></tr>
+    <tr><td><b>Üye aidatı</b></td><td>Üyelik ödemesi</td><td><span class="chip ok">Doğrudan DERNEK</span></td></tr>
+    <tr><td><b>Sponsorluk</b></td><td>Karşılığında reklam/tanıtım verilir → <b>ticari</b></td><td><span class="chip no">İKTİSADİ İŞLETME</span></td></tr>
+    <tr><td><b>Ürün satışı</b></td><td>Karşılığında mal verilir → <b>ticari</b></td><td><span class="chip no">İKTİSADİ İŞLETME</span></td></tr>
+  </table>
+  <div class="card red" style="margin-top:6mm;">
+    <h3><span class="note">UYARI</span>Neden hepsini “bağış” yapamayız?</h3>
+    <p>Sponsorluk ve satış <b>karşılıklı (ticari)</b> işlemlerdir; bunları “bağış” göstermek <b>vergi denetiminde sahte beyan</b> sayılır → sonradan <b>cezalı vergi</b> riski. Çözüm: ticari geliri iktisadi işletmeden geçir; kazanç yine derneğe kalır.</p>
+  </div>
+  <div class="card tip" style="margin-top:4mm;">
+    <p class="lead">Özet: <b>Bağış = bağış · Ticaret = iktisadi işletme.</b> İkisi de sonunda derneğin kasasına akar — sadece <span class="hl">doğru kapıdan</span> girer.</p>
+  </div>
+  <div class="pagenum">04</div>
+  <div class="foot">GÖZTEPE TRİBÜNLERİ</div>
+</section>
+
+<!-- 4 YAZILIM KORUMASI -->
+<section class="slide">
+  <div class="kicker">Koruma</div>
+  <h1 class="title">Yazılım &amp; marka nasıl korunur?</h1>
+  <div class="grid2" style="flex:1; align-content:center;">
+    <div class="card">
+      <h3><span class="dot ink"></span>Telif kurucuda kalır</h3>
+      <ul>
+        <li>Yazılımın ve markanın (“Göztepe Tribünleri” + logo) <b>sahibi kurucudur.</b></li>
+        <li>Marka tescili ve yazılım telifi <b>kurucu adına</b>.</li>
+        <li>Domain, uygulama hesapları, sosyal medya da kurucu/dernek kontrolünde.</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3><span class="dot green"></span>Derneğe ÜCRETSİZ lisans</h3>
+      <ul>
+        <li>Derneğe kullanım hakkı <b>bedelsiz</b> verilir.</li>
+        <li>Lisans <b>geri alınabilir (revocable)</b>: kötüye kullanımda iptal.</li>
+        <li>Dernek el değiştirse bile <b>yazılım/marka onlarda kalmaz.</b></li>
+      </ul>
+    </div>
+  </div>
+  <div class="card tip" style="margin-top:5mm;">
+    <p class="lead"><b>Sonuç:</b> Tüm gelir derneğe akarken yazılım/marka güvende kalır. <span class="hl">Telif kurucuda, kasa dernekte.</span></p>
+  </div>
+  <div class="pagenum">05</div>
+  <div class="foot">GÖZTEPE TRİBÜNLERİ</div>
+</section>
+
+<!-- 5 PARA BIRIKMESI -->
+<section class="slide">
+  <div class="kicker">Sık Sorulan</div>
+  <h1 class="title">Dernekte para birikirse sorun olur mu?</h1>
+  <div class="card green" style="margin-bottom:5mm;">
+    <p class="lead"><b>Kısa cevap: Hayır.</b> Derneğin parayı her yıl harcama zorunluluğu <b>YOKTUR</b>. Para yıldan yıla devredebilir, rezerv/fon olarak <b>birikebilir</b>. “Harca yoksa kaybedersin” diye bir kural yoktur.</p>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <h3><span class="dot green"></span>Serbest olan</h3>
+      <ul>
+        <li>Aidat + bağışın birikmesi <b>sorun değil.</b></li>
+        <li>Amaçlı fon kurmak <b>akıllıca</b>: “Tribün Fonu”, “Tesis Fonu”, “Büyük Tifo Fonu”.</li>
+        <li>Planlı birikim taraftara <b>güven</b> verir.</li>
+      </ul>
+    </div>
+    <div class="card red">
+      <h3><span class="dot red"></span>Dikkat edilecek</h3>
+      <ul>
+        <li>Para <b>derneğin amacına</b> bağlı kalmalı; <b>üyeye/yöneticiye dağıtılamaz.</b></li>
+        <li><b>Ticari gelir</b> (sponsor/satış) iktisadi işletmeden geçmeli; kurumlar vergisine tabi olabilir.</li>
+        <li>Kayıtlar <b>şeffaf</b> tutulmalı (sistemin temel ilkesi).</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card tip" style="margin-top:5mm;">
+    <p class="lead">Özet: <b>Birikim serbest.</b> Yeter ki (a) amaca bağlı kalsın, (b) ticari gelir doğru kanaldan geçsin, (c) kayıtlar şeffaf olsun.</p>
+  </div>
+  <div class="pagenum">06</div>
+  <div class="foot">GÖZTEPE TRİBÜNLERİ</div>
+</section>
+
+<!-- 6 AVUKAT -->
+<section class="slide">
+  <div class="kicker">Uzman Görüşmesi</div>
+  <h1 class="title"><span class="dot blue"></span>Avukata Sorulacaklar (Yapı, Koruma, KVKK)</h1>
+  <div class="sec">Yazılım &amp; marka koruması</div>
+  <ol>
+    <li>Yazılım ve markanın mülkiyetini <b>kurucu adına</b> alıp derneğe <b>ücretsiz + geri alınabilir lisansla</b> vermek yasal mı, nasıl sözleşmelenir?</li>
+    <li>Dernek el değiştirirse markayı koruyan <b>lisans iptal (revocation)</b> şartı sözleşmede nasıl güvenceye alınır?</li>
+    <li><b>“Göztepe Tribünleri” + logo</b> marka tescili kurucu adına alınabilir mi? “Göztepe” ibaresi kulübün hakkına girer mi, izin gerekir mi?</li>
+  </ol>
+  <div class="sec" style="margin-top:3mm;">Dernek kontrolü &amp; KVKK</div>
+  <ol start="4" class="twocol">
+    <li>Oy hakkı yalnız <b>“asıl üye”ye</b> verilip destekçi üyeler oysuz tutulabilir mi? Yasal sınır?</li>
+    <li>Asıl üyeliğe kabul <b>yönetim kurulu onayına</b> bağlanabilir mi?</li>
+    <li>Tüzük/marka/fesih için <b>2/3–3/4 nitelikli çoğunluk</b> konabilir mi?</li>
+    <li>Domain, sosyal medya, uygulama hesapları, sanal POS kimin adına olmalı?</li>
+    <li>“Kim ne yatırdı” + faturaları üyeye göstermek <b>KVKK</b> açısından nasıl (rıza + maskeleme)?</li>
+    <li>Yazılım lisansının <b>geri alınması</b> hangi şartlara bağlanmalı; sözleşmede nasıl güvenceye alınır?</li>
+  </ol>
+  <div class="pagenum">07</div>
+  <div class="foot">GÖZTEPE TRİBÜNLERİ</div>
+</section>
+
+<!-- 7 MALI MUSAVIR -->
+<section class="slide">
+  <div class="kicker">Uzman Görüşmesi</div>
+  <h1 class="title"><span class="dot green"></span>Mali Müşavire Sorulacaklar (Vergi &amp; Birikim)</h1>
+  <div class="sec" style="color:var(--green);">Gelir kanalları &amp; vergi</div>
+  <ol>
+    <li>Gerçek <b>bağış</b> ve <b>aidat</b> vergiye tabi mi? Sınır var mı?</li>
+    <li><b>Sponsorluk ve ürün satışı</b> neden bağış sayılamaz? Bunlar için <b>iktisadi işletme</b> ne zaman zorunlu, kurulumu ve vergisi (KDV/kurumlar) nasıl?</li>
+    <li>Yazılım/marka için <b>ücretsiz lisans</b> almak derneğe vergisel yük getirir mi (emsal bedel / bedelsiz intifa)?</li>
+  </ol>
+  <div class="sec" style="color:var(--green); margin-top:3mm;">Para birikmesi</div>
+  <ol start="4">
+    <li>Dernekte para <b>yıldan yıla birikebilir mi</b>? Harcama zorunluluğu var mı?</li>
+    <li><b>“Tribün Fonu / Tesis Fonu”</b> gibi amaçlı rezerv biriktirmek vergisel/hukuki sorun yaratır mı?</li>
+    <li>İktisadi işletmenin biriken <b>ticari kazancı</b> nasıl vergilenir?</li>
+  </ol>
+  <div class="sec" style="color:var(--green); margin-top:3mm;">Operasyon</div>
+  <ol start="7">
+    <li>Bağış/aidat ile ticari geliri ayırmak için <b>muhasebe/hesap düzeni</b> nasıl olmalı?</li>
+    <li>Hangi <b>beyanname ve bildirimler</b> zorunlu (Dernekler Müdürlüğü beyannamesi, KDV, kurumlar)?</li>
+    <li>Bu yapının yıllık <b>idari/muhasebe maliyeti</b> yaklaşık ne kadar?</li>
+  </ol>
+  <div class="card tip" style="margin-top:4mm;">
+    <p class="small"><span class="note">NOT</span>Bu liste stratejik çerçevedir; kesin oran ve kurulum için mali müşavir + avukat onayı esastır.</p>
+  </div>
+  <div class="pagenum">08</div>
+  <div class="foot">GÖZTEPE TRİBÜNLERİ</div>
+</section>
+
+<!-- 8 OZET -->
+<section class="slide cover">
+  <div class="crest">G</div>
+  <h1 style="font-size:30pt;">Özet</h1>
+  <div class="tag" style="margin-top:6mm;">
+    Tüm gelir <b>derneğin kasasına</b> akar<br><br>
+    Yazılım telifi + marka <b>kurucuda</b> → ücretsiz, geri alınabilir lisans (koruma)<br><br>
+    Ticari gelir <b>iktisadi işletmeden</b> → “bağış” karmaşası ve vergi riski yok<br><br>
+    Para <b>birikebilir</b> → amaçlı fon kurulur, harcama zorunluluğu yok<br><br>
+    Her şey <b>şeffaf</b> → üye kasayı ve faturaları görür (KVKK ile)
+  </div>
+  <div class="meta" style="margin-top:10mm;">GÖZTEPE TRİBÜNLERİ · Sadeleştirilmiş Yapı · Haziran 2026</div>
+  <div class="foot">GÖZTEPE TRİBÜNLERİ</div>
+</section>
+
+</body>
+</html>
