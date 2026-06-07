@@ -49,7 +49,7 @@ class TransactionController extends Controller
         $invoiceId = null;
         if ($request->hasFile('invoice_file') || $request->filled('supplier_masked')) {
             $path = $request->hasFile('invoice_file')
-                ? $request->file('invoice_file')->store('invoices', 'public')
+                ? $request->file('invoice_file')->store('invoices', 'uploads')
                 : null;
 
             $invoiceId = Invoice::create([

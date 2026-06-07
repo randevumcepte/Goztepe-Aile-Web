@@ -28,7 +28,7 @@
                 </div>
                 <div class="sm:col-span-2">
                     <label class="{{ $label }}">Logo (PNG/SVG)</label>
-                    @if (!empty($s['logo_path']))<img src="{{ asset('storage/'.$s['logo_path']) }}" class="mt-2 h-14">@endif
+                    @if (!empty($s['logo_path']))<img src="{{ asset('uploads/'.$s['logo_path']) }}" class="mt-2 h-14">@endif
                     <input type="file" name="logo" accept="image/*" class="mt-2 w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-brand-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-brand-700 hover:file:bg-brand-100">
                 </div>
             </div>

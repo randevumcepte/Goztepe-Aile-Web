@@ -27,7 +27,7 @@ class Sponsor extends Model
 
         return str_starts_with($this->logo_path, 'http')
             ? $this->logo_path
-            : asset('storage/'.$this->logo_path);
+            : asset('uploads/'.$this->logo_path);
     }
 
     public function tierLabel(): string

@@ -36,7 +36,7 @@ class PostController extends Controller
         $data['published_at'] = $request->boolean('is_published') ? now() : null;
 
         if ($request->hasFile('cover')) {
-            $data['cover_path'] = $request->file('cover')->store('posts', 'public');
+            $data['cover_path'] = $request->file('cover')->store('posts', 'uploads');
         }
 
         Post::create($data);
@@ -55,7 +55,7 @@ class PostController extends Controller
         $data['published_at'] = $request->boolean('is_published') ? ($post->published_at ?? now()) : null;
 
         if ($request->hasFile('cover')) {
-            $data['cover_path'] = $request->file('cover')->store('posts', 'public');
+            $data['cover_path'] = $request->file('cover')->store('posts', 'uploads');
         }
 
         $post->update($data);

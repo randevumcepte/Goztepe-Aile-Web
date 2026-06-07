@@ -29,6 +29,6 @@ class Slider extends Model
 
         return str_starts_with($this->image_path, 'http')
             ? $this->image_path
-            : asset('storage/'.$this->image_path);
+            : asset('uploads/'.$this->image_path);
     }
 }

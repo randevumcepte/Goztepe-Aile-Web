@@ -26,7 +26,7 @@ class SliderController extends Controller
     {
         $data = $this->validateData($request);
         if ($request->hasFile('image')) {
-            $data['image_path'] = $request->file('image')->store('sliders', 'public');
+            $data['image_path'] = $request->file('image')->store('sliders', 'uploads');
         }
         Slider::create($data);
 
@@ -42,7 +42,7 @@ class SliderController extends Controller
     {
         $data = $this->validateData($request);
         if ($request->hasFile('image')) {
-            $data['image_path'] = $request->file('image')->store('sliders', 'public');
+            $data['image_path'] = $request->file('image')->store('sliders', 'uploads');
         }
         $slider->update($data);
 

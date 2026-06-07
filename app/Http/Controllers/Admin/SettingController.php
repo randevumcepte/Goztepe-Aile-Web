@@ -43,7 +43,7 @@ class SettingController extends Controller
 
         // Logo yüklenirse storage'a kaydet ve yolunu sakla
         if ($request->hasFile('logo')) {
-            $path = $request->file('logo')->store('site', 'public');
+            $path = $request->file('logo')->store('site', 'uploads');
             Setting::put('logo_path', $path);
         }
 

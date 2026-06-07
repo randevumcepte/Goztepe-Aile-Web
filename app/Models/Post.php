@@ -58,6 +58,6 @@ class Post extends Model
         // Dış URL (örn. demo görseller) doğrudan; yerel yüklemeler storage'dan
         return str_starts_with($this->cover_path, 'http')
             ? $this->cover_path
-            : asset('storage/'.$this->cover_path);
+            : asset('uploads/'.$this->cover_path);
     }
 }
