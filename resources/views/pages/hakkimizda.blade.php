@@ -5,9 +5,9 @@
 <div class="relative bg-ink">
     {{-- Arka plan resmi --}}
     <div class="pointer-events-none absolute inset-0 bg-cover bg-center"
-         style="background-image:url('{{ asset('uploads/hakkimizda.webp') }}')"></div>
+         style="background-image:url('{{ asset('uploads/hakkimizda.jpg') }}')"></div>
     {{-- Siyah perde (karartma) --}}
-    <div class="pointer-events-none absolute inset-0 bg-ink/85"></div>
+    <div class="pointer-events-none absolute inset-0 bg-ink/90"></div>
 
     {{-- İçerik --}}
     <div class="relative">
