@@ -63,6 +63,6 @@ class MembershipSeeder extends Seeder
             );
         }
 
-        $this->command->info('Üyelik planları ve avantajlar yüklendi.');
+        $this->command?->info('Üyelik planları ve avantajlar yüklendi.');
     }
 }
