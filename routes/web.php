@@ -4,17 +4,26 @@ use App\Http\Controllers\Admin\CampaignController as AdminCampaignController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\MemberController as AdminMemberController;
 use App\Http\Controllers\Admin\NotificationController as AdminNotificationController;
+use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\TransactionController as AdminTransactionController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Member\DashboardController as MemberDashboardController;
 use App\Http\Controllers\Member\NotificationController as MemberNotificationController;
 use App\Http\Controllers\Member\PaymentController as MemberPaymentController;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\SeffafKasaController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', fn () => redirect()->route('seffaf-kasa'));
+// --- Genel kamuya açık site ---
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/haberler', [NewsController::class, 'index'])->name('haberler.index');
+Route::get('/haberler/{post}', [NewsController::class, 'show'])->name('haberler.show');
+Route::get('/hakkimizda', [PageController::class, 'hakkimizda'])->name('hakkimizda');
+Route::get('/iletisim', [PageController::class, 'iletisim'])->name('iletisim');
 
-// Şeffaf Kasa (herkese açık vitrin)
+// Şeffaf Kasa (herkese açık)
 Route::get('/seffaf-kasa', [SeffafKasaController::class, 'index'])->name('seffaf-kasa');
 
 // --- Misafir (giriş yapmamış) ---
@@ -48,6 +57,13 @@ Route::middleware(['auth', 'staff'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/hareketler/yeni', [AdminTransactionController::class, 'create'])->name('transactions.create');
     Route::post('/hareketler', [AdminTransactionController::class, 'store'])->name('transactions.store');
     Route::delete('/hareketler/{transaction}', [AdminTransactionController::class, 'destroy'])->name('transactions.destroy');
+
+    Route::get('/haberler', [AdminPostController::class, 'index'])->name('posts.index');
+    Route::get('/haberler/yeni', [AdminPostController::class, 'create'])->name('posts.create');
+    Route::post('/haberler', [AdminPostController::class, 'store'])->name('posts.store');
+    Route::get('/haberler/{post}/duzenle', [AdminPostController::class, 'edit'])->name('posts.edit');
+    Route::put('/haberler/{post}', [AdminPostController::class, 'update'])->name('posts.update');
+    Route::delete('/haberler/{post}', [AdminPostController::class, 'destroy'])->name('posts.destroy');
 
     Route::get('/uyeler', [AdminMemberController::class, 'index'])->name('members.index');
     Route::patch('/uyeler/{member}', [AdminMemberController::class, 'update'])->name('members.update');
