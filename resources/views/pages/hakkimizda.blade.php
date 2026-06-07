@@ -13,10 +13,12 @@
     <div class="relative">
 {{-- Başlık şeridi --}}
 <section class="relative overflow-hidden border-b border-white/10 bg-gradient-to-br from-brand-700/90 to-ink/80">
-    <div class="mx-auto max-w-7xl px-4 py-8 text-right sm:py-10">
-        <span class="text-sm font-bold uppercase tracking-widest text-gold">1925'ten Bugüne</span>
-        <h1 class="mt-2 text-4xl font-bold uppercase text-white sm:text-5xl">Hakkımızda</h1>
-        <p class="mt-4 ml-auto max-w-2xl text-lg text-white/80">Göztepe Tribünleri; taraftarın gücünü tek çatı altında toplayan, şeffaf ve dayanışmacı bir taraftar derneğidir.</p>
+    <div class="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8 sm:py-8">
+        <div>
+            <span class="text-sm font-bold uppercase tracking-widest text-gold">1925'ten Bugüne</span>
+            <h1 class="mt-1 text-3xl font-bold uppercase text-white sm:text-4xl">Hakkımızda</h1>
+        </div>
+        <p class="max-w-md text-base text-white/80 sm:text-right">Göztepe Tribünleri; taraftarın gücünü tek çatı altında toplayan, şeffaf ve dayanışmacı bir taraftar derneğidir.</p>
     </div>
 </section>
 
