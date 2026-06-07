@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MembershipFeature;
+use App\Models\MembershipPlan;
 use Illuminate\View\View;
 
 class PageController extends Controller
@@ -18,6 +20,9 @@ class PageController extends Controller
 
     public function uyelikAvantajlari(): View
     {
-        return view('pages.uyelik-avantajlari');
+        return view('pages.uyelik-avantajlari', [
+            'plans' => MembershipPlan::active()->get(),
+            'features' => MembershipFeature::active()->get(),
+        ]);
     }
 }

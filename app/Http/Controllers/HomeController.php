@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MembershipPlan;
 use App\Models\Post;
 use App\Models\Slider;
 use App\Models\Sponsor;
@@ -23,6 +24,7 @@ class HomeController extends Controller
         return view('home', [
             'sliders' => Slider::active()->get(),
             'sponsors' => Sponsor::active()->get(),
+            'plans' => MembershipPlan::active()->get(),
             'featured' => $posts->first(),
             'secondary' => $posts->slice(1, 2),
             'rest' => $posts->slice(3, 4),

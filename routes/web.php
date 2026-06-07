@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\CampaignController as AdminCampaignController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\MemberController as AdminMemberController;
+use App\Http\Controllers\Admin\MembershipFeatureController as AdminMembershipFeatureController;
+use App\Http\Controllers\Admin\MembershipPlanController as AdminMembershipPlanController;
 use App\Http\Controllers\Admin\NotificationController as AdminNotificationController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\SettingController as AdminSettingController;
@@ -86,6 +88,18 @@ Route::middleware(['auth', 'staff'])->prefix('admin')->name('admin.')->group(fun
 
     Route::get('/site-ayarlari', [AdminSettingController::class, 'edit'])->name('settings.edit');
     Route::put('/site-ayarlari', [AdminSettingController::class, 'update'])->name('settings.update');
+
+    // Üyelik planları + avantaj tablosu (panelden düzenlenebilir)
+    Route::get('/uyelik-planlari', [AdminMembershipPlanController::class, 'index'])->name('membership.plans.index');
+    Route::get('/uyelik-planlari/{plan}/duzenle', [AdminMembershipPlanController::class, 'edit'])->name('membership.plans.edit');
+    Route::put('/uyelik-planlari/{plan}', [AdminMembershipPlanController::class, 'update'])->name('membership.plans.update');
+
+    Route::get('/uyelik-avantajlari', [AdminMembershipFeatureController::class, 'index'])->name('membership.features.index');
+    Route::get('/uyelik-avantajlari/yeni', [AdminMembershipFeatureController::class, 'create'])->name('membership.features.create');
+    Route::post('/uyelik-avantajlari', [AdminMembershipFeatureController::class, 'store'])->name('membership.features.store');
+    Route::get('/uyelik-avantajlari/{feature}/duzenle', [AdminMembershipFeatureController::class, 'edit'])->name('membership.features.edit');
+    Route::put('/uyelik-avantajlari/{feature}', [AdminMembershipFeatureController::class, 'update'])->name('membership.features.update');
+    Route::delete('/uyelik-avantajlari/{feature}', [AdminMembershipFeatureController::class, 'destroy'])->name('membership.features.destroy');
 
     Route::get('/uyeler', [AdminMemberController::class, 'index'])->name('members.index');
     Route::patch('/uyeler/{member}', [AdminMemberController::class, 'update'])->name('members.update');

@@ -150,18 +150,7 @@
 @endif
 
 {{-- ÜYELİK CTA --}}
-@php
-    $plans = [
-        ['ad' => 'Öğrenci', 'fiyat' => '250', 'aciklama' => 'Genç taraftar', 'pop' => false,
-         'ozellikler' => ['Dijital üye kartı', 'Şeffaf kasa erişimi', 'Kombine bekleme listesinde sıra', 'Mağaza %5 indirim']],
-        ['ad' => 'Standart', 'fiyat' => '500', 'aciklama' => 'En çok tercih edilen', 'pop' => true,
-         'ozellikler' => ['Öğrencinin tüm hakları', 'Maç biletinde öncelikli satış', 'Deplasman otobüsünde öncelik', 'Mağaza %10 indirim']],
-        ['ad' => 'Destekçi', 'fiyat' => '1.000', 'aciklama' => 'Daha çok destek ol', 'pop' => false,
-         'ozellikler' => ['Standardın tüm hakları', 'Deplasman biletinde öncelik', 'Koreografi ekibine katılım', 'Sınırlı ürünlere erken erişim', 'Hoş geldin paketi + doğum günü', 'Mağaza %15 indirim']],
-        ['ad' => 'VIP Üye', 'fiyat' => '2.500', 'aciklama' => 'En üst destek', 'pop' => false,
-         'ozellikler' => ['Destekçinin tüm hakları', 'Oyuncu buluşması / imza günü', 'Etkinliklerde özel VIP alan', 'İsim plaketi / onur duvarı', 'Mağaza %20 indirim']],
-    ];
-@endphp
+@if ($plans->isNotEmpty())
 <section class="relative overflow-hidden border-y-2 border-gold/40 bg-gradient-to-br from-brand-700 via-brand-800 to-ink py-16">
     <div class="absolute inset-0 opacity-[0.06]" style="background-image:repeating-linear-gradient(45deg,#F7B500 0 3px,transparent 3px 18px)"></div>
     <div class="relative mx-auto max-w-7xl px-4">
@@ -174,18 +163,18 @@
         <div class="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             @foreach ($plans as $p)
                 <div class="relative flex flex-col rounded-2xl bg-gradient-to-br from-[#FFD24A] to-gold p-6 text-brand-900 shadow-lg transition
-                            {{ $p['pop'] ? 'ring-4 ring-white shadow-2xl lg:-translate-y-3' : 'ring-1 ring-amber-300 hover:-translate-y-1' }}">
-                    @if ($p['pop'])
+                            {{ $p->is_popular ? 'ring-4 ring-white shadow-2xl lg:-translate-y-3' : 'ring-1 ring-amber-300 hover:-translate-y-1' }}">
+                    @if ($p->is_popular)
                         <span class="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-brand-600 px-3 py-1 text-[11px] font-extrabold uppercase tracking-wide text-white shadow">★ En Popüler</span>
                     @endif
-                    <p class="font-display text-xl font-bold uppercase text-brand-700">{{ $p['ad'] }}</p>
-                    <p class="mt-1 text-sm font-medium text-brand-900/70">{{ $p['aciklama'] }}</p>
+                    <p class="font-display text-xl font-bold uppercase text-brand-700">{{ $p->name }}</p>
+                    <p class="mt-1 text-sm font-medium text-brand-900/70">{{ $p->description }}</p>
                     <div class="mt-4 flex items-end gap-1">
-                        <span class="text-4xl font-extrabold text-brand-900">{{ $p['fiyat'] }}₺</span>
+                        <span class="text-4xl font-extrabold text-brand-900">{{ $p->price }}₺</span>
                         <span class="mb-1 text-sm font-medium text-brand-900/70">/ yıl</span>
                     </div>
                     <ul class="mt-5 flex-1 space-y-2 text-sm">
-                        @foreach ($p['ozellikler'] as $oz)
+                        @foreach ($p->card_features ?? [] as $oz)
                             <li class="flex items-start gap-2">
                                 <svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-brand-700" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
                                 <span class="font-medium text-brand-900/80">{{ $oz }}</span>
@@ -206,6 +195,7 @@
         <p class="mt-6 text-center text-sm text-white/60">Tüm üyelikler yıllıktır · Ödemen şeffaf kasada görünür · İstediğin zaman yükseltebilirsin</p>
     </div>
 </section>
+@endif
 
 {{-- SPONSORLAR (placeholder) --}}
 <section class="border-t border-white/10 bg-brand-900">
