@@ -173,30 +173,27 @@
 
         <div class="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             @foreach ($plans as $p)
-                <div class="relative flex flex-col rounded-2xl p-6 transition
-                            {{ $p['pop']
-                                ? 'bg-white text-brand-900 ring-4 ring-gold shadow-2xl lg:-translate-y-3'
-                                : 'bg-white/10 text-white ring-1 ring-white/20 hover:bg-white/15' }}">
+                <div class="relative flex flex-col rounded-2xl bg-gradient-to-br from-[#FFD24A] to-gold p-6 text-brand-900 shadow-lg transition
+                            {{ $p['pop'] ? 'ring-4 ring-white shadow-2xl lg:-translate-y-3' : 'ring-1 ring-amber-300 hover:-translate-y-1' }}">
                     @if ($p['pop'])
-                        <span class="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-gold px-3 py-1 text-[11px] font-extrabold uppercase tracking-wide text-brand-800 shadow">★ En Popüler</span>
+                        <span class="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-brand-600 px-3 py-1 text-[11px] font-extrabold uppercase tracking-wide text-white shadow">★ En Popüler</span>
                     @endif
-                    <p class="font-display text-xl font-bold uppercase {{ $p['pop'] ? 'text-brand-700' : 'text-gold' }}">{{ $p['ad'] }}</p>
-                    <p class="mt-1 text-sm {{ $p['pop'] ? 'text-brand-900/60' : 'text-white/60' }}">{{ $p['aciklama'] }}</p>
+                    <p class="font-display text-xl font-bold uppercase text-brand-700">{{ $p['ad'] }}</p>
+                    <p class="mt-1 text-sm font-medium text-brand-900/70">{{ $p['aciklama'] }}</p>
                     <div class="mt-4 flex items-end gap-1">
-                        <span class="text-4xl font-extrabold">{{ $p['fiyat'] }}₺</span>
-                        <span class="mb-1 text-sm {{ $p['pop'] ? 'text-brand-900/60' : 'text-white/60' }}">/ yıl</span>
+                        <span class="text-4xl font-extrabold text-brand-900">{{ $p['fiyat'] }}₺</span>
+                        <span class="mb-1 text-sm font-medium text-brand-900/70">/ yıl</span>
                     </div>
                     <ul class="mt-5 flex-1 space-y-2 text-sm">
                         @foreach ($p['ozellikler'] as $oz)
                             <li class="flex items-start gap-2">
-                                <svg class="mt-0.5 h-4 w-4 flex-shrink-0 {{ $p['pop'] ? 'text-emerald-600' : 'text-gold' }}" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
-                                <span class="{{ $p['pop'] ? 'text-brand-900/80' : 'text-white/80' }}">{{ $oz }}</span>
+                                <svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-brand-700" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                                <span class="font-medium text-brand-900/80">{{ $oz }}</span>
                             </li>
                         @endforeach
                     </ul>
                     <a href="{{ route('register') }}"
-                       class="mt-6 block rounded-lg px-4 py-2.5 text-center text-sm font-bold uppercase transition
-                              {{ $p['pop'] ? 'bg-brand-600 text-white hover:bg-brand-700' : 'bg-gold text-brand-800 hover:bg-gold-400' }}">
+                       class="mt-6 block rounded-lg bg-brand-600 px-4 py-2.5 text-center text-sm font-bold uppercase text-white transition hover:bg-brand-700">
                         Üye Ol
                     </a>
                 </div>
