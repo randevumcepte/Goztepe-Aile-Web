@@ -30,7 +30,11 @@
 
 {{-- ============ HERO ============ --}}
 <section class="relative overflow-hidden bg-ink">
-    <div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-brand-800 via-ink to-black"></div>
+    {{-- Giriş görseli --}}
+    <div class="pointer-events-none absolute inset-0 bg-cover bg-center"
+         style="background-image:url('{{ asset('img/sanli-tarihimiz-hero.png') }}')"></div>
+    {{-- Karartma katmanları (yazılar okunsun) --}}
+    <div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-ink/90 via-ink/75 to-black/90"></div>
     <div class="pointer-events-none absolute inset-0 opacity-[0.07]"
          style="background-image:radial-gradient(circle at 20% 20%, #F7B500 0, transparent 40%), radial-gradient(circle at 80% 60%, #D5102E 0, transparent 45%)"></div>
     {{-- Dev yıl filigranı --}}
