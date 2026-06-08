@@ -7,15 +7,8 @@
     $timeline = $timeline ?? collect();
     $gallery = $gallery ?? collect();
 
-    // --- Efsaneler ---
-    $legends = [
-        ['name' => 'Ali Artuner',     'role' => 'Kaleci',       'note' => 'Türk kaleciliğinin zirvesi; refleksleri ve blokajlarıyla efsane.'],
-        ['name' => 'Halil Kiraz',     'role' => 'Forvet',       'note' => '"Bombacı Halil" — Atletico zaferinin kahramanlarından.'],
-        ['name' => 'Fevzi Zemzem',    'role' => 'Orta Saha',    'note' => 'Altın neslin yaratıcı beyni.'],
-        ['name' => 'Gürsel Aksel',    'role' => 'Kaptan',       'note' => 'Stadın adını taşıyan ölümsüz kaptan.'],
-        ['name' => 'Nevzat Güzelırmak','role' => 'Defans',      'note' => 'Savunmanın güvenilir kalesi.'],
-        ['name' => 'Adnan Süvari',    'role' => 'Teknik Direktör','note' => 'Avrupa yarı finalinin ve kupaların mimarı.'],
-    ];
+    // Efsaneler admin panelinden yönetilir (Web Yönetimi → Efsaneler).
+    $legends = $legends ?? collect();
 
     // --- Onur listesi ---
     $honours = [
@@ -301,30 +294,88 @@
 @endif
 
 {{-- ============ EFSANELER ============ --}}
-<section class="bg-brand-900/40 py-20">
+@if ($legends->isNotEmpty())
+@php
+    $legendItems = $legends->map(fn($l) => [
+        'name' => $l->name,
+        'role' => $l->role,
+        'nickname' => $l->nickname,
+        'era' => $l->era,
+        'note' => $l->note,
+        'bio' => $l->bio,
+        'photo' => $l->imageUrl(),
+        'initial' => mb_substr($l->name, 0, 1),
+    ])->values();
+@endphp
+<section id="efsaneler" class="bg-brand-900/40 py-20"
+         x-data="{ open:false, l:{}, items: {{ \Illuminate\Support\Js::from($legendItems) }}, show(n){ this.l=this.items[n]; this.open=true } }"
+         @keydown.window.escape="open=false">
     <div class="mx-auto max-w-7xl px-4">
         <div class="mb-12 text-center">
             <span class="text-sm font-bold uppercase tracking-widest text-gold">Ölümsüz İsimler</span>
             <h2 class="mt-2 font-display text-4xl font-bold uppercase text-white sm:text-5xl">Efsaneler</h2>
-            <p class="mx-auto mt-3 max-w-2xl text-sm text-white/60">Adnan Süvari'nin altın neslinden, formayı şerefle taşıyan unutulmazlar.</p>
+            <p class="mx-auto mt-3 max-w-2xl text-sm text-white/60">Adnan Süvari'nin altın neslinden, formayı şerefle taşıyan unutulmazlar. Detaylı yaşam öyküsü için bir isme dokun.</p>
         </div>
 
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            @foreach ($legends as $p)
-                <div class="group flex items-start gap-4 rounded-2xl border border-white/10 bg-ink/60 p-5 transition hover:border-gold/40">
-                    <div class="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-gradient-to-br from-gold to-brand-600 font-display text-xl font-bold text-ink">
-                        {{ mb_substr($p['name'],0,1) }}
+            @foreach ($legends as $idx => $p)
+                <button type="button" @click="show({{ $idx }})"
+                        class="group flex items-start gap-4 rounded-2xl border border-white/10 bg-ink/60 p-5 text-left transition hover:border-gold/40 hover:bg-ink/80 focus:outline-none focus:ring-2 focus:ring-gold">
+                    <div class="grid h-16 w-16 shrink-0 place-items-center overflow-hidden rounded-xl bg-gradient-to-br from-gold to-brand-600 font-display text-2xl font-bold text-ink ring-2 ring-white/10">
+                        @if ($p->imageUrl())
+                            <img src="{{ $p->imageUrl() }}" alt="{{ $p->name }}" loading="lazy" class="h-full w-full object-cover transition duration-500 group-hover:scale-110">
+                        @else
+                            {{ mb_substr($p->name, 0, 1) }}
+                        @endif
                     </div>
-                    <div>
-                        <p class="font-display text-lg font-bold uppercase text-white">{{ $p['name'] }}</p>
-                        <p class="text-xs font-semibold uppercase tracking-wide text-gold">{{ $p['role'] }}</p>
-                        <p class="mt-2 text-sm leading-relaxed text-white/70">{{ $p['note'] }}</p>
+                    <div class="min-w-0">
+                        <p class="font-display text-lg font-bold uppercase text-white">{{ $p->name }}</p>
+                        <p class="text-xs font-semibold uppercase tracking-wide text-gold">{{ $p->role }}{{ $p->nickname ? ' · '.$p->nickname : '' }}</p>
+                        @if ($p->note)<p class="mt-2 text-sm leading-relaxed text-white/70">{{ $p->note }}</p>@endif
+                        <span class="mt-3 inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wide text-gold opacity-80 transition group-hover:opacity-100">
+                            Detaylı İncele
+                            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                        </span>
                     </div>
-                </div>
+                </button>
             @endforeach
         </div>
     </div>
+
+    {{-- Efsane popup --}}
+    <div x-show="open" x-cloak @click="open=false" x-transition.opacity
+         class="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 p-4 backdrop-blur">
+        <div @click.stop x-transition
+             class="relative max-h-[88vh] w-full max-w-2xl overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-brand-900 to-ink shadow-2xl">
+            <button @click="open=false" class="absolute right-3 top-3 z-10 grid h-10 w-10 place-items-center rounded-full bg-black/40 text-white backdrop-blur hover:bg-black/60">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+
+            <div class="max-h-[88vh] overflow-y-auto sm:flex">
+                {{-- Foto --}}
+                <div class="relative aspect-square w-full bg-gradient-to-br from-gold to-brand-600 sm:aspect-auto sm:w-2/5">
+                    <div class="flex h-full min-h-[220px] items-center justify-center">
+                        <span class="font-display text-8xl font-bold text-ink" x-show="!l.photo" x-text="l.initial"></span>
+                    </div>
+                    <img x-show="l.photo" :src="l.photo" :alt="l.name" class="absolute inset-0 h-full w-full object-cover">
+                </div>
+                {{-- Bilgi --}}
+                <div class="p-6 sm:w-3/5 sm:p-7">
+                    <template x-if="l.nickname">
+                        <span class="inline-block rounded-full bg-gold/15 px-3 py-1 text-xs font-bold uppercase tracking-wide text-gold" x-text="l.nickname"></span>
+                    </template>
+                    <h3 class="mt-3 font-display text-3xl font-bold uppercase text-white" x-text="l.name"></h3>
+                    <p class="mt-1 text-sm font-semibold uppercase tracking-wide text-gold">
+                        <span x-text="l.role"></span><template x-if="l.era"><span> · <span x-text="l.era"></span></span></template>
+                    </p>
+                    <div class="mt-4 h-px bg-white/10"></div>
+                    <p class="mt-4 whitespace-pre-line text-sm leading-relaxed text-white/80" x-text="l.bio || l.note"></p>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
+@endif
 
 {{-- ============ ONUR LİSTESİ ============ --}}
 <section class="bg-ink py-20">

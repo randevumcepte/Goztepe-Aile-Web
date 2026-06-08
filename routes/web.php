@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CampaignController as AdminCampaignController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\HistoryEventController as AdminHistoryEventController;
+use App\Http\Controllers\Admin\LegendController as AdminLegendController;
 use App\Http\Controllers\Admin\MemberController as AdminMemberController;
 use App\Http\Controllers\Admin\MembershipFeatureController as AdminMembershipFeatureController;
 use App\Http\Controllers\Admin\MembershipPlanController as AdminMembershipPlanController;
@@ -101,6 +102,14 @@ Route::middleware(['auth', 'staff'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/sanli-tarihimiz/{history}/duzenle', [AdminHistoryEventController::class, 'edit'])->name('history.edit');
     Route::put('/sanli-tarihimiz/{history}', [AdminHistoryEventController::class, 'update'])->name('history.update');
     Route::delete('/sanli-tarihimiz/{history}', [AdminHistoryEventController::class, 'destroy'])->name('history.destroy');
+
+    // Efsaneler (Şanlı Tarihimiz futbolcular)
+    Route::get('/efsaneler', [AdminLegendController::class, 'index'])->name('legends.index');
+    Route::get('/efsaneler/yeni', [AdminLegendController::class, 'create'])->name('legends.create');
+    Route::post('/efsaneler', [AdminLegendController::class, 'store'])->name('legends.store');
+    Route::get('/efsaneler/{legend}/duzenle', [AdminLegendController::class, 'edit'])->name('legends.edit');
+    Route::put('/efsaneler/{legend}', [AdminLegendController::class, 'update'])->name('legends.update');
+    Route::delete('/efsaneler/{legend}', [AdminLegendController::class, 'destroy'])->name('legends.destroy');
 
     Route::get('/site-ayarlari', [AdminSettingController::class, 'edit'])->name('settings.edit');
     Route::put('/site-ayarlari', [AdminSettingController::class, 'update'])->name('settings.update');
