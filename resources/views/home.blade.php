@@ -97,9 +97,6 @@
 
 {{-- HOŞ GELDİN / NEDEN BURADAYIZ --}}
 <section class="relative overflow-hidden bg-ink">
-    {{-- Hafif arka plan dokusu --}}
-    <div class="pointer-events-none absolute inset-0 opacity-[0.05]"
-         style="background-image:radial-gradient(circle at 15% 20%, #F7B500 0, transparent 40%), radial-gradient(circle at 85% 80%, #D5102E 0, transparent 45%)"></div>
     <div class="pointer-events-none absolute -right-6 -top-12 select-none font-display text-[26vw] font-bold leading-none text-white/[0.03] sm:text-[16vw]">1925</div>
 
     <div class="relative mx-auto max-w-4xl px-4 py-20 sm:py-24">
