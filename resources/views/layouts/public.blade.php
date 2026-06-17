@@ -46,6 +46,7 @@
         ['home', 'Ana Sayfa'],
         ['hakkimizda', 'Hakkımızda'],
         ['sanli-tarihimiz', 'Şanlı Tarihimiz'],
+        ['haberler.index', 'Haberler'],
         ['seffaf-kasa', 'Şeffaf Kasa'],
         ['uyelik.avantajlar', 'Üyelik'],
         ['iletisim', 'İletişim'],
