@@ -34,6 +34,16 @@
                    class="w-full rounded-lg border border-neutral-300 px-3 py-2">
         </div>
 
+        <div class="rounded-lg border border-neutral-200 bg-neutral-50 p-3">
+            <label class="flex items-start gap-2 text-sm">
+                <input type="checkbox" name="commercial_consent" value="1" class="mt-1"
+                       @checked(old('commercial_consent', $user->member?->commercial_consent)) >
+                <span>Göztepe Tribünleri’nin <strong>reklam, kampanya ve duyuruları</strong> kapsamında tarafıma
+                <strong>bildirim, telefonla arama ve SMS</strong> gönderilmesini kabul ediyorum.
+                <span class="text-neutral-500">(İYS — dilediğin zaman kapatabilirsin)</span></span>
+            </label>
+        </div>
+
         <button class="w-full bg-[#D5102E] hover:bg-[#9B0B22] text-white font-bold rounded-lg py-2.5">
             Kaydet
         </button>

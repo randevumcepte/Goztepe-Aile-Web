@@ -12,7 +12,7 @@ class ProfileController extends Controller
 {
     public function edit(Request $request): View
     {
-        return view('member.profil', ['user' => $request->user()]);
+        return view('member.profil', ['user' => $request->user()->load('member')]);
     }
 
     public function update(Request $request): RedirectResponse
@@ -23,9 +23,17 @@ class ProfileController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user->id)],
             'phone' => ['nullable', 'string', 'max:20'],
+            'commercial_consent' => ['nullable', 'boolean'],
         ]);
 
-        $user->update($data);
+        $user->update([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'phone' => $data['phone'] ?? null,
+        ]);
+
+        // Ticari ileti (İYS) rızası — üye dilediğinde açıp kapatabilir.
+        $user->member?->update(['commercial_consent' => $request->boolean('commercial_consent')]);
 
         return back()->with('status', 'Bilgilerin güncellendi.');
     }
