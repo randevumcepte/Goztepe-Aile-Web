@@ -28,14 +28,20 @@ class CampaignController extends Controller
             'type' => ['required', 'in:modal,banner,fullscreen,card'],
             'title' => ['required', 'string', 'max:120'],
             'content' => ['nullable', 'string', 'max:1000'],
+            'media' => ['nullable', 'image', 'max:5120'],
             'cta_label' => ['nullable', 'string', 'max:60'],
-            'cta_url' => ['nullable', 'url'],
+            'cta_url' => ['nullable', 'string', 'max:255'], // tam link ya da /panel/bagis gibi iç adres
             'is_commercial' => ['nullable', 'boolean'],
             'frequency_cap' => ['required', 'integer', 'min:1', 'max:100'],
             'priority' => ['required', 'integer', 'min:0', 'max:100'],
             'starts_at' => ['nullable', 'date'],
             'ends_at' => ['nullable', 'date', 'after_or_equal:starts_at'],
         ]);
+
+        unset($data['media']);
+        if ($request->hasFile('media')) {
+            $data['media_path'] = $request->file('media')->store('campaigns', 'uploads');
+        }
 
         InAppMessage::create([
             ...$data,

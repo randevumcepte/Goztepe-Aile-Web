@@ -133,6 +133,23 @@
         </main>
     </div>
 </div>
+
+{{-- Reklam / kampanya pop-up'ı: hedefe uygun yayında kampanya varsa göster --}}
+@auth
+    @php
+        // Bağış/aidat (ödeme akışı) sayfalarında pop-up gösterme — kullanıcı zaten orada.
+        $popupCampaign = request()->routeIs('uye.bagis', 'uye.aidat')
+            ? null
+            : app(\App\Services\Notifications\CampaignService::class)->nextFor(auth()->user());
+        if ($popupCampaign) {
+            app(\App\Services\Notifications\CampaignService::class)->recordImpression(auth()->user(), $popupCampaign);
+        }
+    @endphp
+    @if ($popupCampaign)
+        @include('partials.campaign-popup', ['campaign' => $popupCampaign])
+    @endif
+@endauth
+
 @stack('scripts')
 </body>
 </html>

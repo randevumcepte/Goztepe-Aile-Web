@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\StudentVerificationController as AdminStudentVeri
 use App\Http\Controllers\Admin\TransactionController as AdminTransactionController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Member\CampaignController as MemberCampaignController;
 use App\Http\Controllers\Member\DashboardController as MemberDashboardController;
 use App\Http\Controllers\Member\FixtureController as MemberFixtureController;
 use App\Http\Controllers\Member\NewsController as MemberNewsController;
@@ -56,6 +57,9 @@ Route::post('/cikis', [AuthController::class, 'logout'])->middleware('auth')->na
 Route::middleware('auth')->prefix('panel')->name('uye.')->group(function () {
     Route::get('/', [MemberDashboardController::class, 'index'])->name('dashboard');
     Route::get('/bildirimler', [MemberNotificationController::class, 'index'])->name('bildirimler');
+
+    // Reklam pop-up butonu → tıklamayı say, hedefe (varsayılan bağış) git
+    Route::get('/kampanya/{message}/git', [MemberCampaignController::class, 'go'])->name('kampanya.git');
 
     // Tüm üyelere ortak içerik alanları
     Route::get('/fikstur', [MemberFixtureController::class, 'index'])->name('fikstur');

@@ -13,7 +13,7 @@
         Listeye dön
     </a>
 
-    <form method="POST" action="{{ route('admin.campaigns.store') }}"
+    <form method="POST" action="{{ route('admin.campaigns.store') }}" enctype="multipart/form-data"
           class="space-y-5 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         @csrf
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -39,14 +39,21 @@
             <label class="{{ $label }}">İçerik</label>
             <textarea name="content" rows="3" class="{{ $input }}">{{ old('content') }}</textarea>
         </div>
+        <div>
+            <label class="{{ $label }}">Reklam Görseli</label>
+            <input type="file" name="media" accept="image/*"
+                   class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-brand-50 file:px-3 file:py-1.5 file:text-brand-700 shadow-sm">
+            <p class="mt-1 text-xs text-slate-500">Pop-up'ın üstünde tam genişlikte gösterilir. Hazırladığın afişi/tasarımı yükle (JPG/PNG, max 5 MB).</p>
+        </div>
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
                 <label class="{{ $label }}">Buton Metni</label>
-                <input name="cta_label" value="{{ old('cta_label') }}" placeholder="İncele" class="{{ $input }}">
+                <input name="cta_label" value="{{ old('cta_label', 'Bağış Yap') }}" placeholder="Bağış Yap" class="{{ $input }}">
             </div>
             <div>
                 <label class="{{ $label }}">Buton Linki</label>
-                <input name="cta_url" value="{{ old('cta_url') }}" placeholder="https://…" class="{{ $input }}">
+                <input name="cta_url" value="{{ old('cta_url', '/panel/bagis') }}" placeholder="/panel/bagis" class="{{ $input }}">
+                <p class="mt-1 text-xs text-slate-500">Bağış sayfası için <code>/panel/bagis</code> bırak; dış link için tam adres yaz.</p>
             </div>
         </div>
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
