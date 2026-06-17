@@ -108,7 +108,7 @@
             {{-- Rakip --}}
             <div class="flex flex-col items-center gap-3 text-center">
                 @if ($nextMatch->opponentLogoUrl())
-                    <img src="{{ $nextMatch->opponentLogoUrl() }}" alt="{{ $nextMatch->opponent }}" class="h-20 w-20 rounded-xl bg-white/95 object-contain p-1 sm:h-24 sm:w-24">
+                    <img src="{{ $nextMatch->opponentLogoUrl() }}" alt="{{ $nextMatch->opponent }}" class="h-20 w-20 object-contain sm:h-24 sm:w-24">
                 @else
                     <span class="grid h-20 w-20 place-items-center rounded-xl bg-white/10 font-display text-3xl font-bold text-white sm:h-24 sm:w-24">{{ mb_substr($nextMatch->opponent, 0, 1) }}</span>
                 @endif
