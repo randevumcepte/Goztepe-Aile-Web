@@ -34,11 +34,6 @@
                class="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-[#D5102E] px-6 py-3 text-base font-bold text-white shadow-sm hover:bg-[#9B0B22]">
                 {{ $campaign->cta_label ?: 'Bağış Yap' }}
             </a>
-
-            <button type="button" @click="show = false"
-                    class="mt-3 block w-full text-xs text-slate-400 hover:text-slate-600">
-                Şimdi değil
-            </button>
         </div>
     </div>
 </div>
