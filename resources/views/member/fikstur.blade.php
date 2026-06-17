@@ -11,10 +11,12 @@
                 <div class="rounded-xl border border-slate-200 bg-white p-4 sm:p-5">
                     <div class="flex items-center justify-between gap-4">
                         <div class="flex items-center gap-3 min-w-0">
+                            <img src="{{ asset('img/goztepe-arma.png') }}" alt="Göztepe" class="h-10 w-10 object-contain shrink-0">
+                            <span class="text-slate-300 font-bold shrink-0">vs</span>
                             @if ($f->opponentLogoUrl())
-                                <img src="{{ $f->opponentLogoUrl() }}" alt="" class="h-10 w-10 object-contain">
+                                <img src="{{ $f->opponentLogoUrl() }}" alt="{{ $f->opponent }}" class="h-10 w-10 object-contain shrink-0">
                             @else
-                                <div class="grid h-10 w-10 place-items-center rounded-full bg-slate-100 text-slate-400 font-bold">VS</div>
+                                <div class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-slate-100 text-slate-500 font-bold">{{ mb_substr($f->opponent, 0, 1) }}</div>
                             @endif
                             <div class="min-w-0">
                                 <p class="font-bold truncate">Göztepe <span class="text-slate-400 font-normal">vs</span> {{ $f->opponent }}</p>
@@ -56,7 +58,12 @@
                     @foreach ($played as $f)
                         <tr>
                             <td class="px-4 py-3 text-slate-500 whitespace-nowrap">{{ $f->kickoff_at?->format('d.m.Y') }}</td>
-                            <td class="px-4 py-3 font-medium">Göztepe <span class="text-slate-400">-</span> {{ $f->opponent }}</td>
+                            <td class="px-4 py-3 font-medium">
+                                <span class="inline-flex items-center gap-2">
+                                    <img src="{{ asset('img/goztepe-arma.png') }}" alt="Göztepe" class="h-6 w-6 object-contain">
+                                    Göztepe <span class="text-slate-400">-</span> {{ $f->opponent }}
+                                </span>
+                            </td>
                             <td class="px-4 py-3 text-center font-bold">{{ $f->home_score }} - {{ $f->away_score }}</td>
                             <td class="px-4 py-3 text-slate-500">{{ $f->competition }}</td>
                         </tr>

@@ -89,7 +89,7 @@
         <div class="mt-8 grid grid-cols-3 items-center gap-2 sm:gap-6">
             {{-- Göztepe --}}
             <div class="flex flex-col items-center gap-3 text-center">
-                <img src="{{ asset('img/logo.png') }}" alt="Göztepe" class="h-20 w-20 rounded-xl object-contain sm:h-24 sm:w-24">
+                <img src="{{ asset('img/goztepe-arma.png') }}" alt="Göztepe" class="h-20 w-20 object-contain sm:h-24 sm:w-24">
                 <span class="font-display text-base font-bold uppercase text-white sm:text-xl">Göztepe</span>
             </div>
 
