@@ -25,7 +25,7 @@
                     @php
                         // "Üye Ol" etiketli CTA her zaman üye kayıt sayfasına gider; diğerleri admin'deki linke
                         $isUyeOl = $sl->cta_label && \Illuminate\Support\Str::contains(\Illuminate\Support\Str::lower($sl->cta_label), 'üye ol');
-                        $ctaUrl = $isUyeOl ? route('register') : $sl->cta_url;
+                        $ctaUrl = $isUyeOl ? 'https://goztepeaile.randevumcepte.com.tr/uye-ol' : $sl->cta_url;
                     @endphp
                     @if ($sl->cta_label && $ctaUrl)
                         <div class="mt-6"><a href="{{ $ctaUrl }}" class="rounded-lg bg-gold px-6 py-3 text-sm font-bold uppercase text-brand-800 hover:bg-gold-400">{{ $sl->cta_label }}</a></div>
