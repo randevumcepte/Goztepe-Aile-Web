@@ -19,7 +19,7 @@
     <div class="flex justify-between items-start gap-4">
         <div class="flex-1">
             <div class="flex items-center gap-2">
-                <img src="{{ asset('img/logo.svg') }}" alt="" class="h-8 w-8">
+                <img src="{{ asset('img/logo.png') }}" alt="" class="h-8 w-8 rounded-lg object-contain">
                 <span class="text-sm font-bold tracking-wide text-white/90">GÖZTEPE TRİBÜNLERİ</span>
             </div>
             <p class="text-white/70 text-sm mt-5">Üye No</p>

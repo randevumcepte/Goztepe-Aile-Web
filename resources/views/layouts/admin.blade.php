@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Yönetim') — Göztepe Tribünleri</title>
+    <link rel="icon" type="image/png" href="{{ asset('img/logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('img/logo.png') }}">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -64,7 +66,7 @@
     <aside class="fixed inset-y-0 left-0 z-40 w-64 transform bg-slate-900 text-slate-300 transition-transform lg:translate-x-0"
            :class="open ? 'translate-x-0' : '-translate-x-full'">
         <div class="flex items-center gap-3 px-5 h-16 border-b border-white/10">
-            <img src="{{ asset('img/logo.svg') }}" alt="Göztepe Tribünleri" class="h-10 w-10">
+            <img src="{{ asset('img/logo.png') }}" alt="Göztepe Tribünleri" class="h-10 w-10 rounded-lg object-contain">
             <div class="leading-tight">
                 <p class="text-white font-bold text-sm">Göztepe Tribünleri</p>
                 <p class="text-[11px] text-slate-400">Yönetim Paneli</p>

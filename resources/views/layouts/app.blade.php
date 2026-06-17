@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Göztepe Tribünleri')</title>
+    <link rel="icon" type="image/png" href="{{ asset('img/logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('img/logo.png') }}">
     {{-- Build gerektirmez (sunucu uyumu). Üretimde CI ile derlenmiş CSS'e geçilebilir. --}}
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -11,7 +13,7 @@
     <header class="bg-gradient-to-r from-[#D5102E] to-[#9B0B22] text-white">
         <div class="max-w-5xl mx-auto px-5 py-4 flex items-center justify-between">
             <a href="{{ route('home') }}" class="flex items-center gap-3">
-                <img src="{{ asset('img/logo.svg') }}" alt="Göztepe Tribünleri" class="h-10 w-10">
+                <img src="{{ asset('img/logo.png') }}" alt="Göztepe Tribünleri" class="h-10 w-10 rounded-lg object-contain">
                 <span class="font-extrabold">Göztepe Tribünleri</span>
             </a>
             <nav class="flex items-center gap-4 text-sm">

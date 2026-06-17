@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Göztepe Tribünleri')</title>
     <meta name="description" content="@yield('meta', 'Göztepe Tribünleri — İzmir\'in gür sesi. Haberler, tribün kültürü, üyelik ve şeffaf kasa.')">
+    <link rel="icon" type="image/png" href="{{ asset('img/logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('img/logo.png') }}">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -73,7 +75,7 @@
 <header class="sticky top-0 z-40 border-b border-white/10 bg-brand-700/95 backdrop-blur">
     <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
         <a href="{{ route('home') }}" class="flex items-center gap-3">
-            <img src="{{ asset('img/logo.svg') }}" alt="Göztepe Tribünleri" class="h-12 w-12 drop-shadow">
+            <img src="{{ asset('img/logo.png') }}" alt="Göztepe Tribünleri" class="h-12 w-12 rounded-lg object-contain drop-shadow">
             <div class="leading-tight">
                 <p class="font-display text-lg font-bold uppercase text-white">Göztepe Tribünleri</p>
                 <p class="text-[11px] text-gold-400">Taraftar Derneği</p>
@@ -122,7 +124,7 @@
     <div class="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 py-12 sm:grid-cols-2 lg:grid-cols-4">
         <div>
             <div class="flex items-center gap-3">
-                <img src="{{ asset('img/logo.svg') }}" alt="Göztepe Tribünleri" class="h-11 w-11">
+                <img src="{{ asset('img/logo.png') }}" alt="Göztepe Tribünleri" class="h-11 w-11 rounded-lg object-contain">
                 <span class="font-display text-lg font-bold uppercase text-white">Göztepe Tribünleri</span>
             </div>
             <p class="mt-3 text-sm text-white/60">İzmir'in gür sesi. Taraftarın gücüyle, şeffaf ve dayanışmacı bir camia.</p>
