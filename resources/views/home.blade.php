@@ -100,8 +100,9 @@
     {{-- Arka plan resmi (yeni görsel gelince bu satırdaki dosya adını değiştir) --}}
     <div class="pointer-events-none absolute inset-0 bg-cover bg-center"
          style="background-image:url('{{ asset('uploads/hakkimizda.jpg') }}')"></div>
-    {{-- Siyah perde (karartma) --}}
-    <div class="pointer-events-none absolute inset-0 bg-ink/90"></div>
+    {{-- Yumuşak karartma: üst ve alt kenarlar tam siyaha eriyor (geçiş belli olmaz), ortada görsel hafif görünür --}}
+    <div class="pointer-events-none absolute inset-0"
+         style="background:linear-gradient(to bottom, #0b0b12 0%, rgba(11,11,18,0.78) 28%, rgba(11,11,18,0.78) 72%, #0b0b12 100%)"></div>
 
     <div class="pointer-events-none absolute -right-6 -top-12 select-none font-display text-[26vw] font-bold leading-none text-white/[0.03] sm:text-[16vw]">1925</div>
 
