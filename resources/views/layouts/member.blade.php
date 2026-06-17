@@ -95,10 +95,6 @@
             <h1 class="text-lg font-bold text-slate-900">@yield('title', 'Panelim')</h1>
 
             <div class="ml-auto flex items-center gap-3" x-data="{ menu:false }">
-                <a href="{{ route('home') }}"
-                   class="hidden sm:inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-50">
-                    Siteye Dön
-                </a>
                 <div class="relative">
                     <button @click="menu=!menu" class="flex items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-slate-100">
                         <div class="grid h-8 w-8 place-items-center rounded-full bg-brand-600 text-sm font-bold text-white">
