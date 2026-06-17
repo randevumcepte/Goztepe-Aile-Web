@@ -95,6 +95,63 @@
 </section>
 @endif
 
+{{-- HOŞ GELDİN / NEDEN BURADAYIZ --}}
+<section class="relative overflow-hidden bg-ink">
+    {{-- Hafif arka plan dokusu --}}
+    <div class="pointer-events-none absolute inset-0 opacity-[0.05]"
+         style="background-image:radial-gradient(circle at 15% 20%, #F7B500 0, transparent 40%), radial-gradient(circle at 85% 80%, #D5102E 0, transparent 45%)"></div>
+    <div class="pointer-events-none absolute -right-6 -top-12 select-none font-display text-[26vw] font-bold leading-none text-white/[0.03] sm:text-[16vw]">1925</div>
+
+    <div class="relative mx-auto max-w-4xl px-4 py-20 sm:py-24">
+        <div class="text-center">
+            <span class="inline-block rounded-full border border-gold/40 bg-gold/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-gold">İzmir'in Gür Sesi · 1925</span>
+            <h2 class="mt-5 font-display text-4xl font-bold uppercase leading-tight text-white sm:text-5xl">
+                Hoş Geldin, <span class="text-gold">Sarı-Kırmızılı</span>
+            </h2>
+        </div>
+
+        <div class="mx-auto mt-8 max-w-3xl space-y-5 text-lg leading-relaxed text-white/80">
+            <p>
+                Burası bir kulübün değil, bir <strong class="text-white">sevdanın</strong> evi. Göztepe;
+                1925'te bir avuç insanın yüreğinde başlayan, bugün milyonların kalbinde atan bir çınar.
+                Bu çınarı bir asırdır ayakta tutan ise her hafta sahanın kenarında haykıran, yağmurda ıslanan,
+                deplasmanda yolları aşan <strong class="text-white">tribün</strong> oldu.
+            </p>
+            <p>
+                Tribün olmak kolay değil. Bir koreografinin arkasında haftalarca süren emek, geceler boyu kesilen
+                kartonlar, cepten çıkan paralar var. Bir deplasman için yüzlerce kilometre yol, bilet, otobüs,
+                bazen kapanan kapılar var. Çoğu zaman sesimizi duyuran tek güç kendi imkânlarımız oldu; ne bir
+                sırt sıvazlayan, ne de yükü paylaşan çıktı. Her şeyi taraftar kendi cebinden, kendi gönlünden karşıladı.
+            </p>
+            <p>
+                Yıllarca dağınık kaldık. Kimi zaman bir koreografi yarım kaldı, kimi zaman toplanan paranın
+                nereye gittiği soru işareti oldu. Güç vardı ama dağınıktı; gönül vardı ama düzeni yoktu.
+                İşte bu sistemi tam da bunun için kurduk.
+            </p>
+
+            <blockquote class="border-l-4 border-gold pl-5 py-1">
+                <p class="font-display text-xl font-bold uppercase leading-snug text-gold sm:text-2xl">
+                    "Tek tek güçsüzüz; ama bir araya gelince İzmir'in gür sesiyiz."
+                </p>
+            </blockquote>
+
+            <p>
+                Bu çatı altında her kuruş açık, her harcama faturasına kadar görünür. Aidatın ve bağışın doğrudan
+                tribünün gücüne dönüşür; koreografiye, deplasmana, ihtiyacı olan kardeşimize. Burada kimse
+                tek başına değil, kimse karanlıkta kalmıyor. Çünkü tribünün parası, tribünün gözü önünde olmalı.
+            </p>
+            <p>
+                Sen de bu sesin bir parçasısın. Gel, dağınık gücümüzü tek yürek yapalım; bu tarihi birlikte yazmaya devam edelim.
+            </p>
+        </div>
+
+        <div class="mt-10 flex flex-wrap justify-center gap-3">
+            <a href="{{ route('register') }}" class="rounded-lg bg-gold px-7 py-3 text-sm font-bold uppercase tracking-wide text-brand-800 transition hover:bg-gold-400">Aramıza Katıl</a>
+            <a href="{{ route('sanli-tarihimiz') }}" class="rounded-lg border border-white/20 px-7 py-3 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-white/10">Şanlı Tarihimiz</a>
+        </div>
+    </div>
+</section>
+
 {{-- ŞEFFAF KASA ŞERİDİ --}}
 <section class="border-y border-white/10 bg-gradient-to-r from-brand-800 to-brand-900">
     <div class="mx-auto grid max-w-7xl grid-cols-1 items-center gap-8 px-4 py-12 lg:grid-cols-2">
