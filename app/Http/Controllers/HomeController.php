@@ -52,6 +52,17 @@ class HomeController extends Controller
 
         $nextMatch = Fixture::upcoming()->first();
 
+        // Logosu eksik maç için rakip armasını otomatik çek ve kaydet (kendi kendini onarır)
+        if ($nextMatch && ! $nextMatch->opponent_logo_path) {
+            try {
+                if ($badge = app(\App\Services\TeamBadgeService::class)->badgeUrl($nextMatch->opponent)) {
+                    $nextMatch->update(['opponent_logo_path' => $badge]);
+                }
+            } catch (\Throwable $e) {
+                // sessiz geç
+            }
+        }
+
         $summary = $this->ledger->publicSummary(5);
 
         return view('home', [
