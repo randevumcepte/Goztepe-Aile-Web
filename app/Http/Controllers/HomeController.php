@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\Slider;
 use App\Models\Sponsor;
 use App\Services\LedgerService;
+use Database\Seeders\DemoPostsSeeder;
 use Database\Seeders\MembershipSeeder;
 use Illuminate\View\View;
 
@@ -22,6 +23,15 @@ class HomeController extends Controller
         try {
             if (MembershipPlan::query()->doesntExist()) {
                 app(MembershipSeeder::class)->run();
+            }
+        } catch (\Throwable $e) {
+            // tablo henüz yoksa sessiz geç
+        }
+
+        // Haber yoksa ana sayfa boş görünmesin diye örnek haberleri otomatik doldur
+        try {
+            if (Post::query()->doesntExist()) {
+                app(DemoPostsSeeder::class)->run();
             }
         } catch (\Throwable $e) {
             // tablo henüz yoksa sessiz geç
