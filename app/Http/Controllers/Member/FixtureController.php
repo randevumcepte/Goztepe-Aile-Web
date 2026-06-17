@@ -27,6 +27,8 @@ class FixtureController extends Controller
             }
         }
 
-        return view('member.fikstur', compact('upcoming', 'played'));
+        $goztepeBadge = $badges->goztepeBadgeUrl();
+
+        return view('member.fikstur', compact('upcoming', 'played', 'goztepeBadge'));
     }
 }

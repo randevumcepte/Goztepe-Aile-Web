@@ -73,6 +73,7 @@ class HomeController extends Controller
             'secondary' => $posts->slice(1, 2),
             'latest' => $posts->take(3),
             'nextMatch' => $nextMatch,
+            'goztepeBadge' => app(\App\Services\TeamBadgeService::class)->goztepeBadgeUrl(),
             'totals' => $summary['totals'],
         ]);
     }

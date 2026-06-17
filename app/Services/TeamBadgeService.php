@@ -13,6 +13,15 @@ class TeamBadgeService
 {
     private const BASE = 'https://www.thesportsdb.com/api/v1/json/3/searchteams.php';
 
+    /** Göztepe'nin TheSportsDB armasının yedeği (API erişilemezse). */
+    private const GOZTEPE_FALLBACK = 'https://r2.thesportsdb.com/images/media/team/badge/9jwk7o1513952059.png';
+
+    /** Göztepe armasını TheSportsDB'den çeker (önbellekli), erişilemezse yedeği döner. */
+    public function goztepeBadgeUrl(): string
+    {
+        return $this->badgeUrl('Göztepe') ?? self::GOZTEPE_FALLBACK;
+    }
+
     public function badgeUrl(string $team): ?string
     {
         $team = trim($team);
