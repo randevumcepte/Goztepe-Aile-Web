@@ -22,8 +22,13 @@
                 <div class="relative mx-auto flex min-h-[64vh] max-w-7xl flex-col justify-end px-4 pb-16 pt-24">
                     <h1 class="max-w-3xl text-4xl font-bold uppercase leading-tight text-white sm:text-6xl">{{ $sl->title }}</h1>
                     @if ($sl->subtitle)<p class="mt-4 max-w-2xl text-lg text-white/80">{{ $sl->subtitle }}</p>@endif
-                    @if ($sl->cta_label && $sl->cta_url)
-                        <div class="mt-6"><a href="{{ $sl->cta_url }}" class="rounded-lg bg-gold px-6 py-3 text-sm font-bold uppercase text-brand-800 hover:bg-gold-400">{{ $sl->cta_label }}</a></div>
+                    @php
+                        // "Üye Ol" etiketli CTA her zaman üye kayıt sayfasına gider; diğerleri admin'deki linke
+                        $isUyeOl = $sl->cta_label && \Illuminate\Support\Str::contains(\Illuminate\Support\Str::lower($sl->cta_label), 'üye ol');
+                        $ctaUrl = $isUyeOl ? route('register') : $sl->cta_url;
+                    @endphp
+                    @if ($sl->cta_label && $ctaUrl)
+                        <div class="mt-6"><a href="{{ $ctaUrl }}" class="rounded-lg bg-gold px-6 py-3 text-sm font-bold uppercase text-brand-800 hover:bg-gold-400">{{ $sl->cta_label }}</a></div>
                     @endif
                 </div>
             </div>
