@@ -71,6 +71,74 @@
     </section>
 @endif
 
+{{-- HAFTANIN MAÇI --}}
+@if ($nextMatch)
+<section class="relative overflow-hidden border-b border-white/10 bg-gradient-to-br from-brand-700 via-brand-800 to-ink">
+    <div class="pointer-events-none absolute inset-0 opacity-[0.06]" style="background-image:repeating-linear-gradient(45deg,#F7B500 0 3px,transparent 3px 18px)"></div>
+
+    <div class="relative mx-auto max-w-5xl px-4 py-12">
+        <div class="text-center">
+            <span class="inline-flex items-center gap-2 rounded-full bg-gold px-4 py-1 text-xs font-extrabold uppercase tracking-widest text-brand-800">
+                <span class="relative flex h-2 w-2"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-600 opacity-75"></span><span class="relative inline-flex h-2 w-2 rounded-full bg-brand-700"></span></span>
+                Haftanın Maçı
+            </span>
+            <p class="mt-2 text-sm font-semibold uppercase tracking-wide text-white/70">{{ $nextMatch->competition }} · {{ $nextMatch->homeAwayLabel() }}</p>
+        </div>
+
+        {{-- Takımlar --}}
+        <div class="mt-8 grid grid-cols-3 items-center gap-2 sm:gap-6">
+            {{-- Göztepe --}}
+            <div class="flex flex-col items-center gap-3 text-center">
+                <img src="{{ asset('img/logo.png') }}" alt="Göztepe" class="h-20 w-20 rounded-xl object-contain sm:h-24 sm:w-24">
+                <span class="font-display text-base font-bold uppercase text-white sm:text-xl">Göztepe</span>
+            </div>
+
+            {{-- Orta: skor veya VS --}}
+            <div class="flex flex-col items-center">
+                @if ($nextMatch->isPlayed())
+                    <span class="font-display text-4xl font-bold text-gold sm:text-5xl">{{ $nextMatch->home_score }} - {{ $nextMatch->away_score }}</span>
+                @else
+                    <span class="font-display text-3xl font-bold text-white/30 sm:text-4xl">VS</span>
+                @endif
+                <span class="mt-2 rounded-full bg-white/10 px-3 py-1 text-xs font-bold uppercase text-white/80">
+                    {{ $nextMatch->kickoff_at->locale('tr')->translatedFormat('H:i') }}
+                </span>
+            </div>
+
+            {{-- Rakip --}}
+            <div class="flex flex-col items-center gap-3 text-center">
+                @if ($nextMatch->opponentLogoUrl())
+                    <img src="{{ $nextMatch->opponentLogoUrl() }}" alt="{{ $nextMatch->opponent }}" class="h-20 w-20 rounded-xl bg-white/95 object-contain p-1 sm:h-24 sm:w-24">
+                @else
+                    <span class="grid h-20 w-20 place-items-center rounded-xl bg-white/10 font-display text-3xl font-bold text-white sm:h-24 sm:w-24">{{ mb_substr($nextMatch->opponent, 0, 1) }}</span>
+                @endif
+                <span class="font-display text-base font-bold uppercase text-white sm:text-xl">{{ $nextMatch->opponent }}</span>
+            </div>
+        </div>
+
+        {{-- Detaylar --}}
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-white/80">
+            <span class="inline-flex items-center gap-1.5">
+                <svg class="h-4 w-4 text-gold" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
+                {{ $nextMatch->kickoff_at->locale('tr')->translatedFormat('d F Y, l') }}
+            </span>
+            @if ($nextMatch->venue)
+                <span class="inline-flex items-center gap-1.5">
+                    <svg class="h-4 w-4 text-gold" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+                    {{ $nextMatch->venue }}
+                </span>
+            @endif
+            @if ($nextMatch->broadcast)
+                <span class="inline-flex items-center gap-1.5">
+                    <svg class="h-4 w-4 text-gold" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 20.25h12m-7.5-3v3m3-3v3m-10.125-3h17.25c.621 0 1.125-.504 1.125-1.125V4.875c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125z" /></svg>
+                    {{ $nextMatch->broadcast }}
+                </span>
+            @endif
+        </div>
+    </div>
+</section>
+@endif
+
 {{-- İKİNCİL HABERLER --}}
 @if ($secondary->isNotEmpty())
 <section class="mx-auto max-w-7xl px-4 py-12">

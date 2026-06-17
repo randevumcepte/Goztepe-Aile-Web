@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CampaignController as AdminCampaignController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\FixtureController as AdminFixtureController;
 use App\Http\Controllers\Admin\HistoryEventController as AdminHistoryEventController;
 use App\Http\Controllers\Admin\LegendController as AdminLegendController;
 use App\Http\Controllers\Admin\MemberController as AdminMemberController;
@@ -99,6 +100,14 @@ Route::middleware(['auth', 'staff'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/sponsorlar/{sponsor}/duzenle', [AdminSponsorController::class, 'edit'])->name('sponsors.edit');
     Route::put('/sponsorlar/{sponsor}', [AdminSponsorController::class, 'update'])->name('sponsors.update');
     Route::delete('/sponsorlar/{sponsor}', [AdminSponsorController::class, 'destroy'])->name('sponsors.destroy');
+
+    // Fikstür / Maçlar (ana sayfa "Haftanın Maçı")
+    Route::get('/maclar', [AdminFixtureController::class, 'index'])->name('fixtures.index');
+    Route::get('/maclar/yeni', [AdminFixtureController::class, 'create'])->name('fixtures.create');
+    Route::post('/maclar', [AdminFixtureController::class, 'store'])->name('fixtures.store');
+    Route::get('/maclar/{fixture}/duzenle', [AdminFixtureController::class, 'edit'])->name('fixtures.edit');
+    Route::put('/maclar/{fixture}', [AdminFixtureController::class, 'update'])->name('fixtures.update');
+    Route::delete('/maclar/{fixture}', [AdminFixtureController::class, 'destroy'])->name('fixtures.destroy');
 
     // Şanlı Tarihimiz (zaman tüneli + foto galeri)
     Route::get('/sanli-tarihimiz', [AdminHistoryEventController::class, 'index'])->name('history.index');

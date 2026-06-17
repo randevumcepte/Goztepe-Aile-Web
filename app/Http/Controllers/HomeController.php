@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fixture;
 use App\Models\MembershipPlan;
 use App\Models\Post;
 use App\Models\Slider;
 use App\Models\Sponsor;
 use App\Services\LedgerService;
+use Database\Seeders\DemoFixturesSeeder;
 use Database\Seeders\DemoPostsSeeder;
 use Database\Seeders\MembershipSeeder;
 use Illuminate\View\View;
@@ -37,7 +39,18 @@ class HomeController extends Controller
             // tablo henüz yoksa sessiz geç
         }
 
+        // Maç yoksa "Haftanın Maçı" kartı için örnek maç otomatik ekle
+        try {
+            if (Fixture::query()->doesntExist()) {
+                app(DemoFixturesSeeder::class)->run();
+            }
+        } catch (\Throwable $e) {
+            // tablo henüz yoksa sessiz geç
+        }
+
         $posts = Post::query()->published()->latest('published_at')->latest('id')->limit(7)->get();
+
+        $nextMatch = Fixture::upcoming()->first();
 
         $summary = $this->ledger->publicSummary(5);
 
@@ -48,6 +61,7 @@ class HomeController extends Controller
             'featured' => $posts->first(),
             'secondary' => $posts->slice(1, 2),
             'rest' => $posts->slice(3, 4),
+            'nextMatch' => $nextMatch,
             'totals' => $summary['totals'],
         ]);
     }
