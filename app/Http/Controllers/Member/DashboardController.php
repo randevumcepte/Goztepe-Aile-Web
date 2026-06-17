@@ -3,17 +3,21 @@
 namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
+use App\Models\Fixture;
 use App\Models\MembershipFeature;
 use App\Models\MembershipPlan;
 use App\Models\Post;
 use App\Services\LedgerService;
+use App\Services\TeamBadgeService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
-    public function __construct(private readonly LedgerService $ledger)
-    {
+    public function __construct(
+        private readonly LedgerService $ledger,
+        private readonly TeamBadgeService $badges,
+    ) {
     }
 
     public function index(Request $request): View
@@ -58,13 +62,26 @@ class DashboardController extends Controller
         // Şeffaf kasa özeti (vitrindeki public rakamlar).
         $kasa = $this->ledger->publicSummary()['totals'];
 
+        // Maç günü: sıradaki maç. Logosu eksikse rakip armasını otomatik çek.
+        $nextMatch = Fixture::upcoming()->first();
+        if ($nextMatch && ! $nextMatch->opponent_logo_path) {
+            try {
+                if ($badge = $this->badges->badgeUrl($nextMatch->opponent)) {
+                    $nextMatch->update(['opponent_logo_path' => $badge]);
+                }
+            } catch (\Throwable $e) {
+                // sessiz geç
+            }
+        }
+        $goztepeBadge = $this->badges->goztepeBadgeUrl();
+
         $unreadCount = $user->notifications()->whereNull('read_at')->count();
 
         return view('member.dashboard', compact(
             'user', 'member', 'payments', 'unreadCount',
             'totalContribution', 'thisYearContribution',
             'features', 'featurePlanKey', 'currentPlan', 'upgradePlans',
-            'announcements', 'kasa',
+            'announcements', 'kasa', 'nextMatch', 'goztepeBadge',
         ));
     }
 }

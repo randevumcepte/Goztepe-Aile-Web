@@ -46,6 +46,55 @@
     </div>
 </div>
 
+{{-- Maç Günü --}}
+@if ($nextMatch)
+    <a href="{{ route('uye.fikstur') }}"
+       class="block relative overflow-hidden rounded-xl bg-gradient-to-br from-[#9B0B22] to-[#7d0a1c] text-white p-5 mb-6 hover:shadow-lg transition">
+        <div class="pointer-events-none absolute inset-0 opacity-[0.06]" style="background-image:repeating-linear-gradient(45deg,#F7B500 0 3px,transparent 3px 18px)"></div>
+        <div class="relative">
+            <div class="flex items-center justify-between mb-4">
+                <span class="inline-flex items-center gap-2 rounded-full bg-[#F7B500] px-3 py-1 text-[11px] font-extrabold uppercase tracking-widest text-[#7d0a1c]">
+                    <span class="relative flex h-2 w-2"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75"></span><span class="relative inline-flex h-2 w-2 rounded-full bg-white"></span></span>
+                    Maç Günü
+                </span>
+                <span class="text-xs font-semibold uppercase tracking-wide text-white/70">{{ $nextMatch->competition }} · {{ $nextMatch->homeAwayLabel() }}</span>
+            </div>
+
+            <div class="grid grid-cols-3 items-center gap-2">
+                {{-- Göztepe --}}
+                <div class="flex flex-col items-center gap-2 text-center">
+                    <img src="{{ $goztepeBadge }}" alt="Göztepe" class="h-14 w-14 object-contain sm:h-16 sm:w-16">
+                    <span class="text-sm font-bold uppercase">Göztepe</span>
+                </div>
+
+                {{-- Orta: saat --}}
+                <div class="flex flex-col items-center">
+                    <span class="text-2xl font-extrabold text-white/40 sm:text-3xl">VS</span>
+                    <span class="mt-2 rounded-full bg-white/15 px-3 py-1 text-xs font-bold">
+                        {{ $nextMatch->kickoff_at?->format('H:i') }}
+                    </span>
+                </div>
+
+                {{-- Rakip --}}
+                <div class="flex flex-col items-center gap-2 text-center">
+                    @if ($nextMatch->opponentLogoUrl())
+                        <img src="{{ $nextMatch->opponentLogoUrl() }}" alt="{{ $nextMatch->opponent }}" class="h-14 w-14 object-contain sm:h-16 sm:w-16">
+                    @else
+                        <span class="grid h-14 w-14 sm:h-16 sm:w-16 place-items-center rounded-xl bg-white/10 text-2xl font-bold">{{ mb_substr($nextMatch->opponent, 0, 1) }}</span>
+                    @endif
+                    <span class="text-sm font-bold uppercase">{{ $nextMatch->opponent }}</span>
+                </div>
+            </div>
+
+            <div class="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-1 text-sm text-white/80 border-t border-white/10 pt-3">
+                <span>📅 {{ $nextMatch->kickoff_at?->locale('tr')->translatedFormat('d F Y, l') }}</span>
+                @if ($nextMatch->venue)<span>📍 {{ $nextMatch->venue }}</span>@endif
+                @if ($nextMatch->broadcast)<span>📺 {{ $nextMatch->broadcast }}</span>@endif
+            </div>
+        </div>
+    </a>
+@endif
+
 {{-- Katkı özeti --}}
 <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
     <div class="rounded-xl border border-neutral-200 bg-white p-5">
