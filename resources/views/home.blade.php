@@ -104,8 +104,6 @@
     <div class="pointer-events-none absolute inset-0"
          style="background:linear-gradient(to bottom, #0b0b12 0%, rgba(11,11,18,0.78) 28%, rgba(11,11,18,0.78) 72%, #0b0b12 100%)"></div>
 
-    <div class="pointer-events-none absolute -right-6 -top-12 select-none font-display text-[26vw] font-bold leading-none text-white/[0.03] sm:text-[16vw]">1925</div>
-
     <div class="relative mx-auto max-w-4xl px-4 py-20 sm:py-24">
         <div class="text-center">
             <span class="inline-block rounded-full border border-gold/40 bg-gold/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-gold">İzmir'in Gür Sesi · 1925</span>
