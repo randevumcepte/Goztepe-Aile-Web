@@ -19,6 +19,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Member\DashboardController as MemberDashboardController;
 use App\Http\Controllers\Member\NotificationController as MemberNotificationController;
 use App\Http\Controllers\Member\PaymentController as MemberPaymentController;
+use App\Http\Controllers\Member\ProfileController as MemberProfileController;
 use App\Http\Controllers\Member\StudentVerificationController as MemberStudentVerificationController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PageController;
@@ -55,6 +56,10 @@ Route::middleware('auth')->prefix('panel')->name('uye.')->group(function () {
     Route::get('/aidat', [MemberPaymentController::class, 'showAidat'])->name('aidat');
     Route::get('/bagis', [MemberPaymentController::class, 'showBagis'])->name('bagis');
     Route::post('/odeme', [MemberPaymentController::class, 'start'])->name('odeme.start');
+
+    // Profil / iletişim bilgileri
+    Route::get('/profil', [MemberProfileController::class, 'edit'])->name('profil');
+    Route::post('/profil', [MemberProfileController::class, 'update'])->name('profil.update');
 
     // Öğrenci doğrulama (belge yükleme + durum)
     Route::get('/ogrenci-dogrulama', [MemberStudentVerificationController::class, 'show'])->name('ogrenci-dogrulama');
