@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Fixture;
+use App\Services\TeamBadgeService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -22,11 +23,14 @@ class FixtureController extends Controller
         return view('admin.fixtures.create');
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request, TeamBadgeService $badges): RedirectResponse
     {
         $data = $this->validateData($request);
         if ($request->hasFile('opponent_logo')) {
             $data['opponent_logo_path'] = $request->file('opponent_logo')->store('fixtures', 'uploads');
+        } else {
+            // Logo elle yüklenmediyse rakip adından otomatik çek (TheSportsDB)
+            $data['opponent_logo_path'] = $badges->badgeUrl($data['opponent']);
         }
         Fixture::create($data);
 
@@ -38,11 +42,14 @@ class FixtureController extends Controller
         return view('admin.fixtures.edit', compact('fixture'));
     }
 
-    public function update(Request $request, Fixture $fixture): RedirectResponse
+    public function update(Request $request, Fixture $fixture, TeamBadgeService $badges): RedirectResponse
     {
         $data = $this->validateData($request);
         if ($request->hasFile('opponent_logo')) {
             $data['opponent_logo_path'] = $request->file('opponent_logo')->store('fixtures', 'uploads');
+        } elseif (! $fixture->opponent_logo_path || $fixture->opponent !== $data['opponent']) {
+            // Logosu yoksa ya da rakip değiştiyse otomatik yeniden çek
+            $data['opponent_logo_path'] = $badges->badgeUrl($data['opponent']);
         }
         $fixture->update($data);
 

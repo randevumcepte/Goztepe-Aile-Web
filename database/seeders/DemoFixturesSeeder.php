@@ -16,6 +16,7 @@ class DemoFixturesSeeder extends Seeder
     {
         Fixture::create([
             'opponent' => 'Fenerbahçe',
+            'opponent_logo_path' => 'https://r2.thesportsdb.com/images/media/team/badge/twxxvs1448199691.png',
             'competition' => 'Süper Lig',
             'is_home' => true,
             'kickoff_at' => now()->addDays(5)->setTime(19, 0),

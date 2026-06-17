@@ -41,7 +41,8 @@
     </div>
 
     <div>
-        <label class="{{ $label }}">Rakip Logosu (isteğe bağlı)</label>
+        <label class="{{ $label }}">Rakip Logosu</label>
+        <p class="mt-0.5 text-xs text-slate-400">Boş bırakırsan rakip adından otomatik çekilir. Sadece yanlış/eksikse buradan elle yükle.</p>
         @if ($fixture?->opponentLogoUrl())<img src="{{ $fixture->opponentLogoUrl() }}" class="mt-2 h-16 object-contain">@endif
         <input type="file" name="opponent_logo" accept="image/*" class="mt-2 w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-brand-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-brand-700 hover:file:bg-brand-100">
     </div>
