@@ -32,7 +32,7 @@
     </style>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
-<body class="h-full bg-ink text-slate-100 antialiased" x-data="{ open:false }">
+<body class="min-h-screen bg-ink text-slate-100 antialiased" x-data="{ open:false }">
 
 @php
     $menu = [
