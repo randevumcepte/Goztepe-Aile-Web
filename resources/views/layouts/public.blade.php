@@ -44,11 +44,10 @@
     ];
     $nav = [
         ['home', 'Ana Sayfa'],
-        ['haberler.index', 'Haberler'],
-        ['sanli-tarihimiz', 'Şanlı Tarihimiz'],
-        ['uyelik.avantajlar', 'Üyelik'],
         ['hakkimizda', 'Hakkımızda'],
+        ['sanli-tarihimiz', 'Şanlı Tarihimiz'],
         ['seffaf-kasa', 'Şeffaf Kasa'],
+        ['uyelik.avantajlar', 'Üyelik'],
         ['iletisim', 'İletişim'],
     ];
     $cfg = \App\Models\Setting::map();
