@@ -95,13 +95,18 @@ class AuthController extends Controller
             'id' => $user->id,
             'name' => $user->name,
             'email' => $user->email,
+            'phone' => $user->phone,
             'role' => $user->role->value,
+            'role_label' => $user->role->label(),
+            'is_staff' => $user->isStaff(),
+            'is_super_admin' => $user->isSuperAdmin(),
             'member' => $user->member ? [
                 'member_no' => $user->member->member_no,
                 'category' => $user->member->category->value,
                 'category_label' => $user->member->category->label(),
                 'status' => $user->member->status,
                 'has_vote' => $user->member->hasVote(),
+                'commercial_consent' => (bool) $user->member->commercial_consent,
             ] : null,
         ];
     }
