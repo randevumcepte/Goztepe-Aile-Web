@@ -1,13 +1,10 @@
-@extends('layouts.app')
-@section('title', 'Öğrenci Doğrulama — Göztepe Tribünleri')
+@extends('layouts.member')
+@section('title', 'Öğrenci Doğrulama')
 
 @section('content')
 @php use App\Enums\StudentVerificationStatus; @endphp
 
 <div class="max-w-xl mx-auto">
-    <div class="flex items-center gap-3 mb-6">
-        <a href="{{ route('uye.dashboard') }}" class="text-sm text-neutral-500 hover:underline">← Panelim</a>
-    </div>
     <h1 class="text-2xl font-extrabold mb-1">Öğrenci Doğrulama</h1>
     <p class="text-neutral-600 text-sm mb-6">Öğrenci üyelik avantajlarından yararlanmak için öğrenci belgeni doğrula.</p>
 

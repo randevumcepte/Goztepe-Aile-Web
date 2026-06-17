@@ -1,11 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.member')
 @section('title', 'Bildirimlerim')
 
 @section('content')
-<div class="flex items-center justify-between mb-6">
-    <h1 class="text-2xl font-extrabold">Bildirimler</h1>
-    <a href="{{ route('uye.dashboard') }}" class="text-sm text-neutral-500">← Panele dön</a>
-</div>
+<h1 class="text-2xl font-extrabold mb-6">Bildirimler</h1>
 
 <div class="space-y-3">
     @forelse ($notifications as $n)

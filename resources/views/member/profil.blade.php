@@ -1,11 +1,8 @@
-@extends('layouts.app')
-@section('title', 'Bilgilerim — Göztepe Tribünleri')
+@extends('layouts.member')
+@section('title', 'Bilgilerim')
 
 @section('content')
 <div class="max-w-xl mx-auto">
-    <div class="flex items-center gap-3 mb-6">
-        <a href="{{ route('uye.dashboard') }}" class="text-sm text-neutral-500 hover:underline">← Panelim</a>
-    </div>
     <h1 class="text-2xl font-extrabold mb-1">Bilgilerim</h1>
     <p class="text-neutral-600 text-sm mb-6">İletişim bilgilerini güncel tut — bildirimleri ve duyuruları kaçırma.</p>
 

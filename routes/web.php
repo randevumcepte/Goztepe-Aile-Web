@@ -18,9 +18,12 @@ use App\Http\Controllers\Admin\TransactionController as AdminTransactionControll
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Member\DashboardController as MemberDashboardController;
+use App\Http\Controllers\Member\FixtureController as MemberFixtureController;
+use App\Http\Controllers\Member\NewsController as MemberNewsController;
 use App\Http\Controllers\Member\NotificationController as MemberNotificationController;
 use App\Http\Controllers\Member\PaymentController as MemberPaymentController;
 use App\Http\Controllers\Member\ProfileController as MemberProfileController;
+use App\Http\Controllers\Member\SeffafKasaController as MemberSeffafKasaController;
 use App\Http\Controllers\Member\StudentVerificationController as MemberStudentVerificationController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PageController;
@@ -53,6 +56,11 @@ Route::post('/cikis', [AuthController::class, 'logout'])->middleware('auth')->na
 Route::middleware('auth')->prefix('panel')->name('uye.')->group(function () {
     Route::get('/', [MemberDashboardController::class, 'index'])->name('dashboard');
     Route::get('/bildirimler', [MemberNotificationController::class, 'index'])->name('bildirimler');
+
+    // Tüm üyelere ortak içerik alanları
+    Route::get('/fikstur', [MemberFixtureController::class, 'index'])->name('fikstur');
+    Route::get('/haberler', [MemberNewsController::class, 'index'])->name('haberler');
+    Route::get('/seffaf-kasa', [MemberSeffafKasaController::class, 'index'])->name('seffaf-kasa');
 
     Route::get('/aidat', [MemberPaymentController::class, 'showAidat'])->name('aidat');
     Route::get('/bagis', [MemberPaymentController::class, 'showBagis'])->name('bagis');

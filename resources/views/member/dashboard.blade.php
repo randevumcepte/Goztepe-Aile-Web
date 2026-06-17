@@ -1,18 +1,10 @@
-@extends('layouts.app')
-@section('title', 'Panelim — Göztepe Tribünleri')
+@extends('layouts.member')
+@section('title', 'Panelim')
 
 @section('content')
 @php $tl = fn ($v) => number_format((float) $v, 2, ',', '.') . ' ₺'; @endphp
 
-<div class="flex items-center justify-between mb-6">
-    <h1 class="text-2xl font-extrabold">Merhaba, {{ $user->name }}</h1>
-    <a href="{{ route('uye.bildirimler') }}" class="relative text-sm bg-neutral-100 rounded-full px-4 py-2">
-        🔔 Bildirimler
-        @if ($unreadCount > 0)
-            <span class="absolute -top-1 -right-1 bg-[#D5102E] text-white text-xs rounded-full w-5 h-5 grid place-items-center">{{ $unreadCount }}</span>
-        @endif
-    </a>
-</div>
+<h1 class="text-2xl font-extrabold mb-6">Merhaba, {{ $user->name }}</h1>
 
 {{-- Dijital üye kartı --}}
 <div class="rounded-xl bg-gradient-to-br from-[#D5102E] to-[#9B0B22] text-white p-6 mb-6">
@@ -120,7 +112,7 @@
 </div>
 
 {{-- Şeffaf kasa özeti --}}
-<a href="{{ route('seffaf-kasa') }}" class="block rounded-xl border border-neutral-200 bg-white p-5 mb-6 hover:shadow">
+<a href="{{ route('uye.seffaf-kasa') }}" class="block rounded-xl border border-neutral-200 bg-white p-5 mb-6 hover:shadow">
     <div class="flex items-center justify-between mb-4">
         <p class="font-bold">📊 Şeffaf Kasa</p>
         <span class="text-sm text-[#9B0B22] font-semibold">Tümünü gör →</span>
