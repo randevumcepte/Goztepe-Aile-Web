@@ -60,7 +60,7 @@ class HomeController extends Controller
             'plans' => MembershipPlan::active()->get(),
             'featured' => $posts->first(),
             'secondary' => $posts->slice(1, 2),
-            'rest' => $posts->slice(3, 4),
+            'latest' => $posts->take(3),
             'nextMatch' => $nextMatch,
             'totals' => $summary['totals'],
         ]);

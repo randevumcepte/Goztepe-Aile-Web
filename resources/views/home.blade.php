@@ -248,34 +248,6 @@
     </div>
 </section>
 
-{{-- SON HABERLER --}}
-@if ($rest->isNotEmpty())
-<section class="mx-auto max-w-7xl px-4 py-14">
-    <div class="mb-6 flex items-end justify-between">
-        <h2 class="text-2xl font-bold uppercase text-white">Son Haberler</h2>
-        <a href="{{ route('haberler.index') }}" class="text-sm font-semibold uppercase text-gold hover:underline">Tümü →</a>
-    </div>
-    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        @foreach ($rest as $p)
-            <a href="{{ route('haberler.show', $p) }}" class="group overflow-hidden rounded-2xl bg-brand-800 ring-1 ring-white/10 transition hover:ring-gold/50">
-                <div class="aspect-[16/10] overflow-hidden">
-                    @if ($p->coverUrl())
-                        <img src="{{ $p->coverUrl() }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
-                    @else
-                        @include('partials.cover-fallback')
-                    @endif
-                </div>
-                <div class="p-4">
-                    <span class="text-[11px] font-bold uppercase text-gold">{{ $p->categoryLabel() }}</span>
-                    <h3 class="mt-1 line-clamp-2 font-semibold leading-snug text-white group-hover:text-gold">{{ $p->title }}</h3>
-                    <p class="mt-2 text-xs text-white/50">{{ $p->published_at?->locale('tr')->translatedFormat('d F Y') }}</p>
-                </div>
-            </a>
-        @endforeach
-    </div>
-</section>
-@endif
-
 {{-- ÜYELİK CTA --}}
 @if ($plans->isNotEmpty())
 <section id="uyelik" class="relative overflow-hidden border-y-2 border-gold/40 bg-gradient-to-br from-brand-700 via-brand-800 to-ink py-16">
@@ -347,5 +319,40 @@
         <a href="{{ route('iletisim') }}" class="mt-8 inline-block rounded-lg border border-gold/50 px-6 py-2.5 text-sm font-bold uppercase text-gold hover:bg-gold/10">Sponsor Ol</a>
     </div>
 </section>
+
+{{-- SON HABERLER --}}
+@if ($latest->isNotEmpty())
+<section class="border-t border-white/10 bg-ink">
+    <div class="mx-auto max-w-7xl px-4 py-14">
+        <div class="mb-8 text-center">
+            <span class="text-sm font-bold uppercase tracking-widest text-gold">Gündem</span>
+            <h2 class="mt-2 text-3xl font-bold uppercase text-white">Son Haberler</h2>
+        </div>
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            @foreach ($latest as $p)
+                <a href="{{ route('haberler.show', $p) }}" class="group overflow-hidden rounded-2xl bg-brand-800 ring-1 ring-white/10 transition hover:ring-gold/50">
+                    <div class="aspect-[16/10] overflow-hidden">
+                        @if ($p->coverUrl())
+                            <img src="{{ $p->coverUrl() }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
+                        @else
+                            @include('partials.cover-fallback')
+                        @endif
+                    </div>
+                    <div class="p-5">
+                        <span class="text-[11px] font-bold uppercase text-gold">{{ $p->categoryLabel() }}</span>
+                        <h3 class="mt-1 line-clamp-2 font-semibold leading-snug text-white group-hover:text-gold">{{ $p->title }}</h3>
+                        <p class="mt-2 text-xs text-white/50">{{ $p->published_at?->locale('tr')->translatedFormat('d F Y') }}</p>
+                    </div>
+                </a>
+            @endforeach
+        </div>
+        <div class="mt-10 text-center">
+            <a href="{{ route('haberler.index') }}" class="inline-flex items-center gap-2 rounded-lg bg-gold px-8 py-3 text-sm font-bold uppercase tracking-wide text-brand-800 transition hover:bg-gold-400">
+                Daha Fazla Haber →
+            </a>
+        </div>
+    </div>
+</section>
+@endif
 
 @endsection
