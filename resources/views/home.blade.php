@@ -97,6 +97,12 @@
 
 {{-- HOŞ GELDİN / NEDEN BURADAYIZ --}}
 <section class="relative overflow-hidden bg-ink">
+    {{-- Arka plan resmi (yeni görsel gelince bu satırdaki dosya adını değiştir) --}}
+    <div class="pointer-events-none absolute inset-0 bg-cover bg-center"
+         style="background-image:url('{{ asset('uploads/hakkimizda.jpg') }}')"></div>
+    {{-- Siyah perde (karartma) --}}
+    <div class="pointer-events-none absolute inset-0 bg-ink/90"></div>
+
     <div class="pointer-events-none absolute -right-6 -top-12 select-none font-display text-[26vw] font-bold leading-none text-white/[0.03] sm:text-[16vw]">1925</div>
 
     <div class="relative mx-auto max-w-4xl px-4 py-20 sm:py-24">
@@ -205,7 +211,7 @@
 
 {{-- ÜYELİK CTA --}}
 @if ($plans->isNotEmpty())
-<section class="relative overflow-hidden border-y-2 border-gold/40 bg-gradient-to-br from-brand-700 via-brand-800 to-ink py-16">
+<section id="uyelik" class="relative overflow-hidden border-y-2 border-gold/40 bg-gradient-to-br from-brand-700 via-brand-800 to-ink py-16">
     <div class="absolute inset-0 opacity-[0.06]" style="background-image:repeating-linear-gradient(45deg,#F7B500 0 3px,transparent 3px 18px)"></div>
     <div class="relative mx-auto max-w-7xl px-4">
         <div class="text-center">
