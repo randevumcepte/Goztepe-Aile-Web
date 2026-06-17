@@ -139,30 +139,6 @@
 </section>
 @endif
 
-{{-- İKİNCİL HABERLER --}}
-@if ($secondary->isNotEmpty())
-<section class="mx-auto max-w-7xl px-4 py-12">
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-        @foreach ($secondary as $p)
-            <a href="{{ route('haberler.show', $p) }}" class="group relative overflow-hidden rounded-2xl bg-brand-800">
-                <div class="aspect-[16/9] overflow-hidden">
-                    @if ($p->coverUrl())
-                        <img src="{{ $p->coverUrl() }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
-                    @else
-                        @include('partials.cover-fallback')
-                    @endif
-                </div>
-                <div class="absolute inset-0 bg-gradient-to-t from-ink/90 to-transparent"></div>
-                <div class="absolute bottom-0 p-5">
-                    <span class="mb-2 inline-block rounded bg-gold px-2 py-0.5 text-[11px] font-bold uppercase text-brand-800">{{ $p->categoryLabel() }}</span>
-                    <h3 class="text-xl font-bold uppercase leading-snug text-white group-hover:text-gold">{{ $p->title }}</h3>
-                </div>
-            </a>
-        @endforeach
-    </div>
-</section>
-@endif
-
 {{-- HOŞ GELDİN / NEDEN BURADAYIZ --}}
 <section class="relative overflow-hidden bg-ink">
     {{-- Arka plan resmi (yeni görsel gelince bu satırdaki dosya adını değiştir) --}}
