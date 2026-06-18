@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Göztepe Tribünleri — Dijital Aile Platformu</title>
+<style>
+  :root{
+    --sari:#F9D616;
+    --kirmizi:#C8102E;
+    --koyu:#1a1a1a;
+    --gri:#6b7280;
+    --acik:#f7f7f9;
+    --cizgi:#e5e7eb;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    color:var(--koyu);
+    background:#fff;
+    line-height:1.6;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+  .sayfa{
+    max-width:900px;
+    margin:0 auto;
+    padding:48px 56px;
+  }
+
+  /* ---------- KAPAK ---------- */
+  .kapak{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    background:linear-gradient(135deg,var(--kirmizi) 0%,#8e0a20 100%);
+    color:#fff;
+    padding:60px;
+    position:relative;
+    overflow:hidden;
+  }
+  .kapak::before{
+    content:"";
+    position:absolute;
+    top:-120px;right:-120px;
+    width:380px;height:380px;
+    background:var(--sari);
+    border-radius:50%;
+    opacity:.15;
+  }
+  .kapak::after{
+    content:"";
+    position:absolute;
+    bottom:-140px;left:-100px;
+    width:320px;height:320px;
+    background:var(--sari);
+    border-radius:50%;
+    opacity:.12;
+  }
+  .rozet{
+    width:200px;height:200px;
+    display:flex;align-items:center;justify-content:center;
+    margin-bottom:24px;
+    z-index:1;
+  }
+  .rozet img{
+    width:100%;height:100%;object-fit:contain;
+    filter:drop-shadow(0 10px 30px rgba(0,0,0,.45));
+  }
+  .kapak h1{font-size:46px;font-weight:800;letter-spacing:-1px;z-index:1;}
+  .kapak .alt{font-size:22px;margin-top:12px;color:var(--sari);font-weight:600;z-index:1;}
+  .kapak .aciklama{margin-top:24px;font-size:17px;max-width:560px;opacity:.92;z-index:1;}
+  .kapak .serit{
+    margin-top:40px;background:var(--sari);color:var(--koyu);
+    padding:14px 34px;border-radius:50px;font-weight:700;font-size:16px;z-index:1;
+  }
+  .kapak .arma{
+    margin-top:30px;z-index:1;
+    background:rgba(0,0,0,.25);border:2px solid var(--sari);
+    color:var(--sari);font-weight:800;font-size:18px;letter-spacing:2px;
+    padding:10px 26px;border-radius:8px;text-transform:uppercase;
+  }
+  .kapak .motto{
+    margin-top:26px;font-size:30px;font-weight:800;letter-spacing:1px;
+    color:#fff;text-transform:uppercase;z-index:1;line-height:1.3;
+    text-shadow:0 3px 12px rgba(0,0,0,.35);
+  }
+  .kapak .motto span{color:var(--sari);}
+  .kapak .motto-cizgi{
+    width:90px;height:4px;background:var(--sari);border-radius:4px;margin:18px auto 0;z-index:1;
+  }
+
+  /* ---------- BÖLÜM BAŞLIK ---------- */
+  .bolum-baslik{
+    display:flex;align-items:center;gap:16px;
+    margin:8px 0 32px;
+  }
+  .bolum-no{
+    min-width:54px;height:54px;border-radius:14px;
+    background:var(--kirmizi);color:var(--sari);
+    display:flex;align-items:center;justify-content:center;
+    font-size:24px;font-weight:800;
+  }
+  .bolum-baslik h2{font-size:30px;font-weight:800;letter-spacing:-.5px;}
+  .bolum-baslik p{color:var(--gri);font-size:15px;margin-top:2px;}
+
+  .intro{
+    background:var(--acik);border-left:6px solid var(--sari);
+    padding:22px 26px;border-radius:0 12px 12px 0;margin-bottom:36px;font-size:16px;
+  }
+  .intro strong{color:var(--kirmizi);}
+
+  .grup-baslik{
+    display:flex;align-items:center;gap:10px;
+    margin:30px 0 16px;padding-bottom:8px;border-bottom:3px solid var(--sari);
+  }
+  .grup-baslik .g-ikon{font-size:24px;}
+  .grup-baslik h3{font-size:21px;font-weight:800;color:var(--kirmizi);}
+  .grup-baslik .g-not{font-size:13px;color:var(--gri);font-weight:600;margin-left:auto;}
+
+  /* ---------- KARTLAR ---------- */
+  .kartlar{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:32px;}
+  .kart{
+    border:1px solid var(--cizgi);border-radius:16px;padding:22px;
+    background:#fff;transition:.2s;
+  }
+  .kart .ikon{
+    width:48px;height:48px;border-radius:12px;
+    background:var(--sari);display:flex;align-items:center;justify-content:center;
+    font-size:24px;margin-bottom:14px;
+  }
+  .kart h3{font-size:18px;font-weight:700;margin-bottom:6px;}
+  .kart p{font-size:14.5px;color:#444;}
+  .kart.tam{grid-column:1 / -1;}
+
+  /* ---------- ŞEMA / AKIŞ ---------- */
+  .sema{
+    background:var(--acik);border-radius:18px;padding:30px;margin:30px 0;
+    border:1px dashed #d1d5db;
+  }
+  .sema-baslik{text-align:center;font-weight:700;font-size:16px;color:var(--kirmizi);margin-bottom:24px;text-transform:uppercase;letter-spacing:1px;}
+  .akis{display:flex;align-items:stretch;justify-content:center;gap:0;flex-wrap:wrap;}
+  .adim{
+    flex:1;min-width:130px;text-align:center;
+    background:#fff;border-radius:14px;padding:18px 12px;border:2px solid var(--sari);
+    position:relative;
+  }
+  .adim .ad-ikon{font-size:30px;display:block;margin-bottom:8px;}
+  .adim .ad-no{
+    position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+    background:var(--kirmizi);color:#fff;width:24px;height:24px;border-radius:50%;
+    font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;
+  }
+  .adim h4{font-size:14.5px;font-weight:700;margin-top:4px;}
+  .adim p{font-size:12px;color:var(--gri);margin-top:2px;}
+  .ok{display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--kirmizi);padding:0 6px;font-weight:700;}
+
+  /* ---------- ROL ŞEMASI ---------- */
+  .roller{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .rol{
+    border-radius:14px;padding:18px;text-align:center;color:#fff;
+  }
+  .rol .r-ikon{font-size:28px;}
+  .rol h4{font-size:16px;margin:6px 0 4px;font-weight:700;}
+  .rol p{font-size:12.5px;opacity:.92;}
+  .rol.r1{background:linear-gradient(135deg,#C8102E,#8e0a20);}
+  .rol.r2{background:linear-gradient(135deg,#e0851b,#b8650a);}
+  .rol.r3{background:linear-gradient(135deg,#2563eb,#1e40af);}
+  .rol.r4{background:linear-gradient(135deg,#059669,#047857);}
+  .rol.r5{background:linear-gradient(135deg,#6b21a8,#4c1d95);}
+  .rol.r6{background:linear-gradient(135deg,#475569,#1e293b);}
+
+  /* ---------- LİSTE ---------- */
+  .ozellik-liste{list-style:none;margin:18px 0;}
+  .ozellik-liste li{
+    padding:12px 16px;margin-bottom:8px;background:var(--acik);
+    border-radius:10px;font-size:15px;display:flex;align-items:flex-start;gap:10px;
+  }
+  .ozellik-liste li::before{content:"✓";color:#fff;background:var(--kirmizi);min-width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;margin-top:1px;}
+  .ozellik-liste li b{color:var(--kirmizi);}
+
+  /* ---------- KASA VURGU ---------- */
+  .vurgu{
+    background:linear-gradient(135deg,var(--sari),#f5c800);
+    border-radius:18px;padding:30px;margin:30px 0;text-align:center;
+  }
+  .vurgu h3{font-size:24px;font-weight:800;margin-bottom:8px;}
+  .vurgu p{font-size:16px;color:#3a2f00;max-width:620px;margin:0 auto;}
+
+  /* ---------- KAPANIŞ ---------- */
+  .kapanis{
+    background:linear-gradient(135deg,var(--koyu),#000);color:#fff;
+    text-align:center;padding:70px 50px;border-radius:0;
+  }
+  .kapanis h2{font-size:34px;color:var(--sari);font-weight:800;margin-bottom:16px;}
+  .kapanis p{font-size:18px;max-width:560px;margin:0 auto 10px;opacity:.9;}
+  .kapanis .slogan{margin-top:30px;font-size:22px;font-weight:700;color:var(--sari);}
+
+  .bilgi-band{
+    background:var(--kirmizi);color:#fff;text-align:center;padding:18px;font-size:14px;
+  }
+
+  /* ---------- PRINT ---------- */
+  @media print{
+    .sayfa{padding:30px 40px;}
+    .kapak{min-height:auto;padding:120px 60px;}
+    .sayfa-kir{page-break-after:always;}
+    .kart,.adim,.rol,.sema,.vurgu{break-inside:avoid;}
+    body{font-size:14px;}
+  }
+  @page{margin:0;size:A4;}
+</style>
+</head>
+<body>
+
+<!-- ========== KAPAK ========== -->
+<section class="kapak sayfa-kir">
+  <div class="rozet"><img src="public/img/logo.png" alt="Göztepe Tribünleri"></div>
+  <h1>GÖZTEPE TRİBÜNLERİ</h1>
+  <div class="alt">Dijital Aile Platformu</div>
+  <p class="aciklama">Derneğimizi cebimize taşıyan, her kuruşu şeffaflaştıran, bizi tek çatı altında birleştiren web sitesi ve mobil uygulama.</p>
+  <div class="arma">ARMAYA ADANMIŞ HAYATLAR</div>
+  <div class="motto">Sevgi, Saygı,<br><span>Bağlılıkla</span></div>
+  <div class="motto-cizgi"></div>
+</section>
+
+<!-- ========== NEDEN ========== -->
+<section class="sayfa sayfa-kir">
+  <div class="bolum-baslik">
+    <div class="bolum-no">01</div>
+    <div><h2>Neden Bu Platform?</h2><p>Bir tribünden, dijital bir aileye</p></div>
+  </div>
+
+  <div class="intro">
+    Yıllardır derneğimizi WhatsApp gruplarından, defterlerden ve "kim ne kadar verdi" tartışmalarından yönetiyorduk. Artık her şey <strong>tek bir dijital evde</strong>: şeffaf, düzenli ve cebinde. Bu platform sadece bir uygulama değil — <strong>derneğimizin dijital omurgası.</strong>
+  </div>
+
+  <div class="kartlar">
+    <div class="kart">
+      <div class="ikon">🔍</div>
+      <h3>Tam Şeffaflık</h3>
+      <p>Her gelir ve gider faturasıyla birlikte sistemde. "Para nereye gitti?" sorusu tarihe karışıyor.</p>
+    </div>
+    <div class="kart">
+      <div class="ikon">📱</div>
+      <h3>Her Şey Cepte</h3>
+      <p>Fikstür, haberler, kasa, üye kartın, bildirimler — hepsi tek uygulamada, her an elinin altında.</p>
+    </div>
+    <div class="kart">
+      <div class="ikon">🤝</div>
+      <h3>Gerçek Katılım</h3>
+      <p>Aidatını öde, bağış yap, duyuruları takip et, oyunu kullan — derneğin parçası ol.</p>
+    </div>
+    <div class="kart">
+      <div class="ikon">🛡️</div>
+      <h3>Güven & Düzen</h3>
+      <p>Yetki bazlı roller, dijital üye kartı, kayıt altında her işlem. Profesyonel bir yapı.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== ÜYE OLARAK SEN ========== -->
+<section class="sayfa sayfa-kir">
+  <div class="bolum-baslik">
+    <div class="bolum-no">02</div>
+    <div><h2>Üye Olarak Sen Ne Kazanıyorsun?</h2><p>Cebine değer katan ayrıcalıklar</p></div>
+  </div>
+
+  <div class="vurgu" style="margin-top:0;">
+    <h3>🎁 Üyeliğin Sana Kazandırdıkları</h3>
+    <p>Göztepe Tribünleri üyeliği sadece bir kart değil — <b>her gün cebine kazandıran, seni aileye bağlayan</b> bir ayrıcalıklar dünyası.</p>
+  </div>
+
+  <!-- GRUP 1: PARA KAZANDIRANLAR -->
+  <div class="grup-baslik">
+    <span class="g-ikon">💰</span>
+    <h3>Para Kazandıran Ayrıcalıklar</h3>
+    <span class="g-not">En güçlü mıknatıs</span>
+  </div>
+  <div class="kartlar">
+    <div class="kart" style="border:2px solid var(--kirmizi);">
+      <div class="ikon">🎟️</div>
+      <h3>Maç Bileti & Kombine Önceliği</h3>
+      <p>İlerleyen dönemde <b>üyelere bilet/kombine önceliği ve özel fiyat</b> sunmayı hedefliyoruz. Tribündeki yerin garanti olsun.</p>
+    </div>
+    <div class="kart" style="border:2px solid var(--kirmizi);">
+      <div class="ikon">🏥</div>
+      <h3>Anlaşmalı Sağlık İndirimi</h3>
+      <p>Anlaşmalı <b>özel hastane, diş ve göz/optik</b> merkezlerinde üye kartınla indirim. Sağlığın da ailenin gündeminde.</p>
+    </div>
+    <div class="kart" style="border:2px solid var(--kirmizi);">
+      <div class="ikon">⛽</div>
+      <h3>Akaryakıt & Oto Servis</h3>
+      <p>Anlaşmalı <b>akaryakıt, lastik ve oto servislerde</b> üyeye özel fiyat. Yolda da kazançlı ol.</p>
+    </div>
+    <div class="kart" style="border:2px solid var(--kirmizi);">
+      <div class="ikon">🎓</div>
+      <h3>Çocuklara Futbol Okulu</h3>
+      <p>Anlaşmalı futbol okullarında <b>üye çocuklarına indirim.</b> Geleceğin Göztepelisini birlikte yetiştirelim.</p>
+    </div>
+    <div class="kart" style="border:2px solid var(--kirmizi);">
+      <div class="ikon">🛍️</div>
+      <h3>Kulüp Store İndirimi</h3>
+      <p>Resmi kulüp mağazasındaki forma ve ürünlerde <b>üyelere özel indirim.</b> Sevdiğin renkleri taşı, daha az öde.</p>
+    </div>
+    <div class="kart" style="border:2px solid var(--kirmizi);">
+      <div class="ikon">🤝</div>
+      <h3>Anlaşmalı Kurumlar</h3>
+      <p>Anlaşmalı restoran, kafe, spor salonu ve işletmelerde <b>üye kartınla indirim.</b> Listemiz sürekli büyüyor.</p>
+    </div>
+    <div class="kart" style="border:2px solid var(--kirmizi);">
+      <div class="ikon">⭐</div>
+      <h3>Sponsor Firmalarda Fırsatlar</h3>
+      <p>Derneğimizin sponsor firmalarında <b>yalnızca üyelere tanınan özel fırsatlar.</b> Hem markayı destekle hem kazançlı çık.</p>
+    </div>
+    <div class="kart" style="border:2px solid var(--kirmizi);">
+      <div class="ikon">🚌</div>
+      <h3>Deplasman Ayrıcalığı</h3>
+      <p>Deplasman organizasyonlarında <b>üyelere otobüs ve katılım önceliği</b> sunmayı hedefliyoruz. Yola birlikte çıkalım.</p>
+    </div>
+  </div>
+
+  <!-- GRUP 2: DUYGUSAL KAZANÇLAR -->
+  <div class="grup-baslik">
+    <span class="g-ikon">❤️</span>
+    <h3>Parayla Alınmayan Kazançlar</h3>
+    <span class="g-not">Aidiyet yaratır</span>
+  </div>
+  <div class="kartlar">
+    <div class="kart" style="border:2px solid var(--sari);">
+      <div class="ikon">✍️</div>
+      <h3>Üyelere Özel Çekilişler</h3>
+      <p>Zaman zaman <b>imzalı forma, bilet ve sürpriz hediyeler</b> üyeler arasında çekilişle paylaşılır. Şansın hep cebinde.</p>
+    </div>
+    <div class="kart" style="border:2px solid var(--sari);">
+      <div class="ikon">🤳</div>
+      <h3>Futbolcularla Buluşma</h3>
+      <p>Uygun dönemlerde <b>futbolcu/teknik ekiple buluşma ve antrenman izleme</b> fırsatı üyelere. Efsanelere bir adım daha yakın.</p>
+    </div>
+    <div class="kart" style="border:2px solid var(--sari);">
+      <div class="ikon">🧣</div>
+      <h3>Hoş Geldin Paketi</h3>
+      <p>Üye olan herkese <b>dijital üye kartı, atkı ve rozet</b> hedefliyoruz. İlk günden ayrıcalığını hisset.</p>
+    </div>
+    <div class="kart" style="border:2px solid var(--sari);">
+      <div class="ikon">🎂</div>
+      <h3>Doğum Gününe Özel</h3>
+      <p>Doğum gününde <b>sana özel kutlama ve sürpriz</b> ayrıcalıkları. Aile, üyesinin gününü unutmaz.</p>
+    </div>
+    <div class="kart tam" style="border:2px solid var(--sari);">
+      <div class="ikon">🎉</div>
+      <h3>Üyeye Özel Etkinlikler</h3>
+      <p>Taraftar gecesi, piknik ve buluşmalarda <b>üyelerimize öncelik.</b> Tribünün dışında da aileyiz.</p>
+    </div>
+  </div>
+
+  <!-- GRUP 3: OYUNLAŞTIRMA -->
+  <div class="grup-baslik">
+    <span class="g-ikon">🏆</span>
+    <h3>Seni Aktif Tutan Sistem</h3>
+    <span class="g-not">Katkın arttıkça kazancın artar</span>
+  </div>
+  <div class="kartlar">
+    <div class="kart" style="border:2px solid var(--kirmizi);">
+      <div class="ikon">🏆</div>
+      <h3>Üye Kademe & Puan Sistemi</h3>
+      <p>Katkın arttıkça ayrıcalığın artar: <b>Standart → Destekçi → VIP.</b> Üst kademeye çıktıkça daha fazla fırsat.</p>
+    </div>
+    <div class="kart" style="border:2px solid var(--kirmizi);">
+      <div class="ikon">🎶</div>
+      <h3>Tribünde Öncelik</h3>
+      <p>Koreografi ekibine katılım ve <b>özel blok önceliği</b> üyelerimize. Tribünün ritmini sen belirle.</p>
+    </div>
+  </div>
+
+  <div class="sema">
+    <div class="sema-baslik">Üye Panelin — Tek Bakışta</div>
+    <div class="kartlar" style="margin-bottom:0;">
+      <div class="kart">
+        <div class="ikon">🎫</div>
+        <h3>Dijital Üye Kartı</h3>
+        <p>Üye numaran, kategorin, oy hakkın ve <b>QR kodun</b> cebinde. Etkinlik girişinde kart okutma dönemi.</p>
+      </div>
+      <div class="kart">
+        <div class="ikon">💳</div>
+        <h3>Aidat & Bağış</h3>
+        <p>Kartınla tek tuşla, 3 saniyede öde. Kapı kapı para toplama dönemi bitti.</p>
+      </div>
+      <div class="kart">
+        <div class="ikon">📅</div>
+        <h3>Fikstür</h3>
+        <p>Yaklaşan maçlar ve sonuçlar, rakip logolarıyla. Bir sonraki maç her zaman önünde.</p>
+      </div>
+      <div class="kart">
+        <div class="ikon">📰</div>
+        <h3>Haberler & Duyurular</h3>
+        <p>Tribün, maç ve dernek haberleri; önemli duyurular anında telefonunda.</p>
+      </div>
+      <div class="kart">
+        <div class="ikon">💰</div>
+        <h3>Şeffaf Kasa</h3>
+        <p>Derneğin canlı bakiyesini, gelir-giderini sen de görüyorsun. Hiçbir şey gizli değil.</p>
+      </div>
+      <div class="kart">
+        <div class="ikon">🔔</div>
+        <h3>Bildirimler</h3>
+        <p>"Maç yarın 19:00", "Koreografi planı hazır" — önemli her şey anlık bildirimle.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== ŞEFFAF KASA ========== -->
+<section class="sayfa sayfa-kir">
+  <div class="bolum-baslik">
+    <div class="bolum-no">03</div>
+    <div><h2>Şeffaf Kasa</h2><p>Güveni güçlendiren sistem</p></div>
+  </div>
+
+  <div class="vurgu">
+    <h3>💰 Her Kuruş Göz Önünde</h3>
+    <p>Derneğe giren her lira, harcanan her kuruş — kategorisi, tarihi ve <b>faturasıyla</b> birlikte sistemde. Bakiye canlı hesaplanıyor, üye telefonundan bile görebiliyor.</p>
+  </div>
+
+  <div class="sema">
+    <div class="sema-baslik">Bir Bağış Nasıl İzleniyor?</div>
+    <div class="akis">
+      <div class="adim"><span class="ad-no">1</span><span class="ad-ikon">💳</span><h4>Bağış Yapılır</h4><p>Üye uygulamadan öder</p></div>
+      <div class="ok">→</div>
+      <div class="adim"><span class="ad-no">2</span><span class="ad-ikon">🏦</span><h4>Kasaya İşlenir</h4><p>Otomatik kayıt</p></div>
+      <div class="ok">→</div>
+      <div class="adim"><span class="ad-no">3</span><span class="ad-ikon">🧾</span><h4>Faturalanır</h4><p>Belge yüklenir</p></div>
+      <div class="ok">→</div>
+      <div class="adim"><span class="ad-no">4</span><span class="ad-ikon">👀</span><h4>Herkes Görür</h4><p>Şeffaf kasada</p></div>
+    </div>
+  </div>
+
+  <ul class="ozellik-liste">
+    <li><b>Gelir takibi:</b> aidat, bağış, sponsor gelirleri ayrı ayrı.</li>
+    <li><b>Gider takibi:</b> masraf, fatura, harcamalar — hepsi belgeli.</li>
+    <li><b>Canlı bakiye:</b> derneğin kasasının anlık durumu.</li>
+    <li><b>Fonlar:</b> Genel Dernek Fonu, Kulüp Fonu gibi ayrı kasalar.</li>
+  </ul>
+</section>
+
+<!-- ========== ROLLER ========== -->
+<section class="sayfa sayfa-kir">
+  <div class="bolum-baslik">
+    <div class="bolum-no">04</div>
+    <div><h2>Düzenli Yapı: Roller & Üyelik</h2><p>Herkes yetkisi kadar, herkes ailenin parçası</p></div>
+  </div>
+
+  <div class="sema">
+    <div class="sema-baslik">Yönetim Rolleri</div>
+    <div class="roller">
+      <div class="rol r1"><div class="r-ikon">👑</div><h4>Süper Admin</h4><p>Kurucu — tüm yetkiler</p></div>
+      <div class="rol r2"><div class="r-ikon">⚙️</div><h4>Admin</h4><p>Haber, maç, kampanya, üyelik yönetimi</p></div>
+      <div class="rol r3"><div class="r-ikon">🧮</div><h4>Muhasebe</h4><p>Yalnızca kasa hareketleri</p></div>
+      <div class="rol r4"><div class="r-ikon">🔎</div><h4>Denetçi</h4><p>Her şeyi görür, sadece izler</p></div>
+      <div class="rol r5"><div class="r-ikon">🗳️</div><h4>Asıl Üye</h4><p>Genel kurulda oy hakkı</p></div>
+      <div class="rol r6"><div class="r-ikon">💛</div><h4>Üye</h4><p>Tüm üye ayrıcalıkları</p></div>
+    </div>
+  </div>
+
+  <div class="sema">
+    <div class="sema-baslik">Üyelik Kategorileri</div>
+    <div class="akis">
+      <div class="adim" style="border-color:#2563eb;"><span class="ad-ikon">🎓</span><h4>Öğrenci</h4><p>Belge ile indirimli</p></div>
+      <div class="adim" style="border-color:#059669;"><span class="ad-ikon">👤</span><h4>Standart</h4><p>Normal üyelik</p></div>
+      <div class="adim" style="border-color:#e0851b;"><span class="ad-ikon">🤲</span><h4>Destekçi</h4><p>Ek destek</p></div>
+      <div class="adim" style="border-color:#6b21a8;"><span class="ad-ikon">⭐</span><h4>VIP Üye</h4><p>Premium ayrıcalık</p></div>
+      <div class="adim" style="border-color:#C8102E;"><span class="ad-ikon">🗳️</span><h4>Asıl Üye</h4><p>Oy hakkı</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== MOBİL + WEB ========== -->
+<section class="sayfa sayfa-kir">
+  <div class="bolum-baslik">
+    <div class="bolum-no">05</div>
+    <div><h2>İki Platform, Tek Aile</h2><p>İster web ister mobil — her yerde yanında</p></div>
+  </div>
+
+  <div class="kartlar">
+    <div class="kart">
+      <div class="ikon">📱</div>
+      <h3>Mobil Uygulama</h3>
+      <p>Üye kartı, şeffaf kasa, fikstür, haberler ve profil tek dokunuşta. Anlık bildirimlerle önemli hiçbir şeyi kaçırmazsın.</p>
+    </div>
+    <div class="kart">
+      <div class="ikon">💻</div>
+      <h3>Web Sitesi</h3>
+      <p>Ana sayfa, haberler, Şanlı Tarihimiz, Efsaneler, sponsorlar ve şeffaf kasa — kulübün ruhu burada yaşıyor.</p>
+    </div>
+  </div>
+
+  <div class="sema">
+    <div class="sema-baslik">Web Sitesinde Neler Var?</div>
+    <div class="akis">
+      <div class="adim"><span class="ad-ikon">🏠</span><h4>Ana Sayfa</h4><p>Slider + haftanın maçı</p></div>
+      <div class="adim"><span class="ad-ikon">📰</span><h4>Haberler</h4><p>Kategorili</p></div>
+      <div class="adim"><span class="ad-ikon">🏆</span><h4>Şanlı Tarih</h4><p>Zaman tüneli</p></div>
+      <div class="adim"><span class="ad-ikon">⭐</span><h4>Efsaneler</h4><p>Futbolcu profilleri</p></div>
+      <div class="adim"><span class="ad-ikon">💰</span><h4>Şeffaf Kasa</h4><p>Herkese açık</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== KAPANIŞ ========== -->
+<section class="kapanis sayfa-kir">
+  <h2>Hep Birlikte, Daha Güçlü</h2>
+  <p>Bu platform bir tribünün diğerlerinden farkını ortaya koyuyor: şeffaf, profesyonel ve taraftarın cebinde.</p>
+  <p>Sen de uygulamayı indir, üye kartını cebine al ve bu dijital ailenin bir parçası ol.</p>
+  <div class="slogan">💛❤️ Göztepe bir aşk, biz de o aşkın ailesiyiz.</div>
+  <p style="margin-top:30px;font-size:20px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--sari);">Armaya Adanmış Hayatlar</p>
+  <p style="margin-top:12px;font-size:24px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#fff;">Sevgi, Saygı, <span style="color:var(--sari);">Bağlılıkla</span></p>
+</section>
+
+<div class="bilgi-band">
+  Göztepe Tribünleri Dijital Aile Platformu — Web & Mobil Uygulama
+</div>
+
+</body>
+</html>

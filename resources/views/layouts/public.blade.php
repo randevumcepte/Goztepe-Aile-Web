@@ -89,6 +89,8 @@
                    class="rounded-md px-3 py-2 text-sm font-semibold uppercase tracking-wide transition
                           {{ $active ? 'text-gold' : 'text-white/90 hover:text-gold' }}">{{ $label }}</a>
             @endforeach
+            <a href="{{ asset('tanitim.html') }}" target="_blank" rel="noopener"
+               class="ml-1 rounded-md border border-gold px-3 py-2 text-sm font-bold uppercase tracking-wide text-gold transition hover:bg-gold hover:text-brand-800">Tanıtım</a>
         </nav>
 
         <div class="flex items-center gap-2">
@@ -111,6 +113,7 @@
             @foreach ($nav as [$route, $label])
                 <a href="{{ route($route) }}" class="block rounded-md px-3 py-2.5 text-sm font-semibold uppercase text-white/90 hover:bg-white/5 hover:text-gold">{{ $label }}</a>
             @endforeach
+            <a href="{{ asset('tanitim.html') }}" target="_blank" rel="noopener" class="mt-1 block rounded-md border border-gold px-3 py-2.5 text-sm font-bold uppercase text-gold hover:bg-gold hover:text-brand-800">Tanıtım</a>
         </nav>
     </div>
 </header>
