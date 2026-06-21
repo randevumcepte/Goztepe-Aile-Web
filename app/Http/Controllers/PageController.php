@@ -52,6 +52,11 @@ class PageController extends Controller
         ]);
     }
 
+    public function taraftarSesi(): View
+    {
+        return view('pages.taraftar-sesi');
+    }
+
     public function iletisim(): View
     {
         return view('pages.iletisim');

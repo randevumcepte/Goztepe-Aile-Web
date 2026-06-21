@@ -49,6 +49,7 @@
         ['haberler.index', 'Haberler'],
         ['seffaf-kasa', 'Şeffaf Kasa'],
         ['uyelik.avantajlar', 'Üyelik'],
+        ['taraftar-sesi', 'Sesimiz'],
         ['iletisim', 'İletişim'],
     ];
     $cfg = \App\Models\Setting::map();

@@ -38,6 +38,7 @@ Route::get('/haberler/{post}', [NewsController::class, 'show'])->name('haberler.
 Route::get('/hakkimizda', [PageController::class, 'hakkimizda'])->name('hakkimizda');
 Route::get('/sanli-tarihimiz', [PageController::class, 'sanliTarihimiz'])->name('sanli-tarihimiz');
 Route::get('/uyelik-avantajlari', [PageController::class, 'uyelikAvantajlari'])->name('uyelik.avantajlar');
+Route::get('/taraftar-sesi', [PageController::class, 'taraftarSesi'])->name('taraftar-sesi');
 Route::get('/iletisim', [PageController::class, 'iletisim'])->name('iletisim');
 
 // Şeffaf Kasa (herkese açık)

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Göztepe Tribünleri — Bütçe Çerçevesi</title>
+<style>
+  :root{
+    --sari:#F9D616; --kirmizi:#C8102E; --koyu:#1a1a1a; --gri:#6b7280;
+    --acik:#f7f7f9; --cizgi:#e5e7eb;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Segoe UI',Roboto,Arial,sans-serif;color:var(--koyu);background:#ececed;line-height:1.55;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .sayfa{max-width:980px;margin:24px auto;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.12);}
+
+  /* başlık */
+  .ust{background:linear-gradient(135deg,var(--kirmizi),#8e0a20);color:#fff;padding:28px 40px;display:flex;align-items:center;gap:18px;}
+  .ust img{width:74px;height:74px;object-fit:contain;filter:drop-shadow(0 4px 10px rgba(0,0,0,.4));}
+  .ust h1{font-size:26px;font-weight:800;letter-spacing:-.3px;}
+  .ust p{color:var(--sari);font-weight:600;font-size:14px;margin-top:2px;}
+  .taslak-rozet{margin-left:auto;background:var(--sari);color:var(--koyu);font-weight:800;font-size:12px;padding:7px 16px;border-radius:50px;text-transform:uppercase;letter-spacing:1px;}
+
+  .govde{padding:32px 40px;}
+
+  /* amaç */
+  .amac{background:var(--acik);border-left:6px solid var(--sari);padding:16px 20px;border-radius:0 10px 10px 0;margin-bottom:28px;font-size:15px;}
+  .amac b{color:var(--kirmizi);}
+
+  .blok-baslik{display:flex;align-items:center;gap:10px;margin:0 0 16px;}
+  .blok-baslik .n{min-width:32px;height:32px;border-radius:8px;background:var(--kirmizi);color:var(--sari);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;}
+  .blok-baslik h2{font-size:19px;font-weight:800;}
+
+  /* ortalama hedef kartları */
+  .hedef{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:34px;}
+  .hkart{border:1px solid var(--cizgi);border-radius:12px;padding:18px;text-align:center;}
+  .hkart .ik{font-size:24px;}
+  .hkart .buyuk{font-size:26px;font-weight:800;color:var(--kirmizi);margin:4px 0 2px;}
+  .hkart .alt{font-size:12.5px;color:var(--gri);}
+  .hkart .band{font-size:11px;color:#9ca3af;margin-top:3px;}
+
+  /* masraf dağılım */
+  .dagilim{margin-bottom:8px;}
+  .satir{display:flex;align-items:center;gap:14px;margin-bottom:13px;}
+  .satir .etiket{width:230px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;}
+  .satir .barwrap{flex:1;background:var(--acik);border-radius:8px;height:30px;position:relative;overflow:hidden;}
+  .satir .bar{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--kirmizi),#e0851b);display:flex;align-items:center;}
+  .satir.dep .bar{background:linear-gradient(90deg,#8e0a20,var(--kirmizi));}
+  .satir .yuzde{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:700;color:var(--koyu);}
+  .satir .tutar{width:130px;text-align:right;font-size:14px;font-weight:700;color:var(--koyu);}
+
+  .toplam-cizgi{display:flex;align-items:center;gap:14px;margin-top:14px;padding-top:14px;border-top:2px solid var(--cizgi);}
+  .toplam-cizgi .etiket{width:230px;font-size:15px;font-weight:800;}
+  .toplam-cizgi .bos{flex:1;}
+  .toplam-cizgi .tutar{width:130px;text-align:right;font-size:17px;font-weight:800;color:var(--kirmizi);}
+
+  /* deplasman vurgu */
+  .vurgu{background:linear-gradient(135deg,var(--sari),#f5c800);border-radius:12px;padding:20px 24px;margin:26px 0 6px;}
+  .vurgu h3{font-size:17px;font-weight:800;margin-bottom:6px;}
+  .vurgu p{font-size:13.5px;color:#3a2f00;}
+  .vurgu ul{margin:8px 0 0 18px;font-size:13.5px;color:#3a2f00;}
+  .vurgu li{margin-bottom:3px;}
+
+  .dipnot{margin-top:24px;background:#fff7ed;border:1px dashed #f59e0b;border-radius:10px;padding:13px 18px;font-size:12.5px;color:#92400e;}
+
+  .alt-band{background:var(--koyu);color:#fff;text-align:center;padding:14px;font-size:12px;}
+  .alt-band span{color:var(--sari);font-weight:700;}
+
+  @media print{
+    body{background:#fff;}
+    .sayfa{margin:0;box-shadow:none;border-radius:0;max-width:100%;}
+    .blok-baslik,.satir,.vurgu,.hedef,.dipnot{break-inside:avoid;}
+  }
+  @page{margin:10mm;size:A4;}
+</style>
+</head>
+<body>
+<div class="sayfa">
+
+  <div class="ust">
+    <img src="public/img/logo.png" alt="Göztepe Tribünleri">
+    <div>
+      <h1>Yıllık Bütçe Çerçevesi</h1>
+      <p>Tribün Liderleri Toplantısı · Çalışma Sunumu</p>
+    </div>
+    <div class="taslak-rozet">Ortalama / Taslak</div>
+  </div>
+
+  <div class="govde">
+
+    <div class="amac">
+      <b>Amacımız:</b> Tribünü ayakta tutmak, deplasmana birlikte gitmek, koreografileri büyütmek ve
+      <b>şeffaf bir dayanışma kasası</b> kurmak. Aşağıdaki rakamlar <b>ortalama hedeflerdir</b> — kesin aidat fiyatları
+      ve dağılımlar bu toplantıda birlikte netleştirilecektir.
+    </div>
+
+    <!-- ORTALAMA HEDEF -->
+    <div class="blok-baslik"><div class="n">1</div><h2>Ortalama Gelir Hedefi (iki kaynak)</h2></div>
+    <div class="hedef">
+      <div class="hkart">
+        <div class="ik">👥</div>
+        <div class="buyuk">~3,1 Milyon</div>
+        <div class="alt">Üye aidatları</div>
+        <div class="band">~4.000 üye × ort. 775 TL</div>
+      </div>
+      <div class="hkart">
+        <div class="ik">🤝</div>
+        <div class="buyuk">~3,75 Milyon</div>
+        <div class="alt">Sponsor gelirleri</div>
+        <div class="band">50+ sponsor × ort. 75.000 TL</div>
+      </div>
+      <div class="hkart" style="border:2px solid var(--kirmizi);background:#fff5f6;">
+        <div class="ik">💰</div>
+        <div class="buyuk">~6,85 Milyon TL</div>
+        <div class="alt">Toplam yıllık ortalama kasa</div>
+        <div class="band">band: 4,8 – 8,9 milyon</div>
+      </div>
+    </div>
+
+    <!-- MASRAF DAĞILIMI -->
+    <div class="blok-baslik"><div class="n">2</div><h2>Masraf Türleri ve Ortalama Dağılım</h2></div>
+    <div class="dagilim">
+
+      <div class="satir dep">
+        <div class="etiket">🚌 Deplasman desteği</div>
+        <div class="barwrap"><div class="bar" style="width:96%"></div><span class="yuzde">~%44</span></div>
+        <div class="tutar">~3.000.000 TL</div>
+      </div>
+
+      <div class="satir">
+        <div class="etiket">🎨 Koreografi / tifo / pankart</div>
+        <div class="barwrap"><div class="bar" style="width:27%"></div><span class="yuzde">~%12</span></div>
+        <div class="tutar">~850.000 TL</div>
+      </div>
+
+      <div class="satir">
+        <div class="etiket">🛟 Yedek akçe</div>
+        <div class="barwrap"><div class="bar" style="width:37%"></div><span class="yuzde">~%17</span></div>
+        <div class="tutar">~1.150.000 TL</div>
+      </div>
+
+      <div class="satir">
+        <div class="etiket">🤝 Sosyal yardım / dayanışma</div>
+        <div class="barwrap"><div class="bar" style="width:22%"></div><span class="yuzde">~%10</span></div>
+        <div class="tutar">~700.000 TL</div>
+      </div>
+
+      <div class="satir">
+        <div class="etiket">🎉 Etkinlikler (gece, piknik vb.)</div>
+        <div class="barwrap"><div class="bar" style="width:15%"></div><span class="yuzde">~%7</span></div>
+        <div class="tutar">~450.000 TL</div>
+      </div>
+
+      <div class="satir">
+        <div class="etiket">🧣 Üye paketleri (atkı/rozet/kart)</div>
+        <div class="barwrap"><div class="bar" style="width:13%"></div><span class="yuzde">~%6</span></div>
+        <div class="tutar">~400.000 TL</div>
+      </div>
+
+      <div class="satir">
+        <div class="etiket">💻 Dijital + idari (site, uygulama)</div>
+        <div class="barwrap"><div class="bar" style="width:9%"></div><span class="yuzde">~%4</span></div>
+        <div class="tutar">~300.000 TL</div>
+      </div>
+
+      <div class="toplam-cizgi">
+        <div class="etiket">TOPLAM (ortalama)</div>
+        <div class="bos"></div>
+        <div class="tutar">~6.850.000 TL</div>
+      </div>
+    </div>
+
+    <!-- DEPLASMAN VURGU -->
+    <div class="vurgu">
+      <h3>🚌 Deplasman — en büyük kalem (~3 milyon fon)</h3>
+      <p>Deplasman bütçenin yaklaşık yarısı. Sponsor desteğiyle fon güçlendi; kasayı batırmamak için fon mantığıyla yönetilir:</p>
+      <ul>
+        <li>Giden <b>üye indirimli biner</b>, kasa her otobüse sabit destek koyar, kalanı katılımcı öder.</li>
+        <li>Fon <b>sezona yayılır</b>; büyük maçlara (derbi vb.) öncelik verilir.</li>
+        <li><b>Fon biterse destek durur</b> — kasa asla eksiye düşmez.</li>
+        <li>Üye sayısı arttıkça fon büyür → <b>daha çok desteklenen otobüs.</b></li>
+      </ul>
+    </div>
+
+    <div class="dipnot">
+      ⚠️ <b>Not:</b> Tüm rakamlar <b>ortalama ve tahminidir</b>; kesin aidat fiyatları, üye dağılımı ve kalem tutarları
+      bu toplantıda birlikte belirlenecektir. Tüm gelir ve giderler şeffaf kasa sisteminde anlık takip edilecektir.
+    </div>
+
+  </div>
+
+  <div class="alt-band">
+    Göztepe Tribünleri · <span>Sevgi, Saygı, Bağlılıkla</span> · Şeffaf Kasa ile yönetilir
+  </div>
+
+</div>
+</body>
+</html>
