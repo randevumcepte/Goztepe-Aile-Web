@@ -92,6 +92,8 @@
             @endforeach
             <a href="{{ asset('tanitim.html') }}" target="_blank" rel="noopener"
                class="ml-1 rounded-md border border-gold px-3 py-2 text-sm font-bold uppercase tracking-wide text-gold transition hover:bg-gold hover:text-brand-800">Tanıtım</a>
+            <a href="{{ asset('butce-cercevesi.html') }}" target="_blank" rel="noopener"
+               class="rounded-md border border-white/40 px-3 py-2 text-sm font-bold uppercase tracking-wide text-white/90 transition hover:bg-white/10 hover:text-gold">Bütçe</a>
         </nav>
 
         <div class="flex items-center gap-2">
@@ -115,6 +117,7 @@
                 <a href="{{ route($route) }}" class="block rounded-md px-3 py-2.5 text-sm font-semibold uppercase text-white/90 hover:bg-white/5 hover:text-gold">{{ $label }}</a>
             @endforeach
             <a href="{{ asset('tanitim.html') }}" target="_blank" rel="noopener" class="mt-1 block rounded-md border border-gold px-3 py-2.5 text-sm font-bold uppercase text-gold hover:bg-gold hover:text-brand-800">Tanıtım</a>
+            <a href="{{ asset('butce-cercevesi.html') }}" target="_blank" rel="noopener" class="mt-1 block rounded-md border border-white/40 px-3 py-2.5 text-sm font-bold uppercase text-white/90 hover:bg-white/10 hover:text-gold">Bütçe</a>
         </nav>
     </div>
 </header>
