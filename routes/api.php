@@ -8,6 +8,9 @@ use App\Http\Controllers\Api\SeffafKasaController;
 use App\Http\Controllers\Api\Member\DashboardController as MemberDashboardController;
 use App\Http\Controllers\Api\Member\FixtureController as MemberFixtureController;
 use App\Http\Controllers\Api\Member\MatchInsightController as MemberMatchInsightController;
+use App\Http\Controllers\Api\Member\MemorableController as MemberMemorableController;
+use App\Http\Controllers\Api\Admin\MemorableController as AdminMemorableController;
+use App\Http\Controllers\Api\Admin\ChantController as AdminChantController;
 use App\Http\Controllers\Api\Member\PredictionGameController as MemberPredictionGameController;
 use App\Http\Controllers\Api\Member\NewsController as MemberNewsController;
 use App\Http\Controllers\Api\Member\ProfileController as MemberProfileController;
@@ -60,6 +63,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/uye/ozet', [MemberDashboardController::class, 'index']);
     Route::get('/uye/fikstur', [MemberFixtureController::class, 'index']);
     Route::get('/uye/mac/{fixture}/analiz', [MemberMatchInsightController::class, 'show']);
+
+    // Unutulmazlar + Bestelerimiz
+    Route::get('/uye/unutulmazlar', [MemberMemorableController::class, 'index']);
+    Route::get('/uye/unutulmazlar/{memorable}', [MemberMemorableController::class, 'show']);
+    Route::get('/uye/besteler', [MemberMemorableController::class, 'chants']);
 
     // Tribün Tahmin Oyunu (parasız: puan/rozet/sıralama)
     Route::post('/uye/mac/{fixture}/tahmin', [MemberPredictionGameController::class, 'store']);
@@ -119,6 +127,18 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/efsaneler', [AdminLegendController::class, 'store']);
         Route::post('/efsaneler/{legend}', [AdminLegendController::class, 'update']);
         Route::delete('/efsaneler/{legend}', [AdminLegendController::class, 'destroy']);
+
+        // Unutulmazlar
+        Route::get('/unutulmazlar', [AdminMemorableController::class, 'index']);
+        Route::post('/unutulmazlar', [AdminMemorableController::class, 'store']);
+        Route::post('/unutulmazlar/{memorable}', [AdminMemorableController::class, 'update']);
+        Route::delete('/unutulmazlar/{memorable}', [AdminMemorableController::class, 'destroy']);
+
+        // Bestelerimiz
+        Route::get('/besteler', [AdminChantController::class, 'index']);
+        Route::post('/besteler', [AdminChantController::class, 'store']);
+        Route::post('/besteler/{chant}', [AdminChantController::class, 'update']);
+        Route::delete('/besteler/{chant}', [AdminChantController::class, 'destroy']);
 
         // Üyelik planları
         Route::get('/uyelik-planlari', [AdminMembershipPlanController::class, 'index']);
