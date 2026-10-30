@@ -202,6 +202,9 @@ class PredictionGameService
         $out = $base + [
             'visible' => true,
             'distribution' => $preds->isEmpty() ? null : $this->percentages($this->crowdProbs($fixture, $preds, weighted: false)),
+            // Yüzdelerin yanında kişi sayısı (az tahminde %100 yanıltmasın)
+            'counts' => collect(['goztepe_win' => 0, 'draw' => 0, 'opponent_win' => 0])
+                ->merge($preds->countBy(fn ($p) => $this->goztepeOutcome($fixture, $p->home_goals, $p->away_goals))),
             'weighted' => $crowdProbs ? $this->percentages($crowdProbs) : null,
             'popular_score' => $popular->isEmpty() ? null : ['score' => $popular->keys()->first(), 'count' => $popular->first()],
             'top_factors' => $this->topFactors($preds),
@@ -340,11 +343,8 @@ class PredictionGameService
 
     private function ruleSummary(Fixture $fixture, Collection $preds, Collection $intel): ?string
     {
+        // Etkenler kartta ayrıca listelendiği için burada yalnız muhbir notları
         $parts = [];
-        $top = $this->topFactors($preds);
-        if ($top) {
-            $parts[] = 'Tribünün öne çıkardığı etkenler: '.collect($top)->map(fn ($t) => "{$t['label']} ({$t['count']} üye)")->join(', ').'.';
-        }
         $whats = [
             'rakip_eksik' => $fixture->opponent.' kadrosunda eksik olduğunu',
             'bizde_eksik' => 'Göztepe kadrosunda eksik olduğunu',
