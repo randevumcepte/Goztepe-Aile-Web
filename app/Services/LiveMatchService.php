@@ -131,7 +131,7 @@ class LiveMatchService
                 $tag = ! empty($d['ownGoal']) ? ' (kendi kalesine)' : (! empty($d['penaltyKick']) ? ' (penaltı)' : '');
                 $line = $at.' · '.trim("{$min} {$who}").$tag;
                 $isUs($d['team']['id'] ?? null)
-                    ? $this->broadcast($f, '⚽ GOOOOL GÖZTEPE! 💛❤️', $line)
+                    ? $this->broadcast($f, '⚽ GOOOOL GÖZTEPE! 💛❤️', $line, ['kanal' => 'goztepe_gol'])
                     : $this->broadcast($f, "Gol: {$teamName}", $line);
             } else {
                 $this->broadcast($f, "🟥 Kırmızı kart: {$teamName}", trim("{$min} {$who}").' · '.$at);
@@ -243,8 +243,11 @@ class LiveMatchService
         return preg_replace('/[^a-z0-9]/', '', mb_strtolower($s));
     }
 
-    private function broadcast(Fixture $f, string $title, string $body): void
+    private function broadcast(Fixture $f, string $title, string $body, array $data = []): void
     {
-        $this->notifications->sendToUsers(User::query()->get(), $title, $body, self::CATEGORY);
+        $this->notifications->sendToUsers(
+            User::query()->get(), $title, $body, self::CATEGORY,
+            data: $data + ['fixture_id' => (string) $f->id],
+        );
     }
 }

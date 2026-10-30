@@ -89,7 +89,10 @@ class PushChannel implements NotificationChannel
                 // Uygulamadaki sesli/yüksek öncelikli kanal (goztepe_bildirim) + varsayılan ses
                 'android' => [
                     'priority' => 'high',
-                    'notification' => ['channel_id' => 'goztepe_bildirim', 'sound' => 'default'],
+                    // Göztepe golü: tribün sesli "goztepe_gol" kanalı (data.kanal); diğerleri genel kanal
+                    'notification' => ($payload['data']['kanal'] ?? null) === 'goztepe_gol'
+                        ? ['channel_id' => 'goztepe_gol', 'sound' => 'gol_tribun']
+                        : ['channel_id' => 'goztepe_bildirim', 'sound' => 'default'],
                 ],
                 'apns' => ['payload' => ['aps' => ['sound' => 'default']]],
             ];

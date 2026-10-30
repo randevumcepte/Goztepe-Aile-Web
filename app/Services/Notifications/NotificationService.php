@@ -77,10 +77,11 @@ class NotificationService
         string $type = 'islemsel',
         array $channels = ['in_app', 'push'],
         ?string $templateKey = null,
+        array $data = [],
     ): int {
         $sent = 0;
         foreach ($users as $user) {
-            $this->send($user, $title, $body, $templateKey, $type, $channels);
+            $this->send($user, $title, $body, $templateKey, $type, $channels, $data);
             $sent++;
         }
 
