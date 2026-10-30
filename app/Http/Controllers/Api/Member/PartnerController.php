@@ -27,6 +27,7 @@ class PartnerController extends Controller
             'status' => $m?->status,
             'active' => $m?->status === 'aktif',
             'tier' => $this->program->tier($user),
+            'group' => $user->fanGroup ? ['name' => $user->fanGroup->name, 'logo' => $user->fanGroup->logoUrl()] : null,
         ]);
     }
 

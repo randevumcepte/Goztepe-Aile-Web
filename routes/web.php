@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\FixtureController as AdminFixtureController;
 use App\Http\Controllers\Admin\HistoryEventController as AdminHistoryEventController;
 use App\Http\Controllers\Admin\LegendController as AdminLegendController;
 use App\Http\Controllers\Admin\ChantController as WebChantController;
+use App\Http\Controllers\Admin\FanGroupController as WebFanGroupController;
 use App\Http\Controllers\Admin\MatchCenterController;
 use App\Http\Controllers\Admin\MemorableController as WebMemorableController;
 use App\Http\Controllers\Admin\PartnerController as WebPartnerController;
@@ -165,6 +166,15 @@ Route::middleware(['auth', 'staff'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/isletmeler/{partner}/duzenle', [WebPartnerController::class, 'edit'])->name('partners.edit');
     Route::put('/isletmeler/{partner}', [WebPartnerController::class, 'update'])->name('partners.update');
     Route::delete('/isletmeler/{partner}', [WebPartnerController::class, 'destroy'])->name('partners.destroy');
+
+    // Taraftar grupları
+    Route::get('/gruplar', [WebFanGroupController::class, 'index'])->name('fan-groups.index');
+    Route::get('/gruplar/yeni', [WebFanGroupController::class, 'create'])->name('fan-groups.create');
+    Route::post('/gruplar', [WebFanGroupController::class, 'store'])->name('fan-groups.store');
+    Route::get('/gruplar/{fanGroup}', [WebFanGroupController::class, 'show'])->name('fan-groups.show');
+    Route::get('/gruplar/{fanGroup}/duzenle', [WebFanGroupController::class, 'edit'])->name('fan-groups.edit');
+    Route::put('/gruplar/{fanGroup}', [WebFanGroupController::class, 'update'])->name('fan-groups.update');
+    Route::delete('/gruplar/{fanGroup}', [WebFanGroupController::class, 'destroy'])->name('fan-groups.destroy');
 
     // Sistem Araçları (bildirim testi, cron durumu)
     Route::get('/sistem-araclari', [SystemToolsController::class, 'index'])->name('tools.index');

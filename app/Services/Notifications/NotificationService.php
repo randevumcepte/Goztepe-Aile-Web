@@ -99,6 +99,9 @@ class NotificationService
         if (! empty($segment['kategori'])) {
             $query->whereHas('member', fn ($q) => $q->where('category', $segment['kategori']));
         }
+        if (! empty($segment['grup'])) {
+            $query->where('fan_group_id', $segment['grup']);
+        }
         if (! empty($segment['sadece_uyeler'])) {
             $query->whereHas('member');
         }

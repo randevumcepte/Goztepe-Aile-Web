@@ -26,6 +26,7 @@ class NotificationController extends Controller
                 ['value' => 'ticari'],
             ],
             'channels' => ['in_app', 'push'],
+            'groups' => \App\Models\FanGroup::active()->get()->map(fn ($g) => ['value' => (string) $g->id, 'label' => $g->name])->values(),
         ]);
     }
 
@@ -38,11 +39,15 @@ class NotificationController extends Controller
             'segment_kategori' => ['nullable', 'in:'.implode(',', array_column(MemberCategory::cases(), 'value'))],
             'channels' => ['required', 'array', 'min:1'],
             'channels.*' => ['in:in_app,push'],
+            'segment_grup' => ['nullable', 'integer', 'exists:fan_groups,id'],
         ]);
 
         $segment = ['sadece_uyeler' => true];
         if (! empty($data['segment_kategori'])) {
             $segment['kategori'] = $data['segment_kategori'];
+        }
+        if (! empty($data['segment_grup'])) {
+            $segment['grup'] = (int) $data['segment_grup'];
         }
 
         $count = $this->notifications->sendToSegment(

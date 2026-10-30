@@ -40,6 +40,12 @@ class User extends Authenticatable
         return $this->hasOne(Member::class);
     }
 
+    /** Taraftar grubu (isteğe bağlı, üye kendisi seçer). */
+    public function fanGroup(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(FanGroup::class);
+    }
+
     public function deviceTokens(): HasMany
     {
         return $this->hasMany(DeviceToken::class);

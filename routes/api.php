@@ -13,6 +13,8 @@ use App\Http\Controllers\Api\Admin\MemorableController as AdminMemorableControll
 use App\Http\Controllers\Api\Admin\ChantController as AdminChantController;
 use App\Http\Controllers\Api\Admin\PartnerController as AdminPartnerController;
 use App\Http\Controllers\Api\Member\PartnerController as MemberPartnerController;
+use App\Http\Controllers\Api\Member\FanGroupController as MemberFanGroupController;
+use App\Http\Controllers\Api\Admin\FanGroupController as AdminFanGroupController;
 use App\Http\Controllers\Api\Member\PredictionGameController as MemberPredictionGameController;
 use App\Http\Controllers\Api\Member\NewsController as MemberNewsController;
 use App\Http\Controllers\Api\Member\ProfileController as MemberProfileController;
@@ -72,6 +74,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/uye/ayricaliklar/cuzdan', [MemberPartnerController::class, 'history']);
     Route::post('/uye/ayricaliklar/basvuru', [MemberPartnerController::class, 'apply']);
     Route::get('/uye/ayricaliklar/{partner}', [MemberPartnerController::class, 'show']);
+
+    // Taraftar grubu seçimi (isteğe bağlı)
+    Route::get('/uye/gruplar', [MemberFanGroupController::class, 'index']);
+    Route::post('/uye/grup', [MemberFanGroupController::class, 'choose']);
 
     // Unutulmazlar + Bestelerimiz
     Route::get('/uye/unutulmazlar', [MemberMemorableController::class, 'index']);
@@ -136,6 +142,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/efsaneler', [AdminLegendController::class, 'store']);
         Route::post('/efsaneler/{legend}', [AdminLegendController::class, 'update']);
         Route::delete('/efsaneler/{legend}', [AdminLegendController::class, 'destroy']);
+
+        // Taraftar grupları
+        Route::get('/gruplar', [AdminFanGroupController::class, 'index']);
+        Route::post('/gruplar', [AdminFanGroupController::class, 'store']);
+        Route::post('/gruplar/{fanGroup}', [AdminFanGroupController::class, 'update']);
+        Route::delete('/gruplar/{fanGroup}', [AdminFanGroupController::class, 'destroy']);
 
         // Anlaşmalı işletmeler (Göztepe Ayrıcalık)
         Route::get('/isletmeler', [AdminPartnerController::class, 'index']);

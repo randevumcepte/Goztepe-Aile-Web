@@ -34,6 +34,13 @@
                     @foreach ($categories as $c)<option value="{{ $c->value }}">{{ $c->label() }}</option>@endforeach
                 </select>
             </div>
+            <div>
+                <label class="{{ $label }}">Hedef Taraftar Grubu</label>
+                <select name="segment_grup" class="{{ $input }}">
+                    <option value="">Tüm gruplar</option>
+                    @foreach ($groups ?? [] as $g)<option value="{{ $g->id }}">{{ $g->name }} ({{ $g->users_count }} üye)</option>@endforeach
+                </select>
+            </div>
         </div>
         <div>
             <label class="{{ $label }} mb-2">Kanallar</label>
