@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api\Member;
 
 use App\Http\Controllers\Controller;
 use App\Models\Fixture;
+use App\Models\MatchPrediction;
 use App\Services\FixtureAutoSyncService;
 use App\Services\MatchInsightService;
+use App\Services\PredictionGameService;
 use App\Models\Post;
 use App\Services\LedgerService;
 use App\Services\TeamBadgeService;
@@ -79,6 +81,9 @@ class DashboardController extends Controller
             'next_match' => $nextMatch ? [
                 'id' => $nextMatch->id,
                 'prediction' => app(MatchInsightService::class)->summary($nextMatch),
+                'my_prediction' => PredictionGameService::installed() && ($mp = MatchPrediction::where('user_id', $user->id)->where('fixture_id', $nextMatch->id)->first())
+                    ? ['home' => $mp->home_goals, 'away' => $mp->away_goals]
+                    : null,
                 'opponent' => $nextMatch->opponent,
                 'opponent_logo' => $nextMatch->opponentLogoUrl(),
                 'competition' => $nextMatch->competition,

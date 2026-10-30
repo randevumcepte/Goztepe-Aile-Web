@@ -4,16 +4,23 @@ namespace App\Http\Controllers\Api\Member;
 
 use App\Http\Controllers\Controller;
 use App\Models\Fixture;
+use App\Models\MatchPrediction;
 use App\Services\FixtureAutoSyncService;
 use App\Services\MatchInsightService;
+use App\Services\PredictionGameService;
 use App\Services\TeamBadgeService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class FixtureController extends Controller
 {
-    public function index(TeamBadgeService $badges, MatchInsightService $insights, FixtureAutoSyncService $sync): JsonResponse
+    public function index(Request $request, TeamBadgeService $badges, MatchInsightService $insights, FixtureAutoSyncService $sync, PredictionGameService $game): JsonResponse
     {
         $sync->sync();
+        $gameOn = PredictionGameService::installed();
+        if ($gameOn) {
+            $game->settlePending();
+        }
 
         $upcoming = Fixture::upcoming()->get();
         $played = Fixture::played()->limit(20)->get();
@@ -28,11 +35,18 @@ class FixtureController extends Controller
             }
         }
 
+        // Üyenin kendi tahminleri (kartta "Tahminin: 1-2" / puan)
+        $mine = $gameOn
+            ? MatchPrediction::query()->where('user_id', $request->user()->id)
+                ->whereIn('fixture_id', $upcoming->concat($played)->pluck('id'))->get()->keyBy('fixture_id')
+            : collect();
+        $my = fn ($f) => ['my_prediction' => isset($mine[$f->id]) ? $game->predPayload($mine[$f->id]) : null];
+
         return response()->json([
             'goztepe_badge' => $badges->goztepeBadgeUrl(),
             // Yaklaşan maçlara tahmin yüzdeleri (veri yoksa null — kartta gösterilmez)
-            'upcoming' => $upcoming->map(fn ($f) => $this->payload($f) + ['prediction' => $insights->summary($f)])->values(),
-            'played' => $played->map(fn ($f) => $this->payload($f))->values(),
+            'upcoming' => $upcoming->map(fn ($f) => $this->payload($f) + ['prediction' => $insights->summary($f)] + $my($f))->values(),
+            'played' => $played->map(fn ($f) => $this->payload($f) + $my($f))->values(),
         ]);
     }
 

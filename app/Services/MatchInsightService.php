@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-use Anthropic\Client as AnthropicClient;
-use Anthropic\Core\Exceptions\APIException;
 use App\Models\Fixture;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
@@ -41,8 +39,6 @@ class MatchInsightService
     /** Lig verisi henüz azsa kullanılan tipik Süper Lig gol ortalamaları. */
     private const DEFAULT_HOME_GOALS = 1.45;
     private const DEFAULT_AWAY_GOALS = 1.15;
-
-    private const AI_MODEL = 'claude-haiku-5-5';
 
     /** Önbellek/şema sürümü — çıktı biçimi değişince artır. */
     private const VERSION = 'v1';
@@ -143,8 +139,16 @@ class MatchInsightService
         [$gWin, $oWin] = $fixture->is_home ? [$pHome, $pAway] : [$pAway, $pHome];
         [$gXg, $oXg] = $fixture->is_home ? [$lambdaHome, $lambdaAway] : [$lambdaAway, $lambdaHome];
 
+        // AI'ın oyundaki skor tahmini: en olası sonucun içindeki en olası skor
+        $best = array_search(max($pHome, $pDraw, $pAway), ['H' => $pHome, 'D' => $pDraw, 'A' => $pAway], true);
+        $pick = collect($scores)->first(fn ($s) => ($s['home'] <=> $s['away']) === ['H' => 1, 'D' => 0, 'A' => -1][$best]);
+
+        $probabilities = $this->percentages($gWin, $pDraw, $oWin);
+        $this->snapshotAi($fixture, $probabilities, $pick);
+
         return [
-            'probabilities' => $this->percentages($gWin, $pDraw, $oWin),
+            'probabilities' => $probabilities,
+            'ai_pick' => ['home' => $pick['home'], 'away' => $pick['away']],
             'expected_goals' => ['goztepe' => round($gXg, 2), 'opponent' => round($oXg, 2)],
             // Skorlar kartla aynı sırada: ev sahibi - deplasman
             'likely_scores' => array_map(fn ($s) => [
@@ -164,6 +168,26 @@ class MatchInsightService
             ],
             'model' => 'Poisson (iç saha/deplasman hücum-savunma gücü)',
         ];
+    }
+
+    /**
+     * Maç başlayana kadar AI tahminini maça yazar; başladıktan sonra donar.
+     * Tahmin oyunundaki "AI'ı Yen" ve tribün/AI isabet karşılaştırması buna dayanır.
+     */
+    private function snapshotAi(Fixture $fixture, array $probabilities, array $pick): void
+    {
+        if (! $fixture->exists || ! $fixture->isPredictionOpen() || ! PredictionGameService::installed()) {
+            return;
+        }
+
+        $fixture->forceFill([
+            'ai_probs' => $probabilities,
+            'ai_home_goals' => $pick['home'],
+            'ai_away_goals' => $pick['away'],
+        ]);
+        if ($fixture->isDirty()) {
+            $fixture->saveQuietly();
+        }
     }
 
     /**
@@ -516,19 +540,20 @@ class MatchInsightService
     {
         $fallback = ['text' => $this->ruleText($fixture, $p), 'by' => 'kural'];
 
-        $apiKey = config('services.anthropic.key');
-        if (! $apiKey || ! class_exists(AnthropicClient::class)) {
+        $ai = app(AiTextService::class);
+        if (! $ai->available()) {
             return $fallback;
         }
 
-        $key = 'match_insight:preview:'.self::VERSION.':'.$fixture->id.':'.md5(json_encode($p['probabilities']).$p['source']['updated']);
+        $key = 'match_insight:preview:'.self::VERSION.':'.$fixture->id.':'
+            .md5(json_encode($p['probabilities']).$p['source']['updated'].$fixture->crowd_summary_hash);
 
         $cached = Cache::get($key);
         if ($cached) {
             return $cached;
         }
 
-        $text = $this->aiText($apiKey, $fixture, $p);
+        $text = $ai->write($this->previewSystemPrompt(), "Maç verisi (JSON):\n".$this->previewFacts($fixture, $p));
         if (! $text) {
             return $fallback;
         }
@@ -539,9 +564,9 @@ class MatchInsightService
         return $out;
     }
 
-    private function aiText(string $apiKey, Fixture $fixture, array $p): ?string
+    private function previewFacts(Fixture $fixture, array $p): string
     {
-        $facts = json_encode([
+        return json_encode([
             'mac' => ($fixture->is_home ? 'Göztepe - '.$fixture->opponent : $fixture->opponent.' - Göztepe'),
             'goztepe_ic_saha_mi' => $fixture->is_home,
             'organizasyon' => $fixture->competition,
@@ -552,43 +577,21 @@ class MatchInsightService
             'karsilikli_gol_yuzde' => $p['btts'],
             'goztepe' => $p['goztepe'],
             'rakip' => $p['opponent'],
+            // Üyelerin tahmin gerekçelerinden çıkarılan, DOĞRULANMAMIŞ notlar
+            'tribun_notlari' => $fixture->crowd_summary,
         ], JSON_UNESCAPED_UNICODE);
+    }
 
-        $system = 'Göztepe taraftar uygulamasında maç önizlemesi yazıyorsun. Okurlar Göztepe tribün üyeleri. '
+    private function previewSystemPrompt(): string
+    {
+        return 'Göztepe taraftar uygulamasında maç önizlemesi yazıyorsun. Okurlar Göztepe tribün üyeleri. '
             .'Sana verilen istatistik ve model olasılıklarına dayanarak 3-4 cümlelik, akıcı Türkçe bir önizleme yaz. '
             .'Sıcak, tribüne yakın ama abartısız bir dil kullan; sayıları doğru aktar, verilmeyen bilgi uydurma '
             .'(sakatlık, kadro, hoca sözü gibi). Bunun bir olasılık tahmini olduğunu hissettir. '
+            .'"tribun_notlari" doluysa bunlar üyelerin doğrulanmamış iddialarıdır; en fazla bir cümleyle '
+            .'"tribünden gelen notlara göre" diyerek an, kesin bilgi gibi sunma. '
             .'Bahis, iddaa, oran, kupon, kazanç gibi kelimeler ve bahis tavsiyesi kesinlikle yok. '
             .'Başlık, madde işareti veya emoji kullanma; yalnız düz paragraf yaz.';
-
-        try {
-            $client = new AnthropicClient(
-                apiKey: $apiKey,
-                requestOptions: ['timeout' => 20.0, 'maxRetries' => 1],
-            );
-            $message = $client->messages->create(
-                model: self::AI_MODEL,
-                maxTokens: 2000,
-                system: $system,
-                outputConfig: ['effort' => 'low'],
-                messages: [['role' => 'user', 'content' => "Maç verisi (JSON):\n".$facts]],
-            );
-
-            if ($message->stopReason === 'refusal') {
-                return null;
-            }
-            foreach ($message->content as $block) {
-                if ($block->type === 'text' && trim($block->text) !== '') {
-                    return trim($block->text);
-                }
-            }
-        } catch (APIException $e) {
-            Log::warning('MatchInsight AI yorumu alınamadı: '.$e->getMessage());
-        } catch (\Throwable $e) {
-            Log::warning('MatchInsight AI hatası: '.$e->getMessage());
-        }
-
-        return null;
     }
 
     /** AI yoksa: sayılardan kurulan sade Türkçe önizleme. */
@@ -612,7 +615,8 @@ class MatchInsightService
             ."{$o['name']} galibiyeti %{$pr['opponent_win']}."
             .$score
             .' Beklenen gol: Göztepe '.$this->num($p['expected_goals']['goztepe'])
-            .', '.$o['name'].' '.$this->num($p['expected_goals']['opponent']).'.';
+            .', '.$o['name'].' '.$this->num($p['expected_goals']['opponent']).'.'
+            .($fixture->crowd_summary ? ' Tribünden gelen notlar: '.$fixture->crowd_summary : '');
     }
 
     private function num(float $v): string

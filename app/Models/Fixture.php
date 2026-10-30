@@ -10,6 +10,7 @@ class Fixture extends Model
     protected $fillable = [
         'opponent', 'opponent_logo_path', 'competition', 'is_home',
         'kickoff_at', 'venue', 'broadcast', 'home_score', 'away_score', 'is_active',
+        'ai_probs', 'ai_home_goals', 'ai_away_goals', 'crowd_summary', 'crowd_summary_hash', 'crowd_summary_at',
     ];
 
     protected function casts(): array
@@ -18,6 +19,8 @@ class Fixture extends Model
             'is_home' => 'boolean',
             'is_active' => 'boolean',
             'kickoff_at' => 'datetime',
+            'ai_probs' => 'array',
+            'crowd_summary_at' => 'datetime',
         ];
     }
 
@@ -52,6 +55,17 @@ class Fixture extends Model
     public function homeAwayLabel(): string
     {
         return $this->is_home ? 'Ev Sahibi' : 'Deplasman';
+    }
+
+    public function predictions(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(MatchPrediction::class);
+    }
+
+    /** Tahmin hâlâ yapılabilir mi? (maç başlamadı, skor yok) */
+    public function isPredictionOpen(): bool
+    {
+        return $this->is_active && ! $this->isPlayed() && $this->kickoff_at && $this->kickoff_at->isFuture();
     }
 
     /** Skor girilmiş mi? */
