@@ -2,6 +2,7 @@
 
 use Illuminate\Foundation\Inspiring;
 use App\Services\FixtureAutoSyncService;
+use App\Services\LiveMatchService;
 use App\Models\User;
 use App\Services\MatchReminderService;
 use App\Services\Notifications\NotificationService;
@@ -18,6 +19,11 @@ Schedule::call(function () {
     app(FixtureAutoSyncService::class)->sync();
     app(MatchReminderService::class)->tick();
 })->everyTenMinutes()->name('mac-hatirlatmalari')->withoutOverlapping();
+
+// Canlı maç bildirimleri (gol, kart, devre, maç sonu): maç saatinde dakikada bir ESPN kontrolü.
+// Canlı bildirim için cron ŞART: * * * * * php artisan schedule:run
+Schedule::call(fn () => app(LiveMatchService::class)->tick())
+    ->everyMinute()->name('canli-mac')->withoutOverlapping();
 
 // Push testi: php artisan push:test uye@ornek.com
 Artisan::command('push:test {email}', function (string $email) {

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Fixture;
 use App\Models\MatchPrediction;
 use App\Services\FixtureAutoSyncService;
+use App\Services\LiveMatchService;
 use App\Services\MatchInsightService;
 use App\Services\MatchReminderService;
 use App\Services\PredictionGameService;
@@ -18,6 +19,8 @@ class FixtureController extends Controller
     public function index(Request $request, TeamBadgeService $badges, MatchInsightService $insights, FixtureAutoSyncService $sync, PredictionGameService $game): JsonResponse
     {
         $sync->sync();
+        // Canlı maç: cron yoksa yedek tetikleyici (yanıttan sonra, üyeyi bekletmez)
+        dispatch(fn () => app(LiveMatchService::class)->tick())->afterResponse();
         $gameOn = PredictionGameService::installed();
         if ($gameOn) {
             $game->settlePending();

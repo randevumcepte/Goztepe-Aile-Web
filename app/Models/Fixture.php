@@ -11,7 +11,7 @@ class Fixture extends Model
         'opponent', 'opponent_logo_path', 'competition', 'is_home',
         'kickoff_at', 'venue', 'broadcast', 'home_score', 'away_score', 'is_active',
         'ai_probs', 'ai_home_goals', 'ai_away_goals', 'crowd_summary', 'crowd_summary_hash', 'crowd_summary_at',
-        'leader_note', 'leader_note_at', 'reminders_sent',
+        'leader_note', 'leader_note_at', 'reminders_sent', 'live_state',
     ];
 
     protected function casts(): array
@@ -24,6 +24,7 @@ class Fixture extends Model
             'crowd_summary_at' => 'datetime',
             'leader_note_at' => 'datetime',
             'reminders_sent' => 'array',
+            'live_state' => 'array',
         ];
     }
 
