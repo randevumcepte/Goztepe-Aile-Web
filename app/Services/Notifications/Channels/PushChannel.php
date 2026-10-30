@@ -21,6 +21,9 @@ use Illuminate\Support\Facades\Log;
  */
 class PushChannel implements NotificationChannel
 {
+    /** Son gönderimin cihaz bazında sonucu (push:test teşhisi için). */
+    public static array $lastReport = [];
+
     public function key(): string
     {
         return 'push';
@@ -28,6 +31,7 @@ class PushChannel implements NotificationChannel
 
     public function send(User $user, array $payload): void
     {
+        self::$lastReport = [];
         $tokens = $user->deviceTokens()->pluck('token')->filter()->unique()->values();
 
         if ($tokens->isEmpty()) {
@@ -57,6 +61,7 @@ class PushChannel implements NotificationChannel
 
         $accessToken = $this->accessToken($account);
         if (! $accessToken) {
+            self::$lastReport[] = 'Google yetki belirteci ALINAMADI (laravel.log [Push] satırına bak)';
             $log->update(['status' => 'failed']);
 
             return;
@@ -92,6 +97,7 @@ class PushChannel implements NotificationChannel
             $res = Http::withToken($accessToken)->timeout(10)
                 ->post("https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send", ['message' => $message]);
 
+            self::$lastReport[] = 'cihaz '.substr($token, 0, 12).'… → HTTP '.$res->status().' '.($res->successful() ? 'KABUL ('.$res->json('name').')' : $res->body());
             if ($res->successful()) {
                 return true;
             }
@@ -103,6 +109,7 @@ class PushChannel implements NotificationChannel
             }
             Log::warning('[Push] FCM reddetti: '.$res->status().' '.$res->body());
         } catch (\Throwable $e) {
+            self::$lastReport[] = 'cihaz '.substr($token, 0, 12).'… → HATA '.$e->getMessage();
             Log::warning('[Push] Gönderim hatası: '.$e->getMessage());
         }
 

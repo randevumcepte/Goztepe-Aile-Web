@@ -28,5 +28,8 @@ Artisan::command('push:test {email}', function (string $email) {
     $this->info('Kayıtlı cihaz: '.$user->deviceTokens()->count());
     $this->info('Servis hesabı: '.(is_file(config('services.fcm.credentials')) ? 'VAR' : 'YOK -> '.config('services.fcm.credentials')));
     app(NotificationService::class)->send($user, 'Göztepe Tribünleri', 'Bildirimler çalışıyor! 💛❤️', null, 'sistem', ['push']);
-    $this->info('Gönderildi; telefona gelmediyse storage/logs/laravel.log içinde [Push] satırlarına bak.');
+    foreach (\App\Services\Notifications\Channels\PushChannel::$lastReport ?: ['(push kanalı çalışmadı: kullanıcı bu kategoride push\x27u kapatmış olabilir)'] as $line) {
+        $this->line('  '.$line);
+    }
+    $this->info('Telefona gelmediyse uygulamayı arka plana al ve tekrar dene; çıktıyı paylaş.');
 })->purpose('Bir kullanıcıya test push bildirimi gönderir');
