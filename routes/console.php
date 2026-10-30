@@ -20,10 +20,11 @@ Schedule::call(function () {
     app(MatchReminderService::class)->tick();
 })->everyTenMinutes()->name('mac-hatirlatmalari')->withoutOverlapping();
 
-// Canlı maç bildirimleri (gol, kart, devre, maç sonu): maç saatinde dakikada bir ESPN kontrolü.
+// Canlı maç bildirimleri (gol, kart, devre, maç sonu): maç saatinde 10 saniyede bir ESPN kontrolü
+// (maç penceresi dışında tick() hiçbir dış istek yapmaz).
 // Canlı bildirim için cron ŞART: * * * * * php artisan schedule:run
 Schedule::call(fn () => app(LiveMatchService::class)->tick())
-    ->everyMinute()->name('canli-mac')->withoutOverlapping();
+    ->everyTenSeconds()->name('canli-mac')->withoutOverlapping();
 
 // Push testi: php artisan push:test uye@ornek.com
 Artisan::command('push:test {email}', function (string $email) {

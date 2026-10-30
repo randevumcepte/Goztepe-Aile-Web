@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Schema;
  *
  * Veri: ESPN'in herkese açık skor servisi (anahtarsız; Süper Lig = "tur.1").
  * Resmî/belgelenmiş bir API değildir; biçimi değişirse sessizce durur (log düşer).
- * Maç saatinde dakikada bir kontrol edilir — bunun için sunucuda cron
+ * Maç saatinde 10 saniyede bir kontrol edilir — bunun için sunucuda cron
  * (php artisan schedule:run, her dakika) GEREKLİ; uygulama istekleri yalnız yedek tetikleyicidir.
  * Her olay maç başına bir kez gönderilir (fixtures.live_state).
  */
@@ -45,7 +45,7 @@ class LiveMatchService
     /** Maç penceresindeki (başlamadan 15 dk önce → başladıktan 3 saat sonra) maçları kontrol eder. */
     public function tick(): void
     {
-        if (! self::installed() || ! Cache::add('live_match:lock', 1, now()->addSeconds(45))) {
+        if (! self::installed() || ! Cache::add('live_match:lock', 1, now()->addSeconds(8))) {
             return;
         }
 
@@ -188,7 +188,7 @@ class LiveMatchService
 
     private function scoreboard(string $ymd): array
     {
-        return Cache::remember("live_match:espn:{$ymd}", now()->addSeconds(40), function () use ($ymd) {
+        return Cache::remember("live_match:espn:{$ymd}", now()->addSeconds(8), function () use ($ymd) {
             $res = Http::timeout(8)->withHeaders(['User-Agent' => 'Mozilla/5.0 GoztepeTribunleri'])
                 ->get(self::SCOREBOARD, ['dates' => $ymd]);
             if (! $res->ok()) {
