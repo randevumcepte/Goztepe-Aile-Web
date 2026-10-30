@@ -48,6 +48,8 @@ class LiveMatchService
         if (! self::installed() || ! Cache::add('live_match:lock', 1, now()->addSeconds(8))) {
             return;
         }
+        // Yönetim panelindeki "cron çalışıyor mu" göstergesi
+        Cache::forever('live_match:last_tick', now()->toIso8601String());
 
         Fixture::query()->where('is_active', true)
             ->whereBetween('kickoff_at', [now()->subHours(3), now()->addMinutes(15)])

@@ -5,6 +5,11 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\FixtureController as AdminFixtureController;
 use App\Http\Controllers\Admin\HistoryEventController as AdminHistoryEventController;
 use App\Http\Controllers\Admin\LegendController as AdminLegendController;
+use App\Http\Controllers\Admin\ChantController as WebChantController;
+use App\Http\Controllers\Admin\MatchCenterController;
+use App\Http\Controllers\Admin\MemorableController as WebMemorableController;
+use App\Http\Controllers\Admin\PartnerController as WebPartnerController;
+use App\Http\Controllers\Admin\SystemToolsController;
 use App\Http\Controllers\Admin\MemberController as AdminMemberController;
 use App\Http\Controllers\Admin\MembershipFeatureController as AdminMembershipFeatureController;
 use App\Http\Controllers\Admin\MembershipPlanController as AdminMembershipPlanController;
@@ -130,6 +135,41 @@ Route::middleware(['auth', 'staff'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/sanli-tarihimiz/{history}/duzenle', [AdminHistoryEventController::class, 'edit'])->name('history.edit');
     Route::put('/sanli-tarihimiz/{history}', [AdminHistoryEventController::class, 'update'])->name('history.update');
     Route::delete('/sanli-tarihimiz/{history}', [AdminHistoryEventController::class, 'destroy'])->name('history.destroy');
+
+    // Maç Merkezi (AI analizi, tahmin oyunu, tribün, lider notu, canlı takip)
+    Route::get('/mac-merkezi', [MatchCenterController::class, 'index'])->name('match-center.index');
+    Route::get('/mac-merkezi/{fixture}', [MatchCenterController::class, 'show'])->name('match-center.show');
+    Route::post('/mac-merkezi/{fixture}/lider-notu', [MatchCenterController::class, 'saveLeaderNote'])->name('match-center.leader-note');
+    Route::post('/mac-merkezi/{fixture}/ozet-yenile', [MatchCenterController::class, 'refreshSummary'])->name('match-center.refresh-summary');
+
+    // Unutulmazlar + Bestelerimiz
+    Route::get('/unutulmazlar', [WebMemorableController::class, 'index'])->name('memorables.index');
+    Route::get('/unutulmazlar/yeni', [WebMemorableController::class, 'create'])->name('memorables.create');
+    Route::post('/unutulmazlar', [WebMemorableController::class, 'store'])->name('memorables.store');
+    Route::get('/unutulmazlar/{memorable}/duzenle', [WebMemorableController::class, 'edit'])->name('memorables.edit');
+    Route::put('/unutulmazlar/{memorable}', [WebMemorableController::class, 'update'])->name('memorables.update');
+    Route::delete('/unutulmazlar/{memorable}', [WebMemorableController::class, 'destroy'])->name('memorables.destroy');
+    Route::get('/besteler', [WebChantController::class, 'index'])->name('chants.index');
+    Route::get('/besteler/yeni', [WebChantController::class, 'create'])->name('chants.create');
+    Route::post('/besteler', [WebChantController::class, 'store'])->name('chants.store');
+    Route::get('/besteler/{chant}/duzenle', [WebChantController::class, 'edit'])->name('chants.edit');
+    Route::put('/besteler/{chant}', [WebChantController::class, 'update'])->name('chants.update');
+    Route::delete('/besteler/{chant}', [WebChantController::class, 'destroy'])->name('chants.destroy');
+
+    // Göztepe Ayrıcalık: anlaşmalı işletmeler (demo rotası {partner}'dan önce)
+    Route::get('/isletmeler', [WebPartnerController::class, 'index'])->name('partners.index');
+    Route::get('/isletmeler/yeni', [WebPartnerController::class, 'create'])->name('partners.create');
+    Route::post('/isletmeler', [WebPartnerController::class, 'store'])->name('partners.store');
+    Route::delete('/isletmeler/demo', [WebPartnerController::class, 'destroyDemo'])->name('partners.demo-destroy');
+    Route::get('/isletmeler/{partner}', [WebPartnerController::class, 'show'])->name('partners.show');
+    Route::get('/isletmeler/{partner}/duzenle', [WebPartnerController::class, 'edit'])->name('partners.edit');
+    Route::put('/isletmeler/{partner}', [WebPartnerController::class, 'update'])->name('partners.update');
+    Route::delete('/isletmeler/{partner}', [WebPartnerController::class, 'destroy'])->name('partners.destroy');
+
+    // Sistem Araçları (bildirim testi, cron durumu)
+    Route::get('/sistem-araclari', [SystemToolsController::class, 'index'])->name('tools.index');
+    Route::post('/sistem-araclari/test-bildirim', [SystemToolsController::class, 'testPush'])->name('tools.test-push');
+    Route::post('/sistem-araclari/test-gol', [SystemToolsController::class, 'testGoal'])->name('tools.test-goal');
 
     // Efsaneler (Şanlı Tarihimiz futbolcular)
     Route::get('/efsaneler', [AdminLegendController::class, 'index'])->name('legends.index');

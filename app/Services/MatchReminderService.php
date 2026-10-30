@@ -31,6 +31,7 @@ class MatchReminderService
         if (! PredictionGameService::installed() || ! Cache::add('match_reminders:lock', 1, now()->addMinutes(10))) {
             return;
         }
+        Cache::forever('match_reminders:last_tick', now()->toIso8601String());
 
         try {
             $this->game->settlePending();

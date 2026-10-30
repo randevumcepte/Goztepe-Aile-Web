@@ -67,6 +67,12 @@
         </label>
     </div>
 
+    <div>
+        <label class="{{ $label }}">Tribün Lideri Notu (doğrulanmış kadro bilgisi)</label>
+        <textarea name="leader_note" rows="3" maxlength="500" class="{{ $input }}" placeholder="Örn: Kaptanımız cezalı, bu maçta oynamayacak.">{{ old('leader_note', $fixture?->leader_note) }}</textarea>
+        <p class="mt-1 text-xs text-slate-400">Üyeler maç analizi ekranının en üstünde onaylı kart olarak görür; AI önizlemesi bunu kesin bilgi sayar.</p>
+    </div>
+
     <div class="flex gap-3 border-t border-slate-100 pt-5">
         <button class="rounded-lg bg-brand-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-700">Kaydet</button>
         <a href="{{ route('admin.fixtures.index') }}" class="rounded-lg border border-slate-300 px-6 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50">İptal</a>
