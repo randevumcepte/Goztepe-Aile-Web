@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Member;
 
 use App\Http\Controllers\Controller;
 use App\Models\Fixture;
+use App\Services\MatchInsightService;
 use App\Models\Post;
 use App\Services\LedgerService;
 use App\Services\TeamBadgeService;
@@ -74,6 +75,8 @@ class DashboardController extends Controller
                 'bakiye' => (float) ($kasa['bakiye'] ?? 0),
             ],
             'next_match' => $nextMatch ? [
+                'id' => $nextMatch->id,
+                'prediction' => app(MatchInsightService::class)->summary($nextMatch),
                 'opponent' => $nextMatch->opponent,
                 'opponent_logo' => $nextMatch->opponentLogoUrl(),
                 'competition' => $nextMatch->competition,

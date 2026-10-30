@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\SeffafKasaController;
 use App\Http\Controllers\Api\Member\DashboardController as MemberDashboardController;
 use App\Http\Controllers\Api\Member\FixtureController as MemberFixtureController;
+use App\Http\Controllers\Api\Member\MatchInsightController as MemberMatchInsightController;
 use App\Http\Controllers\Api\Member\NewsController as MemberNewsController;
 use App\Http\Controllers\Api\Member\ProfileController as MemberProfileController;
 use App\Http\Controllers\Api\Member\StudentVerificationController as MemberStudentVerificationController;
@@ -57,6 +58,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // --- Üye alanı (mobil) ---
     Route::get('/uye/ozet', [MemberDashboardController::class, 'index']);
     Route::get('/uye/fikstur', [MemberFixtureController::class, 'index']);
+    Route::get('/uye/mac/{fixture}/analiz', [MemberMatchInsightController::class, 'show']);
     Route::get('/uye/haberler', [MemberNewsController::class, 'index']);
     Route::get('/uye/haberler/{post}', [MemberNewsController::class, 'show']);
     Route::get('/uye/profil', [MemberProfileController::class, 'show']);

@@ -58,4 +58,9 @@ return [
         'rest_api_key' => env('ONESIGNAL_REST_API_KEY'),
     ],
 
+    // Maç analizi önizleme metni (Haiku). Boşsa kural tabanlı metin kullanılır.
+    'anthropic' => [
+        'key' => env('ANTHROPIC_API_KEY'),
+    ],
+
 ];

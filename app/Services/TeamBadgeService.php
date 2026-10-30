@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Http;
  */
 class TeamBadgeService
 {
-    private const BASE = 'https://www.thesportsdb.com/api/v1/json/3/searchteams.php';
+    // Eski '3' test anahtarı TheSportsDB tarafından kapatıldı; yeni ücretsiz anahtar '123'.
+    private const BASE = 'https://www.thesportsdb.com/api/v1/json/123/searchteams.php';
 
     /** Göztepe'nin TheSportsDB armasının yedeği (API erişilemezse). */
     private const GOZTEPE_FALLBACK = 'https://r2.thesportsdb.com/images/media/team/badge/9jwk7o1513952059.png';

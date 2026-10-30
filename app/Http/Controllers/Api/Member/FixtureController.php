@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Api\Member;
 
 use App\Http\Controllers\Controller;
 use App\Models\Fixture;
+use App\Services\MatchInsightService;
 use App\Services\TeamBadgeService;
 use Illuminate\Http\JsonResponse;
 
 class FixtureController extends Controller
 {
-    public function index(TeamBadgeService $badges): JsonResponse
+    public function index(TeamBadgeService $badges, MatchInsightService $insights): JsonResponse
     {
         $upcoming = Fixture::upcoming()->get();
         $played = Fixture::played()->limit(20)->get();
@@ -26,7 +27,8 @@ class FixtureController extends Controller
 
         return response()->json([
             'goztepe_badge' => $badges->goztepeBadgeUrl(),
-            'upcoming' => $upcoming->map(fn ($f) => $this->payload($f))->values(),
+            // Yaklaşan maçlara tahmin yüzdeleri (veri yoksa null — kartta gösterilmez)
+            'upcoming' => $upcoming->map(fn ($f) => $this->payload($f) + ['prediction' => $insights->summary($f)])->values(),
             'played' => $played->map(fn ($f) => $this->payload($f))->values(),
         ]);
     }
