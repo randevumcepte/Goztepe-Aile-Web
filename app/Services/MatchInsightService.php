@@ -546,7 +546,7 @@ class MatchInsightService
         }
 
         $key = 'match_insight:preview:'.self::VERSION.':'.$fixture->id.':'
-            .md5(json_encode($p['probabilities']).$p['source']['updated'].$fixture->crowd_summary_hash);
+            .md5(json_encode($p['probabilities']).$p['source']['updated'].$fixture->crowd_summary_hash.$fixture->leader_note_at);
 
         $cached = Cache::get($key);
         if ($cached) {
@@ -579,6 +579,8 @@ class MatchInsightService
             'rakip' => $p['opponent'],
             // Üyelerin tahmin gerekçelerinden çıkarılan, DOĞRULANMAMIŞ notlar
             'tribun_notlari' => $fixture->crowd_summary,
+            // Tribün liderinin DOĞRULANMIŞ kadro notu
+            'lider_notu' => $fixture->leader_note,
         ], JSON_UNESCAPED_UNICODE);
     }
 
@@ -588,6 +590,7 @@ class MatchInsightService
             .'Sana verilen istatistik ve model olasılıklarına dayanarak 3-4 cümlelik, akıcı Türkçe bir önizleme yaz. '
             .'Sıcak, tribüne yakın ama abartısız bir dil kullan; sayıları doğru aktar, verilmeyen bilgi uydurma '
             .'(sakatlık, kadro, hoca sözü gibi). Bunun bir olasılık tahmini olduğunu hissettir. '
+            .'"lider_notu" doluysa tribün liderinin doğrulanmış bilgisidir; kesin bilgi olarak kullan ve önizlemede mutlaka an. '
             .'"tribun_notlari" doluysa bunlar üyelerin doğrulanmamış iddialarıdır; en fazla bir cümleyle '
             .'"tribünden gelen notlara göre" diyerek an, kesin bilgi gibi sunma. '
             .'Bahis, iddaa, oran, kupon, kazanç gibi kelimeler ve bahis tavsiyesi kesinlikle yok. '
@@ -616,6 +619,7 @@ class MatchInsightService
             .$score
             .' Beklenen gol: Göztepe '.$this->num($p['expected_goals']['goztepe'])
             .', '.$o['name'].' '.$this->num($p['expected_goals']['opponent']).'.'
+            .($fixture->leader_note ? ' Tribün liderinden not: '.$fixture->leader_note : '')
             .($fixture->crowd_summary ? ' Tribünden gelen notlar: '.$fixture->crowd_summary : '');
     }
 

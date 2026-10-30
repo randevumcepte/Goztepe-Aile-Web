@@ -42,6 +42,25 @@ class PredictionGameController extends Controller
         ]);
     }
 
+    /** Tribün Muhbiri cevapları (maç başlayana kadar). */
+    public function storeIntel(Request $request, Fixture $fixture): JsonResponse
+    {
+        abort_unless($fixture->is_active, 404);
+
+        $data = $request->validate([
+            'answers' => ['required', 'array'],
+            'answers.*.choice' => ['required', Rule::in(PredictionGameService::INTEL_CHOICES)],
+            'answers.*.text' => ['nullable', 'string', 'max:160'],
+        ]);
+
+        $this->game->saveIntel($request->user(), $fixture, $data['answers']);
+
+        return response()->json([
+            'message' => 'Bilgin tribüne ulaştı, teşekkürler muhbir!',
+            'crowd' => $this->game->crowd($fixture, $request->user()),
+        ]);
+    }
+
     /** Tribün ne diyor: dağılım, öne çıkan etkenler, gerekçe özeti, AI + tribün birleşik tahmin. */
     public function crowd(Request $request, Fixture $fixture): JsonResponse
     {

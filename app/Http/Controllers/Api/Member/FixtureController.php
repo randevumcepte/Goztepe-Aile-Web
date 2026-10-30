@@ -7,6 +7,7 @@ use App\Models\Fixture;
 use App\Models\MatchPrediction;
 use App\Services\FixtureAutoSyncService;
 use App\Services\MatchInsightService;
+use App\Services\MatchReminderService;
 use App\Services\PredictionGameService;
 use App\Services\TeamBadgeService;
 use Illuminate\Http\JsonResponse;
@@ -20,6 +21,7 @@ class FixtureController extends Controller
         $gameOn = PredictionGameService::installed();
         if ($gameOn) {
             $game->settlePending();
+            app(MatchReminderService::class)->tick();
         }
 
         $upcoming = Fixture::upcoming()->get();

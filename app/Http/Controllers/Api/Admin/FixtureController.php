@@ -28,6 +28,9 @@ class FixtureController extends Controller
             // Logo elle yüklenmediyse rakip adından otomatik çek (TheSportsDB)
             $data['opponent_logo_path'] = $badges->badgeUrl($data['opponent']);
         }
+        if (! empty($data['leader_note'])) {
+            $data['leader_note_at'] = now();
+        }
         $fixture = Fixture::create($data);
 
         return response()->json([
@@ -44,6 +47,9 @@ class FixtureController extends Controller
         } elseif (! $fixture->opponent_logo_path || $fixture->opponent !== $data['opponent']) {
             // Logosu yoksa ya da rakip değiştiyse otomatik yeniden çek
             $data['opponent_logo_path'] = $badges->badgeUrl($data['opponent']);
+        }
+        if (($data['leader_note'] ?? null) !== $fixture->leader_note) {
+            $data['leader_note_at'] = now();
         }
         $fixture->update($data);
 
@@ -75,6 +81,7 @@ class FixtureController extends Controller
             'away_score' => ['nullable', 'integer', 'min:0', 'max:99'],
             'opponent_logo' => ['nullable', 'image', 'max:3072'],
             'is_active' => ['nullable', 'boolean'],
+            'leader_note' => ['nullable', 'string', 'max:500'],
         ]);
         $data['is_home'] = $request->boolean('is_home');
         $data['is_active'] = $request->boolean('is_active');
@@ -98,6 +105,7 @@ class FixtureController extends Controller
             'away_score' => $fixture->away_score,
             'is_played' => $fixture->isPlayed(),
             'is_active' => $fixture->is_active,
+            'leader_note' => $fixture->leader_note,
         ];
     }
 }

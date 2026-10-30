@@ -63,6 +63,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Tribün Tahmin Oyunu (parasız: puan/rozet/sıralama)
     Route::post('/uye/mac/{fixture}/tahmin', [MemberPredictionGameController::class, 'store']);
+    Route::post('/uye/mac/{fixture}/muhbir', [MemberPredictionGameController::class, 'storeIntel']);
     Route::get('/uye/mac/{fixture}/tribun', [MemberPredictionGameController::class, 'crowd']);
     Route::get('/uye/tahmin-oyunu', [MemberPredictionGameController::class, 'board']);
     Route::get('/uye/haberler', [MemberNewsController::class, 'index']);

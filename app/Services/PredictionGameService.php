@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Fixture;
+use App\Models\MatchIntel;
 use App\Models\MatchPrediction;
 use App\Models\User;
 use Carbon\Carbon;
@@ -32,6 +33,15 @@ class PredictionGameService
         'hava' => 'Hava / zemin',
     ];
 
+    /** Tribün Muhbiri soruları ({rakip} uygulamada rakip adıyla değişir). */
+    public const INTEL_QUESTIONS = [
+        'rakip_eksik' => '{rakip} kadrosunda sakat ya da cezalı eksik var mı?',
+        'bizde_eksik' => 'Göztepe kadrosunda sakat ya da cezalı eksik var mı?',
+        'surpriz_11' => 'İlk 11\'de sürpriz ya da rotasyon bekliyor musun?',
+    ];
+
+    public const INTEL_CHOICES = ['evet', 'hayir', 'bilmiyorum'];
+
     /** Hiç maç bitmemişken tribünün birleşik tahmindeki ağırlığı. */
     private const PRIOR_CROWD_WEIGHT = 0.25;
 
@@ -48,7 +58,7 @@ class PredictionGameService
     {
         static $ok = null;
 
-        return $ok ??= Schema::hasTable('match_predictions');
+        return $ok ??= Schema::hasTable('match_intel');
     }
 
     // ════════════════ Tahmin kaydı + puanlama ════════════════
@@ -103,6 +113,65 @@ class PredictionGameService
             });
     }
 
+    // ════════════════ Tribün Muhbiri ════════════════
+
+    public function saveIntel(User $user, Fixture $fixture, array $answers): MatchIntel
+    {
+        if (! $fixture->isPredictionOpen()) {
+            throw ValidationException::withMessages(['answers' => 'Maç başladı; muhbir soruları kapandı.']);
+        }
+
+        $clean = [];
+        foreach (self::INTEL_QUESTIONS as $key => $_) {
+            $a = $answers[$key] ?? null;
+            if (! is_array($a) || ! in_array($a['choice'] ?? null, self::INTEL_CHOICES, true)) {
+                continue;
+            }
+            $text = trim((string) ($a['text'] ?? ''));
+            $clean[$key] = [
+                'choice' => $a['choice'],
+                'text' => $a['choice'] === 'evet' && $text !== '' ? mb_substr($text, 0, 160) : null,
+            ];
+        }
+        if (! $clean) {
+            throw ValidationException::withMessages(['answers' => 'En az bir soruyu cevapla.']);
+        }
+
+        return MatchIntel::updateOrCreate(
+            ['user_id' => $user->id, 'fixture_id' => $fixture->id],
+            ['answers' => $clean],
+        );
+    }
+
+    /** Muhbir soruları + (cevapladıysa ya da maç başladıysa) tribünün cevap dağılımı. */
+    public function intelData(Fixture $fixture, User $user): array
+    {
+        $all = $fixture->intel()->get();
+        $mine = $all->firstWhere('user_id', $user->id);
+        $visible = $mine || ! $fixture->isPredictionOpen();
+
+        $questions = [];
+        foreach (self::INTEL_QUESTIONS as $key => $q) {
+            $votes = $all->map(fn ($i) => $i->answers[$key]['choice'] ?? null)->filter();
+            $questions[] = [
+                'key' => $key,
+                'question' => str_replace('{rakip}', $fixture->opponent, $q),
+                'counts' => $visible
+                    ? collect(self::INTEL_CHOICES)->mapWithKeys(fn ($c) => [$c => $votes->filter(fn ($v) => $v === $c)->count()])
+                    : null,
+                'total' => $votes->count(),
+            ];
+        }
+
+        return [
+            'open' => $fixture->isPredictionOpen(),
+            'count' => $all->count(),
+            'visible' => $visible,
+            'questions' => $questions,
+            'mine' => $mine?->answers,
+        ];
+    }
+
     // ════════════════ Tribün ne diyor ════════════════
 
     public function crowd(Fixture $fixture, User $user): array
@@ -119,6 +188,7 @@ class PredictionGameService
             'my_prediction' => $mine ? $this->predPayload($mine) : null,
             'factors' => collect(self::FACTORS)->map(fn ($label, $key) => ['key' => $key, 'label' => $label])->values(),
             'ai_pick' => $fixture->ai_home_goals === null ? null : ['home' => $fixture->ai_home_goals, 'away' => $fixture->ai_away_goals],
+            'intel' => $this->intelData($fixture, $user),
         ];
 
         // Kopya tahmini önlemek için: dağılım ancak kendi tahminini yapınca (ya da maç başlayınca) görünür
@@ -228,22 +298,27 @@ class PredictionGameService
     private function crowdSummary(Fixture $fixture, Collection $preds): ?string
     {
         $reasons = $preds->filter(fn ($p) => $p->reason)->sortBy('id');
-        if ($reasons->count() < self::MIN_CROWD || ! $this->ai->available()) {
-            $top = $this->topFactors($preds);
+        $intel = $fixture->intel()->orderBy('id')->get();
+        $tips = $intel->flatMap(fn ($i) => collect($i->answers)
+            ->filter(fn ($a) => ($a['choice'] ?? null) === 'evet')
+            ->map(fn ($a, $k) => '- [muhbir: '.str_replace('{rakip}', $fixture->opponent, self::INTEL_QUESTIONS[$k] ?? $k).'] '.($a['text'] ?: 'evet'))
+            ->values())
+            ->values();
 
-            return $top
-                ? 'Tribünün öne çıkardığı etkenler: '.collect($top)->map(fn ($t) => "{$t['label']} ({$t['count']} üye)")->join(', ').'.'
-                : null;
+        if ($reasons->count() + $tips->count() < self::MIN_CROWD || ! $this->ai->available()) {
+            return $this->ruleSummary($fixture, $preds, $intel);
         }
 
-        $hash = md5($reasons->map(fn ($p) => $p->id.':'.$p->reason)->join('|'));
+        $hash = md5($reasons->map(fn ($p) => $p->id.':'.$p->reason)->join('|').'#'.$tips->join('|'));
         $fresh = $fixture->crowd_summary_at && $fixture->crowd_summary_at->gt(now()->subMinutes(20));
         if ($fixture->crowd_summary && ($fixture->crowd_summary_hash === $hash || $fresh)) {
             return $fixture->crowd_summary;
         }
 
         $lines = $reasons->take(-60)->map(fn ($p) => '- ['.$this->goztepeOutcome($fixture, $p->home_goals, $p->away_goals).'] '
-            .str_replace(["\n", "\r"], ' ', $p->reason))->join("\n");
+            .str_replace(["\n", "\r"], ' ', $p->reason))
+            ->concat($tips->take(-60)->map(fn ($t) => str_replace(["\n", "\r"], ' ', $t)))
+            ->join("\n");
 
         $text = $this->ai->write(
             'Göztepe taraftar uygulamasında üyelerin maç tahmini gerekçelerini özetliyorsun. '
@@ -252,7 +327,7 @@ class PredictionGameService
             .'kesin bilgi gibi sunma. Hakaret, küfür, alakasız ya da kişisel içerikleri tamamen yok say ve tekrarlama. '
             .'Bahis/oran/kupon dili yok. Başlık, madde işareti, emoji yok.',
             'Maç: '.($fixture->is_home ? 'Göztepe - '.$fixture->opponent : $fixture->opponent.' - Göztepe')
-            ."\nGerekçeler (köşeli parantezde üyenin tahmini, goztepe_win/draw/opponent_win):\n".$lines,
+            ."\nGerekçeler ve muhbir notları (köşeli parantezde üyenin tahmini ya da cevapladığı muhbir sorusu):\n".$lines,
         );
         if (! $text) {
             return $fixture->crowd_summary;
@@ -261,6 +336,28 @@ class PredictionGameService
         $fixture->forceFill(['crowd_summary' => $text, 'crowd_summary_hash' => $hash, 'crowd_summary_at' => now()])->saveQuietly();
 
         return $text;
+    }
+
+    private function ruleSummary(Fixture $fixture, Collection $preds, Collection $intel): ?string
+    {
+        $parts = [];
+        $top = $this->topFactors($preds);
+        if ($top) {
+            $parts[] = 'Tribünün öne çıkardığı etkenler: '.collect($top)->map(fn ($t) => "{$t['label']} ({$t['count']} üye)")->join(', ').'.';
+        }
+        $whats = [
+            'rakip_eksik' => $fixture->opponent.' kadrosunda eksik olduğunu',
+            'bizde_eksik' => 'Göztepe kadrosunda eksik olduğunu',
+            'surpriz_11' => 'sürpriz ilk 11 beklediğini',
+        ];
+        foreach ($whats as $k => $what) {
+            $yes = $intel->filter(fn ($i) => ($i->answers[$k]['choice'] ?? null) === 'evet')->count();
+            if ($yes > 0) {
+                $parts[] = "{$yes} muhbir {$what} söylüyor.";
+            }
+        }
+
+        return $parts ? implode(' ', $parts) : null;
     }
 
     // ════════════════ Öğrenme: AI + tribün birleşik tahmin ════════════════
@@ -341,7 +438,7 @@ class PredictionGameService
     // ════════════════ Sıralama + rozetler ════════════════
 
     /** Sezonluk tribün sıralaması + AI satırı + kullanıcının kendi durumu. */
-    public function board(User $user): array
+    public function board(?User $user): array
     {
         $this->settlePending();
 
@@ -356,6 +453,9 @@ class PredictionGameService
             ->whereBetween('kickoff_at', [$start, $end])->orderBy('kickoff_at')->get();
 
         $users = User::query()->whereIn('id', $settled->keys())->get(['id', 'name'])->keyBy('id');
+        $intelCounts = MatchIntel::query()
+            ->whereHas('fixture', fn ($q) => $q->whereBetween('kickoff_at', [$start, $end]))
+            ->selectRaw('user_id, COUNT(*) as n')->groupBy('user_id')->pluck('n', 'user_id');
 
         $rows = $settled->map(fn ($preds, $uid) => [
             'user_id' => (int) $uid,
@@ -365,7 +465,7 @@ class PredictionGameService
             'correct' => $preds->where('points', '>=', 2)->count(),
             'played' => $preds->count(),
             'beat_ai' => $preds->where('beat_ai', true)->count(),
-            'badges' => collect($this->badges($preds, $settledFixtures))->where('earned', true)->pluck('key')->values(),
+            'badges' => collect($this->badges($preds, $settledFixtures, null, (int) ($intelCounts[$uid] ?? 0)))->where('earned', true)->pluck('key')->values(),
         ])->sort(fn ($a, $b) => [$b['points'], $b['exact'], $a['played']] <=> [$a['points'], $a['exact'], $b['played']])
             ->values();
 
@@ -382,8 +482,10 @@ class PredictionGameService
             return ['rank' => $rank] + $r;
         });
 
-        $me = $rows->firstWhere('user_id', $user->id);
-        $myPreds = MatchPrediction::query()->where('user_id', $user->id)->with('fixture')->latest('id')->limit(30)->get();
+        $me = $user ? $rows->firstWhere('user_id', $user->id) : null;
+        $myPreds = $user
+            ? MatchPrediction::query()->where('user_id', $user->id)->with('fixture')->latest('id')->limit(30)->get()
+            : collect();
 
         return [
             'season' => $label,
@@ -391,7 +493,7 @@ class PredictionGameService
             'rows' => $rows->take(100)->values(),
             'me' => [
                 'row' => $me,
-                'badges' => $this->badges($settled->get($user->id, collect()), $settledFixtures, $myPreds),
+                'badges' => $this->badges($settled->get($user?->id, collect()), $settledFixtures, $myPreds, (int) ($intelCounts[$user?->id] ?? 0)),
                 'history' => $myPreds->map(fn ($p) => $this->historyPayload($p))->values(),
             ],
             'ai' => $this->aiRow($settledFixtures),
@@ -420,7 +522,7 @@ class PredictionGameService
      * Rozetler. $settled: kullanıcının bu sezon biten tahminleri.
      * $all (opsiyonel): gerekçe sayımı için tüm tahminleri.
      */
-    private function badges(Collection $settled, Collection $settledFixtures, ?Collection $all = null): array
+    private function badges(Collection $settled, Collection $settledFixtures, ?Collection $all = null, int $intelCount = 0): array
     {
         $ordered = $settled->sortBy(fn ($p) => $p->fixture?->kickoff_at);
         $exact = $settled->where('points', 5)->count();
@@ -447,6 +549,7 @@ class PredictionGameService
             ['key' => 'ai_avcisi', 'label' => 'AI Avcısı', 'desc' => '3 maçta AI\'dan çok puan al', 'earned' => $beat >= 3, 'progress' => min($beat, 3).'/3'],
             ['key' => 'tribunun_sesi', 'label' => 'Tribünün Sesi', 'desc' => '5 tahmine gerekçe yaz', 'earned' => $reasons >= 5, 'progress' => min($reasons, 5).'/5'],
             ['key' => 'sadik', 'label' => 'Sadık Tribün', 'desc' => 'Hiç maç kaçırmadan 5 maç tahmin et', 'earned' => $loyal, 'progress' => $loyal ? '5/5' : min($settled->count(), 4).'/5'],
+            ['key' => 'muhbir', 'label' => 'Muhbir', 'desc' => '3 maçta muhbir sorularını cevapla', 'earned' => $intelCount >= 3, 'progress' => min($intelCount, 3).'/3'],
         ];
     }
 

@@ -11,6 +11,7 @@ class Fixture extends Model
         'opponent', 'opponent_logo_path', 'competition', 'is_home',
         'kickoff_at', 'venue', 'broadcast', 'home_score', 'away_score', 'is_active',
         'ai_probs', 'ai_home_goals', 'ai_away_goals', 'crowd_summary', 'crowd_summary_hash', 'crowd_summary_at',
+        'leader_note', 'leader_note_at', 'reminders_sent',
     ];
 
     protected function casts(): array
@@ -21,6 +22,8 @@ class Fixture extends Model
             'kickoff_at' => 'datetime',
             'ai_probs' => 'array',
             'crowd_summary_at' => 'datetime',
+            'leader_note_at' => 'datetime',
+            'reminders_sent' => 'array',
         ];
     }
 
@@ -60,6 +63,11 @@ class Fixture extends Model
     public function predictions(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(MatchPrediction::class);
+    }
+
+    public function intel(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(MatchIntel::class);
     }
 
     /** Tahmin hâlâ yapılabilir mi? (maç başlamadı, skor yok) */

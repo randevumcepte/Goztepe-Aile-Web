@@ -25,6 +25,9 @@ class MatchInsightController extends Controller
                 'is_home' => $fixture->is_home,
                 'kickoff_at' => $fixture->kickoff_at?->toIso8601String(),
                 'venue' => $fixture->venue,
+                // Tribün liderinin doğrulanmış kadro notu
+                'leader_note' => $fixture->leader_note,
+                'leader_note_at' => $fixture->leader_note_at?->toIso8601String(),
             ],
             'analysis' => $insights->analyze($fixture),
             'disclaimer' => 'Bu analiz geçmiş maç verilerine dayalı istatistiksel bir tahmindir, kesinlik içermez ve bahis tavsiyesi değildir.',

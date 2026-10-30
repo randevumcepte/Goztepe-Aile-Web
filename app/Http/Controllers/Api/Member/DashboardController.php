@@ -7,6 +7,7 @@ use App\Models\Fixture;
 use App\Models\MatchPrediction;
 use App\Services\FixtureAutoSyncService;
 use App\Services\MatchInsightService;
+use App\Services\MatchReminderService;
 use App\Services\PredictionGameService;
 use App\Models\Post;
 use App\Services\LedgerService;
@@ -49,6 +50,7 @@ class DashboardController extends Controller
         $kasa = $this->ledger->publicSummary()['totals'];
 
         app(FixtureAutoSyncService::class)->sync();
+        app(MatchReminderService::class)->tick();
         $nextMatch = Fixture::upcoming()->first();
         if ($nextMatch && ! $nextMatch->opponent_logo_path) {
             try {
