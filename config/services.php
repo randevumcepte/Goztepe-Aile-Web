@@ -50,7 +50,9 @@ return [
 
     // Push bildirim
     'fcm' => [
-        'server_key' => env('FCM_SERVER_KEY'),
+        'server_key' => env('FCM_SERVER_KEY'), // eski API (kapandı), kullanılmıyor
+        // FCM v1 servis hesabı JSON yolu (Firebase → Proje ayarları → Hizmet hesapları)
+        'credentials' => env('FCM_CREDENTIALS', storage_path('app/fcm-service-account.json')),
     ],
 
     'onesignal' => [
