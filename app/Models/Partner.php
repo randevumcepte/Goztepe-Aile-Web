@@ -21,7 +21,7 @@ class Partner extends Model
     protected $fillable = [
         'name', 'category', 'discount_text', 'description', 'conditions', 'address', 'district', 'lat', 'lng',
         'phone', 'hours', 'logo_path', 'cover_path', 'stamp_goal', 'stamp_reward', 'kasa_contribution',
-        'code', 'pin_hash', 'status', 'applicant_name', 'applicant_phone', 'applicant_user_id', 'sort',
+        'code', 'pin_hash', 'status', 'is_demo', 'applicant_name', 'applicant_phone', 'applicant_user_id', 'sort',
     ];
 
     protected $hidden = ['pin_hash'];
@@ -33,6 +33,7 @@ class Partner extends Model
             'lng' => 'float',
             'stamp_goal' => 'integer',
             'kasa_contribution' => 'float',
+            'is_demo' => 'boolean',
         ];
     }
 

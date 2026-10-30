@@ -40,3 +40,10 @@ Artisan::command('push:test {email}', function (string $email) {
     }
     $this->info('Telefona gelmediyse uygulamayı arka plana al ve tekrar dene; çıktıyı paylaş.');
 })->purpose('Bir kullanıcıya test push bildirimi gönderir');
+
+// Göztepe Ayrıcalık örnek verilerini sil: php artisan ayricalik:demo-sil
+Artisan::command('ayricalik:demo-sil', function () {
+    $n = \App\Models\Partner::where('is_demo', true)->count();
+    \App\Models\Partner::where('is_demo', true)->delete(); // ziyaretler cascade ile silinir
+    $this->info("{$n} örnek işletme ve ziyaretleri silindi.");
+})->purpose('Göztepe Ayrıcalık demo (örnek) işletmelerini ve ziyaretlerini siler');

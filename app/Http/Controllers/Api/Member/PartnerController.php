@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Member;
 
 use App\Http\Controllers\Controller;
 use App\Models\Partner;
+use App\Models\PartnerVisit;
 use App\Services\PartnerProgramService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -53,6 +54,47 @@ class PartnerController extends Controller
             'lat' => $partner->lat,
             'lng' => $partner->lng,
             'my_visits' => $partner->visits()->where('user_id', $uid)->where('type', 'ziyaret')->count(),
+        ]);
+    }
+
+    /** Ayrıcalık Cüzdanım: hediye ilerlemesi + nerede ne kullanıldı. */
+    public function history(Request $request): JsonResponse
+    {
+        $user = $request->user();
+        $visits = PartnerVisit::with('partner')->where('user_id', $user->id)->latest('created_at')->latest('id')->limit(200)->get()
+            ->filter(fn ($v) => $v->partner);
+
+        // Damga kartı olan ve üyenin uğradığı işletmeler: hazır hediyeler en üstte
+        $rewards = $visits->pluck('partner')->unique('id')->filter(fn (Partner $p) => $p->status === 'aktif' && $p->hasStampCard())
+            ->map(function (Partner $p) use ($user) {
+                $s = $p->stampsFor($user->id);
+
+                return [
+                    'partner_id' => $p->id, 'partner' => $p->name, 'logo' => $p->logoUrl(), 'category_label' => $p->categoryLabel(),
+                    'stamps' => min($s, $p->stamp_goal), 'goal' => $p->stamp_goal, 'reward' => $p->stamp_reward, 'ready' => $s >= $p->stamp_goal,
+                ];
+            })
+            ->sortBy(fn ($r) => [$r['ready'] ? 0 : 1, $r['goal'] - $r['stamps']])->values();
+
+        return response()->json([
+            'summary' => [
+                'visits' => $visits->where('type', 'ziyaret')->count(),
+                'partners' => $visits->pluck('partner_id')->unique()->count(),
+                'rewards_received' => $visits->where('type', 'hediye')->count(),
+                'rewards_ready' => $rewards->where('ready', true)->count(),
+                'tier' => $this->program->tier($user),
+            ],
+            'rewards' => $rewards,
+            'history' => $visits->map(fn (PartnerVisit $v) => [
+                'date' => $v->created_at->toIso8601String(),
+                'partner_id' => $v->partner_id,
+                'partner' => $v->partner->name,
+                'category_label' => $v->partner->categoryLabel(),
+                'type' => $v->type,
+                'discount' => $v->type === 'ziyaret' ? $v->partner->discount_text : null,
+                'stamped' => $v->stamped,
+                'reward' => $v->type === 'hediye' ? $v->partner->stamp_reward : null,
+            ])->values(),
         ]);
     }
 

@@ -69,6 +69,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Göztepe Ayrıcalık: taraftar kartı (dönen QR), anlaşmalı işletmeler, başvuru
     Route::get('/uye/kart', [MemberPartnerController::class, 'card']);
     Route::get('/uye/ayricaliklar', [MemberPartnerController::class, 'index']);
+    Route::get('/uye/ayricaliklar/cuzdan', [MemberPartnerController::class, 'history']);
     Route::post('/uye/ayricaliklar/basvuru', [MemberPartnerController::class, 'apply']);
     Route::get('/uye/ayricaliklar/{partner}', [MemberPartnerController::class, 'show']);
 

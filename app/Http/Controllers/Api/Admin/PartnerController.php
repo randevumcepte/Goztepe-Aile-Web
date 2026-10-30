@@ -94,6 +94,7 @@ class PartnerController extends Controller
             'logo' => $p->logoUrl(),
             'cover' => $p->coverUrl(),
             'has_pin' => (bool) $p->pin_hash,
+            'is_demo' => (bool) $p->is_demo,
             'month' => $this->program->stats($p),
             'scan_url' => url('/isletme'),
         ];
