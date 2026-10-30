@@ -4,14 +4,17 @@ namespace App\Http\Controllers\Api\Member;
 
 use App\Http\Controllers\Controller;
 use App\Models\Fixture;
+use App\Services\FixtureAutoSyncService;
 use App\Services\MatchInsightService;
 use App\Services\TeamBadgeService;
 use Illuminate\Http\JsonResponse;
 
 class FixtureController extends Controller
 {
-    public function index(TeamBadgeService $badges, MatchInsightService $insights): JsonResponse
+    public function index(TeamBadgeService $badges, MatchInsightService $insights, FixtureAutoSyncService $sync): JsonResponse
     {
+        $sync->sync();
+
         $upcoming = Fixture::upcoming()->get();
         $played = Fixture::played()->limit(20)->get();
 

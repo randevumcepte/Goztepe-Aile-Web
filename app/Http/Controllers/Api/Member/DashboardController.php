@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Member;
 
 use App\Http\Controllers\Controller;
 use App\Models\Fixture;
+use App\Services\FixtureAutoSyncService;
 use App\Services\MatchInsightService;
 use App\Models\Post;
 use App\Services\LedgerService;
@@ -45,6 +46,7 @@ class DashboardController extends Controller
 
         $kasa = $this->ledger->publicSummary()['totals'];
 
+        app(FixtureAutoSyncService::class)->sync();
         $nextMatch = Fixture::upcoming()->first();
         if ($nextMatch && ! $nextMatch->opponent_logo_path) {
             try {
