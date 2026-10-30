@@ -11,6 +11,8 @@ use App\Http\Controllers\Api\Member\MatchInsightController as MemberMatchInsight
 use App\Http\Controllers\Api\Member\MemorableController as MemberMemorableController;
 use App\Http\Controllers\Api\Admin\MemorableController as AdminMemorableController;
 use App\Http\Controllers\Api\Admin\ChantController as AdminChantController;
+use App\Http\Controllers\Api\Admin\PartnerController as AdminPartnerController;
+use App\Http\Controllers\Api\Member\PartnerController as MemberPartnerController;
 use App\Http\Controllers\Api\Member\PredictionGameController as MemberPredictionGameController;
 use App\Http\Controllers\Api\Member\NewsController as MemberNewsController;
 use App\Http\Controllers\Api\Member\ProfileController as MemberProfileController;
@@ -63,6 +65,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/uye/ozet', [MemberDashboardController::class, 'index']);
     Route::get('/uye/fikstur', [MemberFixtureController::class, 'index']);
     Route::get('/uye/mac/{fixture}/analiz', [MemberMatchInsightController::class, 'show']);
+
+    // Göztepe Ayrıcalık: taraftar kartı (dönen QR), anlaşmalı işletmeler, başvuru
+    Route::get('/uye/kart', [MemberPartnerController::class, 'card']);
+    Route::get('/uye/ayricaliklar', [MemberPartnerController::class, 'index']);
+    Route::post('/uye/ayricaliklar/basvuru', [MemberPartnerController::class, 'apply']);
+    Route::get('/uye/ayricaliklar/{partner}', [MemberPartnerController::class, 'show']);
 
     // Unutulmazlar + Bestelerimiz
     Route::get('/uye/unutulmazlar', [MemberMemorableController::class, 'index']);
@@ -127,6 +135,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/efsaneler', [AdminLegendController::class, 'store']);
         Route::post('/efsaneler/{legend}', [AdminLegendController::class, 'update']);
         Route::delete('/efsaneler/{legend}', [AdminLegendController::class, 'destroy']);
+
+        // Anlaşmalı işletmeler (Göztepe Ayrıcalık)
+        Route::get('/isletmeler', [AdminPartnerController::class, 'index']);
+        Route::post('/isletmeler', [AdminPartnerController::class, 'store']);
+        Route::post('/isletmeler/{partner}', [AdminPartnerController::class, 'update']);
+        Route::delete('/isletmeler/{partner}', [AdminPartnerController::class, 'destroy']);
 
         // Unutulmazlar
         Route::get('/unutulmazlar', [AdminMemorableController::class, 'index']);

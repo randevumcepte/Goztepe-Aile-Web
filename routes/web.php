@@ -28,6 +28,7 @@ use App\Http\Controllers\Member\SeffafKasaController as MemberSeffafKasaControll
 use App\Http\Controllers\Member\StudentVerificationController as MemberStudentVerificationController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PartnerScanController;
 use App\Http\Controllers\SeffafKasaController;
 use Illuminate\Support\Facades\Route;
 
@@ -169,3 +170,10 @@ Route::middleware(['auth', 'staff'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/kampanyalar', [AdminCampaignController::class, 'store'])->name('campaigns.store');
     Route::patch('/kampanyalar/{campaign}/durum', [AdminCampaignController::class, 'toggle'])->name('campaigns.toggle');
 });
+
+// Göztepe Ayrıcalık — anlaşmalı işletme okutma sayfası (kod + PIN, uygulama gerekmez)
+Route::get('/isletme', [PartnerScanController::class, 'show']);
+Route::post('/isletme/giris', [PartnerScanController::class, 'login']);
+Route::post('/isletme/cikis', [PartnerScanController::class, 'logout']);
+Route::post('/isletme/okut', [PartnerScanController::class, 'scan']);
+Route::post('/isletme/hediye', [PartnerScanController::class, 'reward']);
