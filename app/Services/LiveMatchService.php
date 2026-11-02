@@ -52,7 +52,12 @@ class LiveMatchService
         Cache::forever('live_match:last_tick', now()->toIso8601String());
 
         Fixture::query()->where('is_active', true)
-            ->whereBetween('kickoff_at', [now()->subHours(3), now()->addMinutes(15)])
+            ->where(fn ($q) => $q
+                ->whereBetween('kickoff_at', [now()->subHours(3), now()->addMinutes(15)])
+                // Telafi: takip kaçırıldıysa (cron yoksa / kimse uygulamayı açmadıysa) son 7 günde
+                // skoru boş kalmış maçları ESPN'den kapat
+                ->orWhere(fn ($q) => $q->whereNull('home_score')
+                    ->whereBetween('kickoff_at', [now()->subDays(7), now()->subHours(3)])))
             ->get()
             ->each(function (Fixture $f) {
                 try {
@@ -153,14 +158,17 @@ class LiveMatchService
             $state['done'] = true;
             $f->forceFill(['home_score' => $teams['home']['score'], 'away_score' => $teams['away']['score']]);
 
-            $us = $teams['us']['score'];
-            $them = $teams['them']['score'];
-            $title = match (true) {
-                $us > $them => '🏁 Kazandık! 💛❤️',
-                $us === $them => '🏁 Maç berabere bitti',
-                default => '🏁 Maç bitti',
-            };
-            $this->broadcast($f, $title, $score());
+            // Saatler sonra telafiyle kapanan maçta "maç bitti" yayını bayat olur; puan bildirimi yine gider
+            if (! ($first && $f->kickoff_at->lt(now()->subHours(4)))) {
+                $us = $teams['us']['score'];
+                $them = $teams['them']['score'];
+                $title = match (true) {
+                    $us > $them => '🏁 Kazandık! 💛❤️',
+                    $us === $them => '🏁 Maç berabere bitti',
+                    default => '🏁 Maç bitti',
+                };
+                $this->broadcast($f, $title, $score());
+            }
         }
 
         $f->forceFill(['live_state' => $state])->saveQuietly();

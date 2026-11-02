@@ -48,7 +48,7 @@ class MatchReminderService
                 });
 
             Fixture::query()->where('is_active', true)->whereNotNull('home_score')->whereNotNull('away_score')
-                ->where('kickoff_at', '>=', now()->subDays(3))
+                ->where('kickoff_at', '>=', now()->subDays(7))
                 ->whereHas('predictions')
                 ->whereDoesntHave('predictions', fn ($q) => $q->whereNull('points'))
                 ->get()
